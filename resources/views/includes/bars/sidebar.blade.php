@@ -48,7 +48,7 @@
 
     <!-- Nav Item - Presentaciones -->
     <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="{{route('presentaciones.inicio')}}">
             <i class="fas fa-fw fa-file-alt"></i>
             <span>Presentaciones</span>
         </a>

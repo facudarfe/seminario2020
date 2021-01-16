@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\PermisoController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\PresentacionesController;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -41,6 +42,9 @@ Route::group(['middleware' => 'auth'], function () {
     //Rutas roles y permisos
     Route::get('permisos', [PermisoController::class, 'index'])->name('permisos.inicio')->middleware('permission:permisos.ver');
     Route::post('permisos', [PermisoController::class, 'store'])->name('permisos.almacenar');
+
+    //Rutas presentaciones
+    Route::get('presentaciones', [PresentacionesController::class, 'index'])->name('presentaciones.inicio');
 });
 
 
