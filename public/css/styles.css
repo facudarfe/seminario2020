@@ -1,0 +1,16 @@
+.alert-danger{
+    background-color: red;
+    opacity: 0.75;
+    color: white;
+}
+
+.alert-success{
+    background-color: green;
+    opacity: 0.75;
+    color: white;
+}
+
+/*Correccion de error cuando se apreta en checkbox, la pagina vuelve arriba*/
+.fix-checkbox{
+    visibility: hidden !important;
+}
