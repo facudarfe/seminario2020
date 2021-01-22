@@ -45,6 +45,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     //Rutas presentaciones
     Route::get('presentaciones', [PresentacionesController::class, 'index'])->name('presentaciones.inicio');
+    Route::get('presentaciones/crear', [PresentacionesController::class, 'create'])->name('presentaciones.crear')
+    ->middleware('permission:presentaciones.crear');
+    Route::post('presentaciones', [PresentacionesController::class, 'store'])->name('presentaciones.almacenar');
 });
 
 

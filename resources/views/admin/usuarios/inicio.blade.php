@@ -14,8 +14,7 @@
     @include('includes.mensaje_exito')
     <div class="row">
         <div class="col-12 col-md-6 col-lg-4 col-xl-2">
-            <a href="{{route('usuarios.crear')}}" class="btn btn-block btn-success mb-3">
-                <i class="fas fa-plus-circle mr-2"></i>Nuevo</a>
+            <a href="{{route('usuarios.crear')}}" class="btn btn-block btn-success mb-3">Nuevo usuario</a>
         </div>
     </div>
 @endsection
