@@ -8,7 +8,7 @@
     @include('includes.mensaje_exito')
     @include('includes.mensajes_error')
 
-    <form action="{{route('presentaciones.almacenar')}}" method="POST">
+    <form action="{{route('presentaciones.almacenar')}}" method="POST" id="cargaPresentacion">
         @csrf
         <div class="row">
             <div class="col-xl-8">
@@ -75,10 +75,88 @@
                         <a href="{{url()->previous()}}" class="btn btn-block btn-primary">Volver</a>
                     </div>
                     <div class="col-xl-3 form-group">
-                        <input type="submit" class="btn btn-block btn-success" value="Crear presentacion">
+                        <button type="button" id="botonCarga" class="btn btn-block btn-success" data-toggle="modal" data-target="#modalResumen">Crear presentacion</button>
                     </div>
                 </div>
             </div>
         </div>
     </form>
+
+    <!--Modal con el resumen de la presentacion-->
+    <div class="modal fade" id="modalResumen" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Resumen presentacion</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <h5 class="d-inline font-weight-bold mr-2">Titulo:</h5>
+                        <p class="d-inline" id="titulo"></p>
+                    </div>
+                    <div class="d-inline-block mr-3">
+                        <h5 class="d-inline font-weight-bold mr-2">Director:</h5>
+                        <p class="d-inline" id="director"></p>
+                    </div>
+                    <div class="d-inline-block">
+                        <h5 class="d-inline font-weight-bold mr-2">Codirector:</h5>
+                        <p class="d-inline" id="codirector"></p>
+                    </div>
+                    <div>
+                        <h5 class="d-inline font-weight-bold mr-2">Modalidad:</h5>
+                        <p class="d-inline" id="modalidad"></p>
+                    </div>
+                    <div>
+                        <h5 class="font-weight-bold mr-2">Resumen:</h5>
+                        <p id="resumen"></p>
+                    </div>
+                    <div>
+                        <h5 class="font-weight-bold mr-2">Tecnologias:</h5>
+                        <p id="tecnologias"></p>
+                    </div>
+                    <div>
+                        <h5 class="font-weight-bold mr-2">Descripcion:</h5>
+                        <p id="descripcion"></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                    <button class="btn btn-success" id="confirmar">Confirmar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+@endsection
+
+@section('otros-scripts')
+    <script>
+        $(document).ready(function(){
+            $('#cargaPresentacion').on('click', '#botonCarga', function(){
+                $('#modalResumen').ready(function(){
+                    var titulo = $('#cargaPresentacion #titulo').val();
+                    var director = $('#cargaPresentacion #director option:selected').text();
+                    var codirector = $('#cargaPresentacion #codirector option:selected').text();
+                    var modalidad = $('#cargaPresentacion #modalidad option:selected').text();
+                    var resumen = $('#cargaPresentacion #resumen').val();
+                    var tecnologias = $('#cargaPresentacion #tecnologias').val();
+                    var descripcion = $('#cargaPresentacion #descripcion').val();
+
+                    $('#modalResumen #titulo').text(titulo);
+                    $('#modalResumen #director').text(director);
+                    $('#modalResumen #codirector').text(codirector);
+                    $('#modalResumen #modalidad').text(modalidad);
+                    $('#modalResumen #resumen').text(resumen);
+                    $('#modalResumen #tecnologias').text(tecnologias);
+                    $('#modalResumen #descripcion').text(descripcion);
+                    
+                    $('#confirmar').click(function(){
+                        $('#cargaPresentacion').submit();
+                    });
+                }); 
+            });
+        });
+    </script>
 @endsection
