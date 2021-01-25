@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\PermisoController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\PresentacionesController;
+use App\Http\Controllers\ValidacionesController;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -49,5 +50,8 @@ Route::group(['middleware' => 'auth'], function () {
     ->middleware('permission:presentaciones.crear');
     Route::post('presentaciones', [PresentacionesController::class, 'store'])->name('presentaciones.almacenar');
 });
+
+//Rutas para validaciones AJAX
+Route::post('validar/{campo}', [ValidacionesController::class, 'validarDNI'])->name('validar.DNI');
 
 

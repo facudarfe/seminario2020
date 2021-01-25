@@ -1,6 +1,10 @@
 @extends('layouts.aplicacion')
 
 @section('titulo', 'Crear usuario')
+
+@section('metas')
+    <meta name='csrf_token' content="{{csrf_token()}}">
+@endsection
     
 @section('titulo-contenido', 'Dar de alta a usuario')
     
@@ -8,7 +12,7 @@
 
     @include('includes.mensaje_exito')
     @include('includes.mensajes_error')
-    <form action="{{route('usuarios.almacenar')}}" method="POST">
+    <form action="{{route('usuarios.almacenar')}}" method="POST" id="formUsuarios">
         @csrf
         <div class="row">
             <div class="col-xl-6 col-lg-8">
@@ -74,4 +78,9 @@
         </div>
     </form>
 
+@endsection
+
+@section('otros-scripts')
+    @include('includes.scripts_validaciones')
+    <script src="{{asset('js/validaciones/validacionUsuarios.js')}}"></script>
 @endsection
