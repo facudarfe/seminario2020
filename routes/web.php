@@ -35,20 +35,24 @@ Route::group(['middleware' => 'auth'], function () {
     //Rutas usuario
     Route::get('usuarios', [UserController::class, 'index'])->name('usuarios.inicio')->middleware('permission:usuarios.ver');
     Route::get('usuarios/crear', [UserController::class, 'create'])->name('usuarios.crear')->middleware('permission:usuarios.crear');
-    Route::post('usuarios', [UserController::class, 'store'])->name('usuarios.almacenar');
+    Route::post('usuarios', [UserController::class, 'store'])->name('usuarios.almacenar')->middleware('permission:usuarios.crear');
     Route::get('usuarios/{user}/editar', [UserController::class, 'edit'])->name('usuarios.editar');
     Route::put('usuarios/{user}', [UserController::class, 'update'])->name('usuarios.actualizar');
     Route::delete('usuarios/eliminar', [UserController::class, 'destroy'])->name('usuarios.eliminar');
 
     //Rutas roles y permisos
     Route::get('permisos', [PermisoController::class, 'index'])->name('permisos.inicio')->middleware('permission:permisos.ver');
-    Route::post('permisos', [PermisoController::class, 'store'])->name('permisos.almacenar');
+    Route::post('permisos', [PermisoController::class, 'store'])->name('permisos.almacenar')->middleware('permission:permisos.crear');
 
     //Rutas presentaciones
     Route::get('presentaciones', [PresentacionesController::class, 'index'])->name('presentaciones.inicio');
     Route::get('presentaciones/crear', [PresentacionesController::class, 'create'])->name('presentaciones.crear')
     ->middleware('permission:presentaciones.crear');
-    Route::post('presentaciones', [PresentacionesController::class, 'store'])->name('presentaciones.almacenar');
+    Route::post('presentaciones', [PresentacionesController::class, 'store'])->name('presentaciones.almacenar')
+    ->middleware('permission:presentaciones.crear');
+    Route::get('presentaciones/{presentacion}/ver', [PresentacionesController::class, 'show'])->name('presentaciones.ver');
+    Route::post('presentaciones/{presentacion}/asignarEvaluador', [PresentacionesController::class, 'asignarEvaluador'])->name('presentaciones.asignarEvaluador')
+    ->middleware('permission:asignar.evaluador');
 });
 
 //Rutas para validaciones AJAX

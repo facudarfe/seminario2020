@@ -31,21 +31,19 @@
         <th>Alumno</th>
         @endrole
         <th>Director</th>
-        <th>Co-director</th>
         <th>Modalidad</th>
         <th>Estado</th>
     </thead>
     <tbody>
         @foreach ($presentaciones as $presentacion)
             <tr>
-                <th><i class="fas fa-eye"></i></th>
+                <th><a href="{{route('presentaciones.ver', $presentacion)}}"><i class="fas fa-eye"></i></a></th>
                 <td>{{$presentacion->fecha}}</td>
                 <td>{{$presentacion->titulo}}</td>
                 @unlessrole('Estudiante')
                 <td>{{$presentacion->alumno->name}}</td>
                 @endrole
                 <td>{{$presentacion->director->name}}</td>
-                <td>{{$presentacion->codirector->name}}</td>
                 <td>{{$presentacion->modalidad->nombre}}</td>
                 <td>
                     <span class="badge badge-{{$presentacion->estado->color_clase}}">{{$presentacion->estado->nombre}}</span>

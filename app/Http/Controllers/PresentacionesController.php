@@ -21,8 +21,7 @@ class PresentacionesController extends Controller
             //$presentaciones = Anexo1::all()->versiones()->where('docente_id', auth()->user()->id)->get();
             
             //Para los docentes colaboradores solo se mostraran las presentaciones que le fueron asignadas para corregir
-            $presentaciones = Anexo1::join('versiones_anexos1', 'anexos1.id', '=', 'versiones_anexos1.anexo_id')
-            ->where('versiones_anexos1.docente_id', auth()->user()->id)->get();
+            $presentaciones = Anexo1::where('docente_id', auth()->user()->id)->get();
         }
         else{
             $presentaciones = Anexo1::all();
@@ -73,5 +72,31 @@ class PresentacionesController extends Controller
         $version->save();
 
         return redirect(route('presentaciones.inicio'))->with('exito', 'Se ha creado la presentacion con exito.');
+    }
+
+    public function show(Anexo1 $presentacion){
+        if(auth()->user()->hasRole('Estudiante')){
+            if(auth()->user()->id != $presentacion->alumno_id){
+                abort(403);
+            }
+        }elseif(auth()->user()->hasRole('Docente colaborador')){
+            if(auth()->user()->id != $presentacion->docente_id){
+                abort(403);
+            }
+        }
+        $docentes = User::role(['Docente responsable', 'Docente colaborador'])->get();
+        return view('presentaciones.ver', compact('presentacion', 'docentes'));
+    }
+
+    public function asignarEvaluador(Request $request, Anexo1 $presentacion){
+        $user = User::find($request->get('docente'));
+        $presentacion->evaluador()->associate($user);
+
+        $estado = Estado::where('nombre', 'Asignado')->first();
+        $presentacion->estado()->associate($estado);
+
+        $presentacion->save();
+
+        return redirect(route('presentaciones.inicio'));
     }
 }

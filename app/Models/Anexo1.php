@@ -34,4 +34,8 @@ class Anexo1 extends Model
     public function modalidad(){
         return $this->belongsTo(Modalidad::class, 'modalidad_id');
     }
+
+    public function evaluador(){
+        return $this->belongsTo(User::class, 'docente_id');
+    }
 }
