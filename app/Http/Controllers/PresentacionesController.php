@@ -85,7 +85,8 @@ class PresentacionesController extends Controller
             }
         }
         $docentes = User::role(['Docente responsable', 'Docente colaborador'])->get();
-        return view('presentaciones.ver', compact('presentacion', 'docentes'));
+        $estados = Estado::where('nombre', 'Resubir')->orWhere('nombre', 'Rechazado')->orWhere('nombre', 'Aprobado')->get();
+        return view('presentaciones.ver', compact('presentacion', 'docentes', 'estados'));
     }
 
     public function asignarEvaluador(Request $request, Anexo1 $presentacion){
@@ -98,5 +99,27 @@ class PresentacionesController extends Controller
         $presentacion->save();
 
         return redirect(route('presentaciones.inicio'));
+    }
+
+    public function corregirVersion(Request $request, Version_Anexo1 $version){
+        //Control de que se este por corregir una version Pendiente y que sea el docente correcto asignado
+        if($version->estado->nombre == "Pendiente" && $version->anexo->docente_id == auth()->user()->id){
+            $version->observaciones = $request->observaciones;
+            $version->fecha_correccion = Carbon::now()->format('Y-m-d');
+
+            $estado = Estado::find($request->get('estado'));
+            $version->estado()->associate($estado);
+            
+            $presentacion = $version->anexo;
+            $presentacion->estado()->associate($estado);
+
+            $version->save();
+            $presentacion->save();
+
+            return redirect(route('presentaciones.inicio'))->with('exito', 'Se ha realizado la correción exitosamente.');
+        }
+        else{
+            abort(403);
+        }
     }
 }

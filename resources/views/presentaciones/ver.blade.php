@@ -65,18 +65,91 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col">
+                                        <div class="col-12">
                                             <h5>Tecnologias: </h5>
                                             <p>{{$version->tecnologias}}</p>
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col">
+                                        <div class="col-12">
                                             <h5>Descripcion: </h5>
                                             <p>{{$version->descripcion}}</p>
                                         </div>
                                     </div>
+                                    @if ($version->estado->nombre != 'Pendiente')
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <h5>Corrección: </h5>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="jumbotron p-4">
+                                                    <h5 class="d-inline">Fecha corrección: </h5>
+                                                    <p class="d-sm-inline">{{$version->fecha_correccion}}</p>
+                                                    <h5 class="mt-2">Observaciones: </h5>
+                                                    <p>{{$version->observaciones}}</p>
+                                                </div>
+                                            </div>
+                                        </div>                
+                                    @endif
+                                    @if (auth()->user()->can('presentaciones.corregir') && $version->estado->nombre == 'Pendiente' &&
+                                    $presentacion->docente_id == auth()->user()->id)
+                                        <div class="row">
+                                            <div class="col-12 text-right">
+                                                <button type="button" data-toggle="modal" data-target="#modalCorregir" class="btn btn-primary btn-sm">
+                                                    <i class="fas fa-edit"></i>
+                                                    Realizar corrección
+                                                </button>
+                                            </div>
+                                        </div>
+                                    @endif
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Modal para realizar la correcion de un trabajo-->
+                    <div class="modal fade" id="modalCorregir" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Realizar correción</h5>
+                                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">×</span>
+                                    </button>
+                                </div>
+                                <form action="{{route('presentaciones.corregir', $version)}}" method="POST">
+                                    @csrf
+                                    <div class="modal-body">
+                                        <div class="form-row justify-content-center">
+                                            <div class="col-10">
+                                                <div class="form-row justify-content-between">
+                                                    @foreach ($estados as $estado)
+                                                        <div class="custom-control custom-radio custom-control-inline">
+                                                            <input type="radio" id={{"estado" . $estado->id}} name="estado" 
+                                                            value="{{$estado->id}}" class="custom-control-input" checked>
+                                                            <label for={{"estado" . $estado->id}} class="custom-control-label">
+                                                                <span class="badge badge-{{$estado->color_clase}}">{{$estado->nombre}}</span>
+                                                            </label>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br>
+                                        <div class="form-row justify-content-center">
+                                            <div class="form-group col-10">
+                                                <label for="observaciones">Observaciones: </label>
+                                                <textarea class="form-control form-control-user" name="observaciones" id="observaciones" cols="100%" rows="5"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                                        <button type="submit" class="btn btn-success" id="confirmar">Aceptar</button>
+                                    </div>
+                                </form> 
                             </div>
                         </div>
                     </div>
@@ -118,4 +191,6 @@
         </div>
     </div>
 </div>
+
+
 @endsection

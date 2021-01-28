@@ -53,6 +53,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('presentaciones/{presentacion}/ver', [PresentacionesController::class, 'show'])->name('presentaciones.ver');
     Route::post('presentaciones/{presentacion}/asignarEvaluador', [PresentacionesController::class, 'asignarEvaluador'])->name('presentaciones.asignarEvaluador')
     ->middleware('permission:asignar.evaluador');
+    Route::post('presentaciones/{version}/corregir', [PresentacionesController::class, 'corregirVersion'])->name('presentaciones.corregir')
+    ->middleware('permission:presentaciones.corregir');
 });
 
 //Rutas para validaciones AJAX
