@@ -20,6 +20,7 @@
 @endsection
 
 @section('contenido-tabla')
+<table class="table" id="dataTable" width="100%" cellspacing="0">
     <thead>
         <tr>
             <th>DNI</th>
@@ -66,6 +67,7 @@
         </tr>
         @endforeach
     </tbody>
+</table>
 @endsection
 
 @section('contenido-despues-tabla')

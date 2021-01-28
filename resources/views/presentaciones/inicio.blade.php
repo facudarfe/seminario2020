@@ -23,6 +23,7 @@
 @endsection
 
 @section('contenido-tabla')
+<table class="table" id="dataTable" width="100%" cellspacing="0" data-role="{{auth()->user()->getRoleNames()->first()}}">
     <thead>
         <th></th>
         <th>Fecha</th>
@@ -51,6 +52,7 @@
             </tr>
         @endforeach
     </tbody>
+</table>
 @endsection
 
 @section('otros-scripts')
@@ -59,7 +61,10 @@
     <script src="{{asset('sbadmin/vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
     <script>
         $(document).ready(function(){
-            $('#dataTable').DataTable({
+            var rol = $('#dataTable').data('role');
+            
+            if(rol != 'Estudiante'){
+                $('#dataTable').DataTable({
                 "columnDefs": [{
                     "targets": 0,
                     "orderable": false
@@ -67,7 +72,8 @@
                 "language": {
                     "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
                 }
-            });
+                });
+            }
         });
     </script>
 @endsection
