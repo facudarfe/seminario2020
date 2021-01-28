@@ -11,6 +11,10 @@ class Version_Anexo1 extends Model
 
     protected $table = 'versiones_anexos1';
 
+    public function getFechaCorreccionAttribute($value){
+        return date('d/m/Y', strtotime($value));
+    }
+
     public function estado(){
         return $this->belongsTo(Estado::class, 'estado_id');
     }

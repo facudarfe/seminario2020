@@ -11,6 +11,10 @@ class Anexo1 extends Model
 
     protected $table = 'anexos1';
 
+    public function getFechaAttribute($value){
+        return date('d/m/Y', strtotime($value));
+    }
+
     public function versiones(){
         return $this->hasMany(Version_Anexo1::class, 'anexo_id');
     }
