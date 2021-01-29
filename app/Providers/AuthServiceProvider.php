@@ -29,8 +29,8 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         //Dar todos los permisos al rol Administrador
-        Gate::before(function ($user, $ability) {
-            return $user->hasRole('Administrador') ? true : null;
+        Gate::after(function ($user, $ability) {
+            return $user->hasRole('Administrador');
         });
     }
 }
