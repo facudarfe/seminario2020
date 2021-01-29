@@ -154,6 +154,13 @@
                         </div>
                     </div>
                 @endforeach
+                @can('resubirVersion', $presentacion)
+                    <div class="row">
+                        <div class="text-center col-12">
+                            <a href="{{route('presentaciones.resubir', $presentacion)}}" class="mt-3 btn btn-success">Subir nueva versión</a>
+                        </div>
+                    </div>
+                @endcan
             </div>
         </div>    
     </div>

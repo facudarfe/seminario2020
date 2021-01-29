@@ -122,4 +122,32 @@ class PresentacionesController extends Controller
             abort(403);
         }
     }
+
+    public function resubir(Anexo1 $presentacion){
+        return view('presentaciones.resubir', compact('presentacion'));
+    }
+
+    public function resubirVersion(Request $request, Anexo1 $presentacion){
+        if($request->user()->can('resubirVersion', $presentacion)){
+            $version = new Version_Anexo1();
+
+            $version->anexo()->associate($presentacion);
+            $version->resumen = $request->resumen;
+            $version->tecnologias = $request->tecnologias;
+            $version->descripcion = $request->descripcion;
+            
+            $estado = Estado::where('nombre', 'Resubido')->first();
+            $estado2 = Estado::where('nombre', 'Pendiente')->first();
+            $presentacion->estado()->associate($estado);
+            $version->estado()->associate($estado2);
+    
+            $presentacion->save();
+            $version->save();
+
+            return redirect(route('presentaciones.inicio'))->with('exito', 'Se ha subido una nueva versión de la presentación.');
+        }
+        else{
+            abort(403);
+        }
+    }
 }
