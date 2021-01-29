@@ -97,7 +97,7 @@
                                     $presentacion->docente_id == auth()->user()->id)
                                         <div class="row">
                                             <div class="col-12 text-right">
-                                                <button type="button" data-toggle="modal" data-target="#modalCorregir" class="btn btn-primary btn-sm">
+                                                <button type="button" id="botonCorreccion" data-version="{{$version->id}}" class="btn btn-primary btn-sm">
                                                     <i class="fas fa-edit"></i>
                                                     Realizar corrección
                                                 </button>
@@ -105,51 +105,6 @@
                                         </div>
                                     @endif
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!--Modal para realizar la correcion de un trabajo-->
-                    <div class="modal fade" id="modalCorregir" role="dialog">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title">Realizar correción</h5>
-                                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">×</span>
-                                    </button>
-                                </div>
-                                <form action="{{route('presentaciones.corregir', $version)}}" method="POST">
-                                    @csrf
-                                    <div class="modal-body">
-                                        <div class="form-row justify-content-center">
-                                            <div class="col-10">
-                                                <div class="form-row justify-content-between">
-                                                    @foreach ($estados as $estado)
-                                                        <div class="custom-control custom-radio custom-control-inline">
-                                                            <input type="radio" id={{"estado" . $estado->id}} name="estado" 
-                                                            value="{{$estado->id}}" class="custom-control-input" checked>
-                                                            <label for={{"estado" . $estado->id}} class="custom-control-label">
-                                                                <span class="badge badge-{{$estado->color_clase}}">{{$estado->nombre}}</span>
-                                                            </label>
-                                                        </div>
-                                                    @endforeach
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <br>
-                                        <div class="form-row justify-content-center">
-                                            <div class="form-group col-10">
-                                                <label for="observaciones">Observaciones: </label>
-                                                <textarea class="form-control form-control-user" name="observaciones" id="observaciones" cols="100%" rows="5"></textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                                        <button type="submit" class="btn btn-success" id="confirmar">Aceptar</button>
-                                    </div>
-                                </form> 
                             </div>
                         </div>
                     </div>
@@ -199,5 +154,63 @@
     </div>
 </div>
 
+ <!--Modal para realizar la correcion de un trabajo-->
+ <div class="modal fade" id="modalCorregir" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Realizar correción</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form action="{{route('presentaciones.corregir')}}" method="POST">
+                @csrf
+                <input type="hidden" name="version" id="version" value="1">
+                <div class="modal-body">
+                    <div class="form-row justify-content-center">
+                        <div class="col-10">
+                            <div class="form-row justify-content-between">
+                                @foreach ($estados as $estado)
+                                    <div class="custom-control custom-radio custom-control-inline">
+                                        <input type="radio" id={{"estado" . $estado->id}} name="estado" 
+                                        value="{{$estado->id}}" class="custom-control-input" checked>
+                                        <label for={{"estado" . $estado->id}} class="custom-control-label">
+                                            <span class="badge badge-{{$estado->color_clase}}">{{$estado->nombre}}</span>
+                                        </label>
+                                    </div>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="form-row justify-content-center">
+                        <div class="form-group col-10">
+                            <label for="observaciones">Observaciones: </label>
+                            <textarea class="form-control form-control-user" name="observaciones" id="observaciones" cols="100%" rows="5"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-success" id="confirmar">Aceptar</button>
+                </div>
+            </form> 
+        </div>
+    </div>
+</div>
 
+@endsection
+
+@section('otros-scripts')
+    <script>
+        $('#botonCorreccion').click(function(){
+            var version_id = $(this).data('version');
+
+            $('#modalCorregir').modal('show');
+            $('#modalCorregir').ready(function(){
+                $(this).find('#version').val(version_id);
+            });
+        });  
+    </script>
 @endsection

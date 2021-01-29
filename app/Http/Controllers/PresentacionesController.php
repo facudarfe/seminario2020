@@ -101,7 +101,8 @@ class PresentacionesController extends Controller
         return redirect(route('presentaciones.inicio'));
     }
 
-    public function corregirVersion(Request $request, Version_Anexo1 $version){
+    public function corregirVersion(Request $request){
+        $version = Version_Anexo1::find($request->input('version'));
         //Control de que se este por corregir una version Pendiente y que sea el docente correcto asignado
         if($version->estado->nombre == "Pendiente" && $version->anexo->docente_id == auth()->user()->id){
             $version->observaciones = $request->observaciones;
