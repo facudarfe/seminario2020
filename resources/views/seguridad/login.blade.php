@@ -34,7 +34,7 @@
                                 <div class="p-5">
                                     <div class="text-center">
                                         <img class="img-fluid" src="{{asset('img/logo-v2.jpg')}}" alt="" style="width: 100px; height: 100px;">
-                                        <h3 class="d-inline align-middle ml-2">Seminarios TUP</h3>
+                                        <h3 class="d-sm-inline align-middle ml-2">Seminarios TUP</h3>
                                     </div>
                                     <hr>
                                     <div class="text-center">

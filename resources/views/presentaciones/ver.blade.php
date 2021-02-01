@@ -20,32 +20,33 @@
                 </div>
             </div>
             <div class="card-body">
-                <div class="row">
-                    <div class="col-3"><h5>Fecha presentacion: </h5></div>
-                    <div class="col-9">{{$presentacion->fecha}}</div>
+                <div class="row mb-2 mb-sm-0">
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3"><h5>Fecha: </h5></div>
+                    <div class="col-12 col-sm-6 col-md-8 col-lg-9">{{$presentacion->fecha}}</div>
                 </div>
-                <div class="row">
-                    <div class="col-3"><h5>Titulo: </h5></div>
-                    <div class="col-9">{{$presentacion->titulo}}</div>
+                <div class="row mb-2 mb-md-0">
+                    <div class="col-12 col-md-4 col-lg-3"><h5>Titulo: </h5></div>
+                    <div class="col-12 col-md-8 col-lg-9">{{$presentacion->titulo}}</div>
                 </div>
-                <div class="row">
-                    <div class="col-3"><h5>Director: </h5></div>
-                    <div class="col-9">{{$presentacion->director->name}}</div>
+                <div class="row mb-2 mb-sm-0">
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3"><h5>Director: </h5></div>
+                    <div class="col-12 col-sm-6 col-md-8 col-lg-9">{{$presentacion->director->name}}</div>
                 </div>
-                <div class="row">
-                    <div class="col-3"><h5>Codirector: </h5></div>
-                    <div class="col-9">{{$presentacion->codirector->name}}</div>
+                <div class="row mb-2 mb-sm-0">
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3"><h5>Codirector: </h5></div>
+                    <div class="col-12 col-sm-6 col-md-8 col-lg-9">{{$presentacion->codirector->name}}</div>
                 </div>
-                <div class="row">
-                    <div class="col-3"><h5>Modalidad: </h5></div>
-                    <div class="col-9">{{$presentacion->modalidad->nombre}}</div>
+                <div class="row mb-2 mb-sm-0">
+                    <div class="col-12 col-sm-6 col-md-4 col-lg-3"><h5>Modalidad: </h5></div>
+                    <div class="col-12 col-sm-6 col-md-8 col-lg-9">{{$presentacion->modalidad->nombre}}</div>
                 </div>
                 @if ($presentacion->docente_id)
                     <div class="row">
-                        <div class="col-3"><h5>Docente evaluador: </h5></div>
-                        <div class="col-9">{{$presentacion->evaluador->name}}</div>
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-3"><h5>Docente evaluador: </h5></div>
+                        <div class="col-12 col-sm-6 col-md-8 col-lg-9">{{$presentacion->evaluador->name}}</div>
                     </div>
                 @endif
+                <hr>
                 @foreach ($presentacion->versiones as $version)
                     <div class="row">
                         <div class="card shadow w-100">
