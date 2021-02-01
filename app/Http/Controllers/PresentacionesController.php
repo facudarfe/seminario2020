@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 class PresentacionesController extends Controller
 {
     public function index(){
+        //Se muestra la tabla con las presentaciones dependiendo del rol
         if(auth()->user()->hasRole('Estudiante')){
             $presentaciones = Anexo1::where('alumno_id', auth()->user()->id)->get();
         }
@@ -38,6 +39,14 @@ class PresentacionesController extends Controller
     }
 
     public function store(Request $request){
+        //Validacion de los campos
+        $request->validate([
+            'titulo' => ['required'],
+            'resumen' => ['required'],
+            'tecnologias' => ['required'],
+            'descripcion' => ['required']
+        ]);
+
         $encabezado = new Anexo1();
         $version = new Version_Anexo1();
         
@@ -102,7 +111,9 @@ class PresentacionesController extends Controller
     }
 
     public function corregirVersion(Request $request){
+        //Se obtiene el id de la version a traves del campo oculto 'version'
         $version = Version_Anexo1::find($request->input('version'));
+
         //Control de que se este por corregir una version Pendiente y que sea el docente correcto asignado
         if($version->estado->nombre == "Pendiente" && $version->anexo->docente_id == auth()->user()->id){
             $version->observaciones = $request->observaciones;
@@ -129,6 +140,13 @@ class PresentacionesController extends Controller
     }
 
     public function resubirVersion(Request $request, Anexo1 $presentacion){
+        //Validacion de los campos del formulario
+        $request->validate([
+            'resumen' => ['required'],
+            'tecnologias' => ['required'],
+            'descripcion' => ['required']
+        ]);
+
         if($request->user()->can('resubirVersion', $presentacion)){
             $version = new Version_Anexo1();
 
