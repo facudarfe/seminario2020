@@ -8,7 +8,7 @@
     @include('includes.mensaje_exito')
     @include('includes.mensajes_error')
 
-    <form action="{{route('presentaciones.resubirVersion', $presentacion)}}" method="POST" id="cargaPresentacion">
+    <form action="{{route('presentaciones.resubirVersion', $presentacion)}}" method="POST" id="formPresentacion">
         @csrf
         <div class="row">
             <div class="col-xl-8">
@@ -63,7 +63,7 @@
                         <a href="{{url()->previous()}}" class="btn btn-block btn-primary">Volver</a>
                     </div>
                     <div class="col-xl-3 form-group">
-                        <button type="button" id="botonCarga" class="btn btn-block btn-success" data-toggle="modal" data-target="#modalResumen">Crear versión</button>
+                        <button type="submit" id="botonCarga" class="btn btn-block btn-success">Crear versión</button>
                     </div>
                 </div>
             </div>
@@ -120,31 +120,6 @@
 @endsection
 
 @section('otros-scripts')
-    <script>
-        $(document).ready(function(){
-            $('#cargaPresentacion').on('click', '#botonCarga', function(){
-                $('#modalResumen').ready(function(){
-                    var titulo = $('#cargaPresentacion #titulo').val();
-                    var director = $('#cargaPresentacion #director').val();
-                    var codirector = $('#cargaPresentacion #codirector').val();
-                    var modalidad = $('#cargaPresentacion #modalidad').val();
-                    var resumen = $('#cargaPresentacion #resumen').val();
-                    var tecnologias = $('#cargaPresentacion #tecnologias').val();
-                    var descripcion = $('#cargaPresentacion #descripcion').val();
-
-                    $('#modalResumen #titulo').text(titulo);
-                    $('#modalResumen #director').text(director);
-                    $('#modalResumen #codirector').text(codirector);
-                    $('#modalResumen #modalidad').text(modalidad);
-                    $('#modalResumen #resumen').text(resumen);
-                    $('#modalResumen #tecnologias').text(tecnologias);
-                    $('#modalResumen #descripcion').text(descripcion);
-                    
-                    $('#confirmar').click(function(){
-                        $('#cargaPresentacion').submit();
-                    });
-                }); 
-            });
-        });
-    </script>
+    @include('includes.scripts_validaciones')
+    <script src="{{asset('js/presentaciones/crear.js')}}"></script>
 @endsection
