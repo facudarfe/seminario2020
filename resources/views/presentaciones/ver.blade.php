@@ -11,7 +11,7 @@
                 <div class="d-inline float-right dropdown no-arrow">
                     <a class="dropdown-toggle" type="button" data-toggle="dropdown"><i class="fas fa-ellipsis-v"></i></a>
                     <div class="dropdown-menu dropdown-menu-right shadow">
-                        @if (auth()->user()->can('asignar.evaluador') && !$presentacion->docente_id)
+                        @if (auth()->user()->can('presentaciones.asignar.evaluador') && !$presentacion->docente_id)
                             <button class="dropdown-item" data-toggle="modal" data-target="#modalDocente">
                                 Asignar docente evaluador
                             </button>

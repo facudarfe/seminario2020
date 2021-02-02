@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Models\Role;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -47,4 +48,24 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * Determina que roles puede crear un usuario con cierto rol
+     */
+    public function rolesPermitidos(){
+        switch($this->getRoleNames()->first()){
+            case "Administrador":
+                $roles = Role::all();
+                break;
+            case "Docente responsable":
+                $roles = Role::whereNotIn('name', ['Administrador'])->get();
+                break;
+            case "Docente colaborador":
+                $roles = Role::whereNotIn('name', ['Administrador', 'Docente responsable'])->get();
+                break;
+            default:
+                $roles = [];
+        }
+        return $roles;
+    }
 }

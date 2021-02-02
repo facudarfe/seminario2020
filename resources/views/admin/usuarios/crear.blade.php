@@ -47,9 +47,7 @@
                         <label for="rol">*Rol: </label>
                         <select name="rol" id="rol" class="custom-select">
                         @foreach ($roles as $rol)
-                            @can('usuarios.crear.' . $rol->id)
-                                <option selected value="{{$rol->id}}">{{$rol->name}}</option>
-                            @endcan
+                            <option selected value="{{$rol->id}}">{{$rol->name}}</option>
                         @endforeach
                         </select>
                     </div>     

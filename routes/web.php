@@ -36,9 +36,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('usuarios', [UserController::class, 'index'])->name('usuarios.inicio')->middleware('permission:usuarios.ver');
     Route::get('usuarios/crear', [UserController::class, 'create'])->name('usuarios.crear')->middleware('permission:usuarios.crear');
     Route::post('usuarios', [UserController::class, 'store'])->name('usuarios.almacenar')->middleware('permission:usuarios.crear');
-    Route::get('usuarios/{user}/editar', [UserController::class, 'edit'])->name('usuarios.editar');
-    Route::put('usuarios/{user}', [UserController::class, 'update'])->name('usuarios.actualizar');
-    Route::delete('usuarios/eliminar', [UserController::class, 'destroy'])->name('usuarios.eliminar');
+    Route::get('usuarios/{user}/editar', [UserController::class, 'edit'])->name('usuarios.editar')->middleware('permission:usuarios.editar');
+    Route::put('usuarios/{user}', [UserController::class, 'update'])->name('usuarios.actualizar')->middleware('permission:usuarios.editar');
+    Route::delete('usuarios/eliminar', [UserController::class, 'destroy'])->name('usuarios.eliminar')->middleware('permission:usuarios.eliminar');
 
     //Rutas roles y permisos
     Route::get('permisos', [PermisoController::class, 'index'])->name('permisos.inicio')->middleware('permission:permisos.ver');
@@ -52,7 +52,7 @@ Route::group(['middleware' => 'auth'], function () {
     ->middleware('permission:presentaciones.crear');
     Route::get('presentaciones/{presentacion}/ver', [PresentacionesController::class, 'show'])->name('presentaciones.ver');
     Route::post('presentaciones/{presentacion}/asignarEvaluador', [PresentacionesController::class, 'asignarEvaluador'])->name('presentaciones.asignarEvaluador')
-    ->middleware('permission:asignar.evaluador');
+    ->middleware('permission:presentaciones.asignar.evaluador');
     Route::post('presentaciones/corregir', [PresentacionesController::class, 'corregirVersion'])->name('presentaciones.corregir')
     ->middleware('permission:presentaciones.corregir');
     Route::get('presentaciones/{presentacion}/resubir', [PresentacionesController::class, 'resubir'])->name('presentaciones.resubir');

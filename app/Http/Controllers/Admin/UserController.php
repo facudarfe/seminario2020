@@ -30,7 +30,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        $roles = Role::all();
+        $roles = auth()->user()->rolesPermitidos();
         return view('admin.usuarios.crear', compact('roles'));
     }
 
@@ -42,7 +42,8 @@ class UserController extends Controller
      */
     public function store(UsuarioRequest $request)
     {
-        if($request->user()->can('usuarios.crear.' . $request->get('rol'))){
+        $rol = Role::find($request->get('rol'));
+        if($request->user()->can('manipularRol', $rol)){
             $user = User::create(['name' => $request->name, 
             'lu' => $request->lu, 
             'dni' => $request->dni, 
@@ -51,7 +52,6 @@ class UserController extends Controller
             'direccion' => $request->direccion,
             'telefono' => $request->telefono]);
 
-            $rol = Role::find($request->get('rol'));
             $user->assignRole($rol->name);
             
             return redirect(route('usuarios.inicio'))->with('exito', 'El usuario ha sido creado con éxito.');
@@ -80,8 +80,9 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        if(Auth::user()->can('usuarios.editar.' . $user->roles->first()->id)){
-            $roles = Role::all();
+        $rol = $user->roles->first();
+        if(auth()->user()->can('manipularRol', $rol)){
+            $roles = auth()->user()->rolesPermitidos();
             return view('admin.usuarios.editar', compact('user', 'roles'));
         }
         else{
@@ -98,7 +99,8 @@ class UserController extends Controller
      */
     public function update(UsuarioRequest $request, User $user)
     {
-        if($request->user()->can('usuarios.editar.' . $request->get('rol'))){
+        $rol = $user->roles->first();
+        if($request->user()->can('manipularRol', $rol)){
             $user->dni = $request->dni;
             $user->name = $request->name;
             $user->lu = $request->lu;
@@ -128,7 +130,8 @@ class UserController extends Controller
     public function destroy(Request $request)
     {
         $user = User::find($request->user_id);
-        if(Auth::user()->can('usuarios.eliminar.' . $user->roles->first()->id)){
+        $rol = $user->roles->first();
+        if(Auth::user()->can('manipularRol', $rol)){
             $user->delete();
             return redirect(route('usuarios.inicio'))->with('exito', 'Se ha eliminado el usuario con exito');
         }

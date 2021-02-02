@@ -49,13 +49,11 @@
                             <i class="fas fa-eye fa-lg fa-fw mr-2 text-gray-400"></i>
                             Ver
                         </a>
-                        @can('usuarios.editar.' . $user->roles->first()->id)
+                        @can('manipularRol', $user->roles->first())
                             <a href="{{route('usuarios.editar', $user)}}" class="dropdown-item">
                                 <i class="fas fa-pencil-alt fa-lg fa-fw mr-2 text-gray-400"></i>
                                 Editar
                             </a>
-                        @endcan
-                        @can('usuarios.eliminar.' . $user->roles->first()->id)
                             <button id="botonElimina" data-user_id="{{$user->id}}" class="dropdown-item">
                                 <i class="fas fa-trash-alt fa-lg fa-fw mr-2 text-gray-400"></i>
                                 Eliminar
