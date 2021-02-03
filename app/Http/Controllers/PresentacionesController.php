@@ -118,7 +118,6 @@ class PresentacionesController extends Controller
         if($version->estado->nombre == "Pendiente" && $version->anexo->docente_id == auth()->user()->id){
             $version->observaciones = $request->observaciones;
             $version->fecha_correccion = Carbon::now()->format('Y-m-d');
-
             $estado = Estado::find($request->get('estado'));
             $version->estado()->associate($estado);
             
@@ -167,6 +166,21 @@ class PresentacionesController extends Controller
         }
         else{
             abort(403);
+        }
+    }
+
+    public function regularizarPresentacion(Request $request, Anexo1 $presentacion){
+        if($request->user()->can('presentaciones.regularizar') && $presentacion->estado->nombre == "Aprobado"){
+            $presentacion->devolucion = $request->devolucion;
+            $presentacion->fecha = Carbon::now('America/Argentina/Salta')->format('Y-m-d');
+            $estado = Estado::where('nombre', 'Regular')->first();
+            $presentacion->estado()->associate($estado);
+
+            $presentacion->save();
+
+            return redirect(route('presentaciones.inicio'))->with('exito', "Se ha regularizado el trabajo: $presentacion->titulo");
+        }else{
+            abort(403, 'No tienes permisos para regularizar esta presentación.');
         }
     }
 }

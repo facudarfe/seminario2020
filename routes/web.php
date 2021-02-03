@@ -57,6 +57,8 @@ Route::group(['middleware' => 'auth'], function () {
     ->middleware('permission:presentaciones.corregir');
     Route::get('presentaciones/{presentacion}/resubir', [PresentacionesController::class, 'resubir'])->name('presentaciones.resubir');
     Route::post('presentaciones/{presentacion}/resubir', [PresentacionesController::class, 'resubirVersion'])->name('presentaciones.resubirVersion');
+    Route::post('presentaciones/{presentacion}/regularizar', [PresentacionesController::class, 'regularizarPresentacion'])->name('presentaciones.regularizar')
+    ->middleware('permission:presentaciones.regularizar');
 });
 
 //Rutas para validaciones AJAX

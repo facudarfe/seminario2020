@@ -16,6 +16,11 @@
                                 Asignar docente evaluador
                             </button>
                         @endif
+                        @if (auth()->user()->can('presentaciones.regularizar') && $presentacion->estado->nombre == "Aprobado")
+                        <button class="dropdown-item" data-toggle="modal" data-target="#modalRegularizar">
+                            Regularizar trabajo
+                        </button>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -47,6 +52,19 @@
                     </div>
                 @endif
                 <hr>
+                @if ($presentacion->estado->nombre == "Regular")
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="jumbotron p-4 bg-success text-light mb-0">
+                                <h5 class="d-inline font-weight-bold">Fecha regularización: </h5>
+                                <p class="d-sm-inline">{{$presentacion->fecha}}</p>
+                                <h5 class="mt-2 font-weight-bold">Devolución final: </h5>
+                                <p>{{$presentacion->devolucion}}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>                
+                @endif
                 @foreach ($presentacion->versiones as $version)
                     <div class="row">
                         <div class="card shadow w-100">
@@ -189,6 +207,35 @@
                         <div class="form-group col-10">
                             <label for="observaciones">Observaciones: </label>
                             <textarea class="form-control form-control-user" name="observaciones" id="observaciones" cols="100%" rows="5"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-success" id="confirmar">Aceptar</button>
+                </div>
+            </form> 
+        </div>
+    </div>
+</div>
+
+ <!--Modal para regularizar trabajo-->
+ <div class="modal fade" id="modalRegularizar" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Regularizar trabajo</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form action="{{route('presentaciones.regularizar', $presentacion)}}" method="POST">
+                @csrf
+                <div class="modal-body">
+                    <div class="form-row justify-content-center">
+                        <div class="form-group col-10">
+                            <label for="devolucion">Devoluciones finales: </label>
+                            <textarea class="form-control form-control-user" name="devolucion" id="devolucion" cols="100%" rows="5"></textarea>
                         </div>
                     </div>
                 </div>
