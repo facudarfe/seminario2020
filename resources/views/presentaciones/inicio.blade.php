@@ -39,7 +39,7 @@
         @foreach ($presentaciones as $presentacion)
             <tr>
                 <th><a href="{{route('presentaciones.ver', $presentacion)}}"><i class="fas fa-eye"></i></a></th>
-                <td>{{$presentacion->fecha}}</td>
+                <td>{{$presentacion->created_at}}</td>
                 <td>{{$presentacion->titulo}}</td>
                 @unlessrole('Estudiante')
                 <td>{{$presentacion->alumno->name}}</td>

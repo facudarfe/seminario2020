@@ -27,7 +27,7 @@
             <div class="card-body">
                 <div class="row mb-2 mb-sm-0">
                     <div class="col-12 col-sm-6 col-md-4 col-lg-3"><h5>Fecha: </h5></div>
-                    <div class="col-12 col-sm-6 col-md-8 col-lg-9">{{$presentacion->fecha}}</div>
+                    <div class="col-12 col-sm-6 col-md-8 col-lg-9">{{$presentacion->created_at}}</div>
                 </div>
                 <div class="row mb-2 mb-md-0">
                     <div class="col-12 col-md-4 col-lg-3"><h5>Titulo: </h5></div>

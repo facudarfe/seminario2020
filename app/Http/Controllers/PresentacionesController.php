@@ -52,7 +52,6 @@ class PresentacionesController extends Controller
         
         //Codigo para el encabezado
         $encabezado->titulo = $request->titulo;
-        $encabezado->fecha = Carbon::now()->format('Y-m-d');
         $encabezado->alumno()->associate(auth()->user()); //Se le asocia a la presentacion el usuario que esta haciendo la carga
         
         //Asociar el director y codirector
@@ -117,7 +116,7 @@ class PresentacionesController extends Controller
         //Control de que se este por corregir una version Pendiente y que sea el docente correcto asignado
         if($version->estado->nombre == "Pendiente" && $version->anexo->docente_id == auth()->user()->id){
             $version->observaciones = $request->observaciones;
-            $version->fecha_correccion = Carbon::now()->format('Y-m-d');
+            $version->fecha_correccion = Carbon::now('America/Argentina/Salta')->format('Y-m-d');
             $estado = Estado::find($request->get('estado'));
             $version->estado()->associate($estado);
             

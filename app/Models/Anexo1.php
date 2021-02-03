@@ -15,6 +15,10 @@ class Anexo1 extends Model
         return date('d/m/Y', strtotime($value));
     }
 
+    public function getCreatedAtAttribute($value){
+        return date('d/m/Y', strtotime($value));
+    }
+
     public function versiones(){
         return $this->hasMany(Version_Anexo1::class, 'anexo_id');
     }
