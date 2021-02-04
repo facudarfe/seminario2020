@@ -33,7 +33,7 @@ function validarFormulario(){
                 $('#modalResumen #descripcion').text(descripcion);
                 
                 $('#confirmar').click(function(){
-                    $('#formPresentacion').submit();
+                    form.submit();
                 });
             }); 
         },
