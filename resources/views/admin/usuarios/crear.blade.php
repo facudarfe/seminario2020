@@ -37,10 +37,6 @@
                         <label for="email">*Email: </label>
                         <input type="email" name="email" class="form-control" value="{{old('email')}}">
                     </div>
-                    <div class="col-xl-6 form-group">
-                        <label for="password">*Contraseña: </label>
-                        <input type="password" name="password" class="form-control" value="{{old('password')}}">
-                    </div>
                 </div>
                 <div class="form-row">
                     <div class="col-xl-6 form-group">

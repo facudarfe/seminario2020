@@ -35,10 +35,13 @@
                         <label for="email">*Email: </label>
                         <input type="email" name="email" class="form-control" value="{{old('email', $user->email)}}">
                     </div>
-                    <div class="col-xl-6 form-group">
-                        <label for="password">*Contraseña: </label>
-                        <input type="password" name="password" class="form-control">
-                    </div>
+                    @role('Administrador')
+                        <div class="col-xl-6 form-group">
+                            <label for="password">*Contraseña: </label>
+                            <input type="password" name="password" class="form-control">
+                            <small>Deje este campo vacío si no desea modificar la contraseña.</small>
+                        </div>
+                    @endrole 
                 </div>
                 <div class="form-row">
                     <div class="col-xl-6 form-group">

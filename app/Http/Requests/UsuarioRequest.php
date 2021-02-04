@@ -28,7 +28,7 @@ class UsuarioRequest extends FormRequest
             'dni' => ['required', 'unique:users,dni,' . $this->id, 'numeric', 'min:1000000'],
             'lu' => ['nullable', 'unique:users,lu,' . $this->id, 'numeric'],
             'name' => ['required', 'max:255'],
-            'password' => [$this->isMethod('post') ? 'required' : 'nullable', 'min:7'],
+            'password' => ['nullable', 'min:8'],
             'email' => ['required', 'unique:users,email,' . $this->id, 'email'],
             'direccion' => ['nullable', 'max:255'],
             'telefono' => ['nullable', 'digits_between:7,15']

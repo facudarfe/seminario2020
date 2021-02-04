@@ -50,7 +50,7 @@ class UserController extends Controller
             'lu' => $request->lu, 
             'dni' => $request->dni, 
             'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'password' => Hash::make($request->dni),
             'direccion' => $request->direccion,
             'telefono' => $request->telefono]);
 
@@ -111,8 +111,12 @@ class UserController extends Controller
             $user->name = $request->name;
             $user->lu = $request->lu;
             $user->email = $request->email;
-            if(!empty($request->password))
-                $user->password = Hash::make($request->password);
+            if($user->hasRole('Administrador')){
+                if(!empty($request->password))
+                    $user->password = Hash::make($request->password);
+            }else
+                abort(403);
+            
             $user->direccion = $request->direccion;
             $user->telefono = $request->telefono;
 
