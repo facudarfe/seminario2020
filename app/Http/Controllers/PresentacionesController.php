@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\AsignarDocenteMail;
+use App\Mail\CorreccionMail;
+use App\Mail\NuevaPresentacionMail;
 use App\Models\Anexo1;
 use App\Models\Estado;
 use App\Models\Modalidad;
@@ -10,6 +13,7 @@ use App\Models\Version_Anexo1;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class PresentacionesController extends Controller
 {
@@ -79,6 +83,9 @@ class PresentacionesController extends Controller
 
         $version->save();
 
+        //Envio de mail al estudiante
+        Mail::to($encabezado->alumno->email)->send(new NuevaPresentacionMail($encabezado->titulo));
+
         return redirect(route('presentaciones.inicio'))->with('exito', 'Se ha creado la presentacion con exito.');
     }
 
@@ -106,6 +113,9 @@ class PresentacionesController extends Controller
 
         $presentacion->save();
 
+        //Enviar mail al evaluador
+        Mail::to($user->email)->send(new AsignarDocenteMail($presentacion));
+
         return redirect(route('presentaciones.inicio'));
     }
 
@@ -125,6 +135,9 @@ class PresentacionesController extends Controller
 
             $version->save();
             $presentacion->save();
+
+            //Enviar mail notificando la corrección
+            Mail::to($version->anexo->alumno->email)->send(new CorreccionMail($version));
 
             return redirect(route('presentaciones.inicio'))->with('exito', 'Se ha realizado la correción exitosamente.');
         }

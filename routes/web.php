@@ -5,8 +5,10 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\PresentacionesController;
 use App\Http\Controllers\ValidacionesController;
+use App\Mail\RegistroMail;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 
@@ -63,5 +65,4 @@ Route::group(['middleware' => 'auth'], function () {
 
 //Rutas para validaciones AJAX
 Route::post('validar/{campo}', [ValidacionesController::class, 'validarDNI'])->name('validar.DNI');
-
 
