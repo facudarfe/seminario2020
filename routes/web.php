@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\PermisoController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\ContactoController;
 use App\Http\Controllers\PresentacionesController;
 use App\Http\Controllers\ValidacionesController;
 use App\Mail\RegistroMail;
@@ -61,6 +62,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('presentaciones/{presentacion}/resubir', [PresentacionesController::class, 'resubirVersion'])->name('presentaciones.resubirVersion');
     Route::post('presentaciones/{presentacion}/regularizar', [PresentacionesController::class, 'regularizarPresentacion'])->name('presentaciones.regularizar')
     ->middleware('permission:presentaciones.regularizar');
+
+    //Rutas contacto
+    Route::get('contacto', [ContactoController::class, 'index'])->name('contacto.inicio');
+    Route::post('contacto', [ContactoController::class, 'send'])->name('contacto.enviar');
 });
 
 //Rutas para validaciones AJAX

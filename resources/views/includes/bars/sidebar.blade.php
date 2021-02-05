@@ -75,7 +75,7 @@
 
     <!-- Nav Item - Contacto -->
     <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="{{route('contacto.inicio')}}">
             <i class="fas fa-fw fa-envelope"></i>
             <span>Contacto</span>
         </a>
