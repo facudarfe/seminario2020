@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\PermisoController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ContactoController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PresentacionesController;
 use App\Http\Controllers\ValidacionesController;
 use App\Mail\RegistroMail;
@@ -31,9 +32,7 @@ Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::group(['middleware' => 'auth'], function () {
-    Route::get('/', function () {
-        return view('inicio');
-    })->name('inicio');
+    Route::get('/', [HomeController::class, 'index'])->name('inicio');
 
     //Rutas usuario
     Route::get('usuarios', [UserController::class, 'index'])->name('usuarios.inicio')->middleware('permission:usuarios.ver');
