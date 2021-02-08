@@ -80,19 +80,21 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <h5>Resumen: </h5>
-                                            <p>{{$version->resumen}}</p>
+                                            <p>{!! nl2br($version->resumen) !!}</p>
+                                            <!--Se utiliza !! y la funcion nl2br() para que se muestren los saltos de linea y no se vea todo junto-->
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-12">
                                             <h5>Tecnologias: </h5>
-                                            <p>{{$version->tecnologias}}</p>
+                                            <p>{!! nl2br($version->tecnologias) !!}}</p>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-12">
                                             <h5>Descripcion: </h5>
-                                            <p>{{$version->descripcion}}</p>
+                                            <p>{!! nl2br($version->descripcion) !!}</p>
+                                            <!--Se utiliza !! y la funcion nl2br() para que se muestren los saltos de linea y no se vea todo junto-->
                                         </div>
                                     </div>
                                     @if ($version->estado->nombre != 'Pendiente')
