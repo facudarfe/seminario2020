@@ -89,7 +89,7 @@
             </tr>
             <tr>
                 <td colspan="3">
-                    {{$version->resumen}}
+                    {!! nl2br($version->resumen) !!}
                 </td>
             </tr>
             <tr class="text-center">
@@ -97,8 +97,9 @@
             </tr>
         </table>
         <div id="descripcion">
-            {{$version->descripcion}}
-            <p>Tecnologias utilizadas: {{$version->tecnologias}}</p>
+            {!! nl2br($version->descripcion) !!}
+            <p><b>Tecnologias utilizadas: </b></p>
+            <p>{!! nl2br($version->tecnologias) !!}</p>
         </div>
         <br> <br> <br> <br> <br> <br>
         <hr class="firma">
