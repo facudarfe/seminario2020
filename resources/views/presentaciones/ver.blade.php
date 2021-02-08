@@ -79,6 +79,12 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-12">
+                                            <a href="{{route('pdf.anexo1', ['presentacion' => $presentacion, 'version' => $version])}}"  target="_blank"
+                                            class="float-right" style="color:rgb(236, 75, 75);"><i class="fas fa-file-pdf mr-1" style="color: rgb(236, 75, 75);"></i>Obtener PDF</a>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-12">
                                             <h5>Resumen: </h5>
                                             <p>{{$version->resumen}}</p>
                                         </div>

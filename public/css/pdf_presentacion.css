@@ -1,0 +1,79 @@
+/*Estilos para las vista PDF*/
+body{
+    padding-left: 2em;
+    padding-right: 2em;
+    font-family: Arial, sans-serif;
+    margin-top: 3cm;
+    margin-bottom: 1cm;
+}
+
+header{
+    position: fixed;
+}
+
+footer {
+    position: fixed;
+    bottom: 0cm;
+    left: 0cm;
+    right: 0cm;
+    height: 0.5cm;
+    color: grey;
+    text-align: center;
+    line-height: 35px;
+}
+
+.fecha{
+    margin-bottom: 4em;
+    text-align: right;
+}
+
+.saludo{
+    margin-bottom: 3em;
+}
+
+.nota{
+    text-indent: 25%;
+    text-align: justify;
+}
+
+.page-break{
+    page-break-after: always;
+}
+
+.tabla td, #descripcion, .bordes{
+    border: 1px solid black;
+}
+
+.tabla{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.text-center{
+    text-align: center;
+}
+
+.text-right{
+    text-align: right;
+}
+
+td.separacion-firma{
+    padding-top: 2cm;
+}
+
+hr.firma{
+  border-top: 0.5px dashed black;
+  opacity: 0.5;  
+}
+
+.checkbox{
+    display: inline-block;
+    height: 25px;
+    width: 25px;
+    border: 1px solid black;
+}
+
+hr.separacion{
+    margin-top: 1cm;
+    margin-bottom: 1cm;
+}
