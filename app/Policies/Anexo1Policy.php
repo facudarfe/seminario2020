@@ -28,4 +28,30 @@ class Anexo1Policy
             return false;
         }
     }
+
+    public function generarPDF(User $user, Anexo1 $anexo){
+        $rol = $user->getRoleNames()->first();
+        switch($rol){
+            case 'Estudiante':
+                return $user->id == $anexo->alumno_id;
+                break;
+            case 'Docente colaborador':
+                return $user->id == $anexo->docente_id;
+                break;
+            case 'Docente responsable': case 'Administrador':
+                return true;
+                break;
+            default:
+                return false;
+        }
+    }
+
+    public function subirInforme(User $user, Anexo1 $anexo){
+        if($anexo->alumno->id == $user->id && $anexo->estado->nombre == "Aprobado"){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 }

@@ -5,7 +5,9 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ContactoController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PDFController;
 use App\Http\Controllers\PresentacionesController;
+use App\Http\Controllers\StorageController;
 use App\Http\Controllers\ValidacionesController;
 use App\Mail\RegistroMail;
 use App\Models\User;
@@ -13,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,6 +65,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('presentaciones/{presentacion}/regularizar', [PresentacionesController::class, 'regularizarPresentacion'])->name('presentaciones.regularizar')
     ->middleware('permission:presentaciones.regularizar');
 
+    //Rutas PDF presentaciones
+    Route::get('presentaciones/{presentacion}/{version}/PDF', [PDFController::class, 'generarAnexo1'])->name('pdf.anexo1')
+    ->middleware('permission:generar.pdf.anexo1');
+
+    //Rutas almacenamiento
+    Route::post('presentaciones/subirInforme', [StorageController::class, 'guardarInforme'])->name('presentaciones.subirInforme');
+    Route::get('presentaciones/{presentacion}/descargarInforme', [StorageController::class, 'descargarInforme'])->name('presentaciones.descargarInforme');
+
     //Rutas contacto
     Route::get('contacto', [ContactoController::class, 'index'])->name('contacto.inicio');
     Route::post('contacto', [ContactoController::class, 'send'])->name('contacto.enviar');
@@ -69,4 +80,12 @@ Route::group(['middleware' => 'auth'], function () {
 
 //Rutas para validaciones AJAX
 Route::post('validar/{campo}', [ValidacionesController::class, 'validarDNI'])->name('validar.DNI');
+
+Route::get('prueba-pdf', function(){
+    $pdf = app('dompdf.wrapper');
+
+    $pdf->loadView('PDF.prueba');
+
+    return $pdf->stream('archivo.pdf');
+});
 
