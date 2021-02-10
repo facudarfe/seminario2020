@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ContactoController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\PresentacionesController;
+use App\Http\Controllers\StorageController;
 use App\Http\Controllers\ValidacionesController;
 use App\Mail\RegistroMail;
 use App\Models\User;
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,6 +69,10 @@ Route::group(['middleware' => 'auth'], function () {
     //Rutas PDF presentaciones
     Route::get('presentaciones/{presentacion}/{version}/PDF', [PDFController::class, 'generarAnexo1'])->name('pdf.anexo1')
     ->middleware('permission:generar.pdf.anexo1');
+
+    //Rutas almacenamiento
+    Route::post('presentaciones/subirInforme', [StorageController::class, 'guardarInforme'])->name('presentaciones.subirInforme');
+    Route::get('presentaciones/{presentacion}/descargarInforme', [StorageController::class, 'descargarInforme'])->name('presentaciones.descargarInforme');
 
     //Rutas contacto
     Route::get('contacto', [ContactoController::class, 'index'])->name('contacto.inicio');

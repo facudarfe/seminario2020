@@ -11,6 +11,7 @@
 
 @section('contenido-antes-tabla')
     @include('includes.mensaje_exito')
+    @include('includes.mensajes_error')
     @can('presentaciones.crear')
         <div class="row justify-content-start mb-3">
             <div class="col-12">
@@ -34,6 +35,7 @@
         <th>Director</th>
         <th>Modalidad</th>
         <th>Estado</th>
+        <th>Acciones</th>
     </thead>
     <tbody>
         @foreach ($presentaciones as $presentacion)
@@ -49,10 +51,65 @@
                 <td>
                     <span class="badge badge-{{$presentacion->estado->color_clase}}">{{$presentacion->estado->nombre}}</span>
                 </td>
+                <td class="text-center">
+                    <div class="dropdown no-arrow">
+                        <a class="dropdown-toggle" type="button" data-toggle="dropdown"><i class="fas fa-chevron-down"></i></a>
+                        <div class="dropdown-menu shadow">
+                            @can('subirInforme', $presentacion)
+                                <button class="dropdown-item" data-presentacion="{{$presentacion->id}}" id="botonInforme">
+                                    <i class="fas fa-file-pdf fa-lg fa-fw text-gray-400"></i>
+                                    Subir informe
+                                </button>
+                            @endcan
+                            @if ($presentacion->ruta_informe)
+                                <a href="{{route('presentaciones.descargarInforme', $presentacion)}}" class="dropdown-item">
+                                    <i class="fas fa-file-download fa-lg fa-fw text-gray-400"></i>
+                                    Descargar informe
+                                </a>
+                            @endif
+                        </div>
+                    </div>
+                </td>
             </tr>
         @endforeach
     </tbody>
 </table>
+
+<!--Modal para subir el archivo del informe-->
+<div class="modal fade" id="modalInforme" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Subir informe Presentación 1</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form action="{{route('presentaciones.subirInforme')}}" method="POST" enctype="multipart/form-data" id="formInforme">
+                @csrf
+                <input type="hidden" id="idPresentacion" name="idPresentacion">
+                <div class="modal-body">
+                    <div class="form-row justify-content-center">
+                        <div class="col-11 form-group">
+                            <label for="informe">Sube el informe en formato PDF:</label>
+                            <input type="file" class="form-control" id="informe" name="informe">
+                            {{-- <div class="input-group">
+                                <div class="custom-file">
+                                  <input type="file" class="custom-file-input" name="informe" id="informe">
+                                  <label class="custom-file-label" for="informe">Subir informe</label>
+                                </div>
+                            </div> --}}
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-success" id="subir">Subir</button>
+                </div>
+            </form> 
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('otros-scripts')
@@ -74,6 +131,20 @@
                     }
                 });
             }
+
+            //Subida del informe
+            $('#botonInforme').click(function(){
+                var id = $(this).data('presentacion');
+
+                $('#modalInforme').modal('show');
+                $('#modalInforme').ready(function(){
+                    $('#idPresentacion').val(id);
+                });
+            });
         });
     </script>
+    @include('includes.scripts_validaciones')
+    <!--Script adicional para jQuery validation para validar las extensiones de los archivos-->
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/additional-methods.js"></script>
+    <script src="{{asset('js/presentaciones/inicio.js')}}"></script>
 @endsection

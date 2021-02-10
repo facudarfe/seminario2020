@@ -45,4 +45,13 @@ class Anexo1Policy
                 return false;
         }
     }
+
+    public function subirInforme(User $user, Anexo1 $anexo){
+        if($anexo->alumno->id == $user->id && $anexo->estado->nombre == "Aprobado"){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
 }
