@@ -100,7 +100,7 @@ class PresentacionesController extends Controller
             }
         }
         $docentes = User::role(['Docente responsable', 'Docente colaborador'])->get();
-        $estados = Estado::where('nombre', 'Resubir')->orWhere('nombre', 'Rechazado')->orWhere('nombre', 'Aprobado')->get();
+        $estados = Estado::where('nombre', 'Resubir')->orWhere('nombre', 'Rechazado')->orWhere('nombre', 'Aceptado')->get();
         return view('presentaciones.ver', compact('presentacion', 'docentes', 'estados'));
     }
 
@@ -182,7 +182,7 @@ class PresentacionesController extends Controller
     }
 
     public function regularizarPresentacion(Request $request, Anexo1 $presentacion){
-        if($request->user()->can('presentaciones.regularizar') && $presentacion->estado->nombre == "Aprobado"){
+        if($request->user()->can('presentaciones.regularizar') && $presentacion->estado->nombre == "Aceptado"){
             $presentacion->devolucion = $request->devolucion;
             $presentacion->fecha = Carbon::now('America/Argentina/Salta')->format('Y-m-d');
             $estado = Estado::where('nombre', 'Regular')->first();

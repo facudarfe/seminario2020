@@ -16,7 +16,7 @@
                                 Asignar docente evaluador
                             </button>
                         @endif
-                        @if (auth()->user()->can('presentaciones.regularizar') && $presentacion->estado->nombre == "Aprobado")
+                        @if (auth()->user()->can('presentaciones.regularizar') && $presentacion->estado->nombre == "Aceptado")
                         <button class="dropdown-item" data-toggle="modal" data-target="#modalRegularizar">
                             Regularizar trabajo
                         </button>
