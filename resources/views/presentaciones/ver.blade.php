@@ -93,7 +93,7 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <h5>Tecnologias: </h5>
-                                            <p>{!! nl2br($version->tecnologias) !!}}</p>
+                                            <p>{!! nl2br($version->tecnologias) !!}</p>
                                         </div>
                                     </div>
                                     <div class="row">
