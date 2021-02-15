@@ -54,4 +54,15 @@ class Anexo1Policy
             return false;
         }
     }
+
+    public function mostrar(User $user, Anexo1 $anexo){
+        if($user->hasRole(['Administrador', 'Docente responsable']))
+            return true;
+        elseif($user->hasRole('Estudiante') && $user->id == $anexo->alumno_id)
+            return true;
+        elseif($user->hasRole('Docente colaborador') && $user->id == $anexo->docente_id)
+            return true;
+        else
+            return false;
+    }
 }

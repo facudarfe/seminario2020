@@ -87,13 +87,9 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $rol = $user->roles->first();
-        if(auth()->user()->can('manipularRol', $rol)){
-            $roles = auth()->user()->rolesPermitidos();
-            return view('admin.usuarios.editar', compact('user', 'roles'));
-        }
-        else{
-            abort(403);
-        }
+        $roles = auth()->user()->rolesPermitidos();
+        
+        return view('admin.usuarios.editar', compact('user', 'roles'));
     }
 
     /**
@@ -106,29 +102,24 @@ class UserController extends Controller
     public function update(UsuarioRequest $request, User $user)
     {
         $rol = $user->roles->first();
-        if($request->user()->can('manipularRol', $rol)){
-            $user->dni = $request->dni;
-            $user->name = $request->name;
-            $user->lu = $request->lu;
-            $user->email = $request->email;
-            if($user->hasRole('Administrador')){
-                if(!empty($request->password))
-                    $user->password = Hash::make($request->password);
-            }else
-                abort(403);
-            
-            $user->direccion = $request->direccion;
-            $user->telefono = $request->telefono;
-
-            $rol = Role::find($request->get('rol'));
-            $user->syncRoles($rol->name);
-            $user->save();
-
-            return redirect(route('usuarios.inicio'))->with('exito', 'El usuario se ha modificado exitosamente');
-        }
-        else{
+        $user->dni = $request->dni;
+        $user->name = $request->name;
+        $user->lu = $request->lu;
+        $user->email = $request->email;
+        if($user->hasRole('Administrador')){
+            if(!empty($request->password))
+                $user->password = Hash::make($request->password);
+        }else
             abort(403);
-        }
+        
+        $user->direccion = $request->direccion;
+        $user->telefono = $request->telefono;
+
+        $rol = Role::find($request->get('rol'));
+        $user->syncRoles($rol->name);
+        $user->save();
+
+        return redirect(route('usuarios.inicio'))->with('exito', 'El usuario se ha modificado exitosamente');
     }
 
     /**
@@ -141,12 +132,7 @@ class UserController extends Controller
     {
         $user = User::find($request->user_id);
         $rol = $user->roles->first();
-        if(Auth::user()->can('manipularRol', $rol)){
-            $user->delete();
-            return redirect(route('usuarios.inicio'))->with('exito', 'Se ha eliminado el usuario con exito');
-        }
-        else{
-            abort(403);
-        }
+        $user->delete();
+        return redirect(route('usuarios.inicio'))->with('exito', 'Se ha eliminado el usuario con exito');
     }
 }

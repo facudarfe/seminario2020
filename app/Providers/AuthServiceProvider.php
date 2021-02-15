@@ -3,8 +3,10 @@
 namespace App\Providers;
 
 use App\Models\Anexo1;
+use App\Models\User;
 use App\Policies\Anexo1Policy;
 use App\Policies\RolePolicy;
+use App\Policies\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 use Spatie\Permission\Models\Role;
@@ -18,7 +20,8 @@ class AuthServiceProvider extends ServiceProvider
      */
     protected $policies = [
         Anexo1::class => Anexo1Policy::class,
-        Role::class => RolePolicy::class
+        Role::class => RolePolicy::class,
+        User::class => UserPolicy::class,
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
     ];
 

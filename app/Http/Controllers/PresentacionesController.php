@@ -90,15 +90,6 @@ class PresentacionesController extends Controller
     }
 
     public function show(Anexo1 $presentacion){
-        if(auth()->user()->hasRole('Estudiante')){
-            if(auth()->user()->id != $presentacion->alumno_id){
-                abort(403);
-            }
-        }elseif(auth()->user()->hasRole('Docente colaborador')){
-            if(auth()->user()->id != $presentacion->docente_id){
-                abort(403);
-            }
-        }
         $docentes = User::role(['Docente responsable', 'Docente colaborador'])->get();
         $estados = Estado::where('nombre', 'Resubir')->orWhere('nombre', 'Rechazado')->orWhere('nombre', 'Aceptado')->get();
         return view('presentaciones.ver', compact('presentacion', 'docentes', 'estados'));
@@ -158,31 +149,27 @@ class PresentacionesController extends Controller
             'descripcion' => ['required']
         ]);
 
-        if($request->user()->can('resubirVersion', $presentacion)){
-            $version = new Version_Anexo1();
+        $version = new Version_Anexo1();
 
-            $version->anexo()->associate($presentacion);
-            $version->resumen = $request->resumen;
-            $version->tecnologias = $request->tecnologias;
-            $version->descripcion = $request->descripcion;
-            
-            $estado = Estado::where('nombre', 'Resubido')->first();
-            $estado2 = Estado::where('nombre', 'Pendiente')->first();
-            $presentacion->estado()->associate($estado);
-            $version->estado()->associate($estado2);
-    
-            $presentacion->save();
-            $version->save();
+        $version->anexo()->associate($presentacion);
+        $version->resumen = $request->resumen;
+        $version->tecnologias = $request->tecnologias;
+        $version->descripcion = $request->descripcion;
+        
+        $estado = Estado::where('nombre', 'Resubido')->first();
+        $estado2 = Estado::where('nombre', 'Pendiente')->first();
+        $presentacion->estado()->associate($estado);
+        $version->estado()->associate($estado2);
 
-            return redirect(route('presentaciones.inicio'))->with('exito', 'Se ha subido una nueva versión de la presentación.');
-        }
-        else{
-            abort(403);
-        }
+        $presentacion->save();
+        $version->save();
+
+        return redirect(route('presentaciones.inicio'))->with('exito', 'Se ha subido una nueva versión de la presentación.');
     }
 
     public function regularizarPresentacion(Request $request, Anexo1 $presentacion){
-        if($request->user()->can('presentaciones.regularizar') && $presentacion->estado->nombre == "Aceptado"){
+        //Control de que se este por regularizar una presentacion en estado Aceptado
+        if($presentacion->estado->nombre == "Aceptado"){
             $presentacion->devolucion = $request->devolucion;
             $presentacion->fecha = Carbon::now('America/Argentina/Salta')->format('Y-m-d');
             $estado = Estado::where('nombre', 'Regular')->first();
