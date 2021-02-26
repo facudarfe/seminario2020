@@ -46,10 +46,12 @@ Route::group(['middleware' => 'auth'], function () {
         ->middleware('permission:usuarios.crear');
     Route::get('usuarios/{user}/editar', [UserController::class, 'edit'])->name('usuarios.editar')
         ->middleware(['permission:usuarios.editar', 'can:gestionar,user']);
-    Route::put('usuarios/{user}', [UserController::class, 'update'])->name('usuarios.actualizar')
-        ->middleware(['permission:usuarios.editar', 'can:gestionar,user']);
+    Route::put('usuarios/{user}', [UserController::class, 'update'])->name('usuarios.actualizar');
+        //->middleware(['permission:usuarios.editar', 'can:gestionar,user']);
     Route::delete('usuarios/eliminar', [UserController::class, 'destroy'])->name('usuarios.eliminar')
         ->middleware(['permission:usuarios.eliminar', 'can:gestionar,user']);
+    Route::get('usuarios/editarPerfil', [UserController::class, 'editarPerfil'])->name('usuarios.editarPerfil');
+    Route::post('usuarios/changePassword', [UserController::class, 'changePassword'])->name('usuarios.changePassword');
 
     //Rutas roles y permisos
     Route::get('permisos', [PermisoController::class, 'index'])->name('permisos.inicio')
@@ -89,5 +91,6 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 //Rutas para validaciones AJAX
-Route::post('validar/{campo}', [ValidacionesController::class, 'validarDNI'])->name('validar.DNI');
+Route::post('verificarPassword', [ValidacionesController::class, 'verificarPassword']);
+Route::post('verificar/{campo}', [ValidacionesController::class, 'verificarCampo']);
 

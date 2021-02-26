@@ -35,25 +35,27 @@
                         <label for="email">*Email: </label>
                         <input type="email" name="email" class="form-control" value="{{old('email', $user->email)}}">
                     </div>
-                    @role('Administrador')
+                    @if ($user->hasRole('Administrador') && $admin)
                         <div class="col-xl-6 form-group">
                             <label for="password">*Contraseña: </label>
                             <input type="password" name="password" class="form-control">
                             <small>Deje este campo vacío si no desea modificar la contraseña.</small>
-                        </div>
-                    @endrole 
+                        </div>   
+                    @endif
                 </div>
-                <div class="form-row">
-                    <div class="col-xl-6 form-group">
-                        <label for="rol">*Rol: </label>
-                        <select name="rol" id="rol" class="custom-select">
-                        @foreach ($roles as $rol)
-                            <option {{$rol->id == $user->roles->first()->id ? 'selected' : ''}} 
-                                value="{{$rol->id}}">{{$rol->name}}</option>
-                        @endforeach
-                        </select>
-                    </div>     
-                </div>  
+                @if ($admin) <!--Si se esta editando desde el panel admin se puede editar el rol-->
+                    <div class="form-row">
+                        <div class="col-xl-6 form-group">
+                            <label for="rol">*Rol: </label>
+                            <select name="rol" id="rol" class="custom-select">
+                            @foreach ($roles as $rol)
+                                <option {{$rol->id == $user->roles->first()->id ? 'selected' : ''}} 
+                                    value="{{$rol->id}}">{{$rol->name}}</option>
+                            @endforeach
+                            </select>
+                        </div>     
+                    </div>                    
+                @endif
                 <div class="form-row">
                     <div class="col-xl-6 form group">
                         <label for="direccion">Domicilio: </label>

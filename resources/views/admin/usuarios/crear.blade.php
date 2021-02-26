@@ -1,10 +1,6 @@
 @extends('layouts.aplicacion')
 
 @section('titulo', 'Crear usuario')
-
-@section('metas')
-    <meta name='csrf_token' content="{{csrf_token()}}">
-@endsection
     
 @section('titulo-contenido', 'Dar de alta a usuario')
     

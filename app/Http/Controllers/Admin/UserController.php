@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UsuarioRequest;
 use App\Mail\RegistroMail;
 use App\Models\User;
+use App\Rules\ChequearPassword;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -88,8 +89,10 @@ class UserController extends Controller
     {
         $rol = $user->roles->first();
         $roles = auth()->user()->rolesPermitidos();
+        $admin = true; /*Para reutilizar la vista en el Editar Perfil se le pasa un valor booleano para chequear si se esta editando
+                        desde el panel administrativo o desde el editar perfil*/
         
-        return view('admin.usuarios.editar', compact('user', 'roles'));
+        return view('admin.usuarios.editar', compact('user', 'roles', 'admin'));
     }
 
     /**
@@ -101,25 +104,30 @@ class UserController extends Controller
      */
     public function update(UsuarioRequest $request, User $user)
     {
-        $rol = $user->roles->first();
-        $user->dni = $request->dni;
-        $user->name = $request->name;
-        $user->lu = $request->lu;
-        $user->email = $request->email;
-        if($user->hasRole('Administrador')){
-            if(!empty($request->password))
-                $user->password = Hash::make($request->password);
-        }else
-            abort(403);
-        
-        $user->direccion = $request->direccion;
-        $user->telefono = $request->telefono;
-
-        $rol = Role::find($request->get('rol'));
-        $user->syncRoles($rol->name);
-        $user->save();
-
-        return redirect(route('usuarios.inicio'))->with('exito', 'El usuario se ha modificado exitosamente');
+        /*Se va a controlar los permisos desde aca y no desde el middleware para poder reutilizar la ruta cuando se edita desde el
+        panel administrativo y desde el 'Editar Perfil'*/
+        if($request->user()->can('gestionar', $user) || $user->id == $request->user()->id){
+            $user->dni = $request->dni;
+            $user->name = $request->name;
+            $user->lu = $request->lu;
+            $user->email = $request->email;
+            if($user->hasRole('Administrador')){
+                if(!empty($request->password))
+                    $user->password = Hash::make($request->password);
+            }
+            
+            $user->direccion = $request->direccion;
+            $user->telefono = $request->telefono;
+    
+            $rol = Role::find($request->get('rol')) ?? $user->roles->first(); //Si el campo rol no esta definido se le asigna el rol que ya tiene
+            $user->syncRoles($rol->name);
+            $user->save();
+    
+            return redirect()->back()->with('exito', 'El usuario se ha modificado exitosamente'); 
+        }
+        else{
+            abort(403, 'No tiene permiso de editar este usuario');
+        }
     }
 
     /**
@@ -134,5 +142,28 @@ class UserController extends Controller
         $rol = $user->roles->first();
         $user->delete();
         return redirect(route('usuarios.inicio'))->with('exito', 'Se ha eliminado el usuario con exito');
+    }
+
+    public function editarPerfil(){
+        $user = auth()->user();
+        $admin = false; /*Para reutilizar la vista en el Editar Perfil se le pasa un valor booleano para chequear si se esta editando
+                        desde el panel administrativo o desde el editar perfil*/
+
+        return view('admin.usuarios.editar', compact('user', 'admin'));
+    }
+
+    public function changePassword(Request $request){
+        $request->validate([
+            'oldpassword' => ['required', new ChequearPassword],
+            'newpassword' => ['required', 'min:7'],
+            'repeatnewpassword' => ['required', 'same:newpassword'],
+        ]);
+
+        $user = User::find(auth()->user()->id);
+
+        $user->password = Hash::make($request->newpassword);
+        $user->save();
+
+        return redirect()->back()->with('exito', 'La contraseña se actualizó con éxito.');
     }
 }

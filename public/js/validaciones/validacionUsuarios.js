@@ -6,7 +6,7 @@ $(document).ready(function(){
                 minlength: 7,
                 number: true,
                 remote: {
-                    url: '/validar/dni',
+                    url: '/verificar/dni',
                     type: 'POST'
                 }
             },
@@ -14,7 +14,7 @@ $(document).ready(function(){
                 required: false,
                 number: true,
                 remote: {
-                    url: '/validar/lu',
+                    url: '/verificar/lu',
                     type: 'POST'
                 }
             },
@@ -30,7 +30,7 @@ $(document).ready(function(){
                 required: true,
                 email: true,
                 remote: {
-                    url: '/validar/email',
+                    url: '/verificar/email',
                     type: 'POST'
                 }
             },
