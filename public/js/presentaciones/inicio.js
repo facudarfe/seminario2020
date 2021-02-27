@@ -76,7 +76,8 @@ $('#botonInforme').click(function(){
 
     $('#modalInforme').modal('show');
     $('#modalInforme').ready(function(){
-        $('#idPresentacion').val(id);
+        //Seteamos el atributo 'action' del form a la ruta con el id de la presentacion
+        $(this).find('#formInforme').attr('action', '/presentaciones/'+id+'/subirInforme');
 
         //Validacion del lado del cliente
         $('#formInforme').validate({

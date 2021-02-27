@@ -97,9 +97,8 @@
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <form action="{{route('presentaciones.subirInforme')}}" method="POST" enctype="multipart/form-data" id="formInforme">
+            <form action="" method="POST" enctype="multipart/form-data" id="formInforme">
                 @csrf
-                <input type="hidden" id="idPresentacion" name="idPresentacion">
                 <div class="modal-body">
                     <div class="form-row justify-content-center">
                         <div class="col-11 form-group">

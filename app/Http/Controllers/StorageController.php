@@ -8,11 +8,10 @@ use Illuminate\Support\Facades\Storage;
 
 class StorageController extends Controller
 {
-    public function guardarInforme(Request $request){
+    public function guardarInforme(Request $request, Anexo1 $presentacion){
         $request->validate([
             'informe' => ['file', 'mimes:pdf']
         ]);
-        $presentacion = Anexo1::find($request->input('idPresentacion'));
         $ruta = $request->file('informe')->store('public/informes');
 
         //Guardamos la ruta del archivo en el campo ruta_informe

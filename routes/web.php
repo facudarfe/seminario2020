@@ -82,7 +82,8 @@ Route::group(['middleware' => 'auth'], function () {
         ->middleware('permission:generar.pdf.anexo1');
 
     //Rutas almacenamiento
-    Route::post('presentaciones/subirInforme', [StorageController::class, 'guardarInforme'])->name('presentaciones.subirInforme');
+    Route::post('presentaciones/{presentacion}/subirInforme', [StorageController::class, 'guardarInforme'])->name('presentaciones.subirInforme')
+        ->middleware('can:subirInforme,presentacion');
     Route::get('presentaciones/{presentacion}/descargarInforme', [StorageController::class, 'descargarInforme'])->name('presentaciones.descargarInforme');
 
     //Rutas contacto
