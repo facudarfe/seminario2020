@@ -12,6 +12,12 @@ class StorageController extends Controller
         $request->validate([
             'informe' => ['file', 'mimes:pdf']
         ]);
+
+        //Si ya habia un archivo subido se borra antes de subir el proximo
+        if($presentacion->ruta_informe){
+            Storage::delete($presentacion->ruta_informe);
+        }
+
         $ruta = $request->file('informe')->store('public/informes');
 
         //Guardamos la ruta del archivo en el campo ruta_informe
