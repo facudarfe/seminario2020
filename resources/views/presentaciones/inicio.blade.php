@@ -25,7 +25,7 @@
     @can('presentaciones.crear')
         <div class="row justify-content-start mb-3">
             <div class="col-12">
-                <a href="{{route('presentaciones.crear')}}" class="btn btn-primary">
+                <a href="{{route('presentaciones.crear')}}" class="btn btn-success">
                     Nueva presentación
                 </a>
             </div>

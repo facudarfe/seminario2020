@@ -45,10 +45,6 @@
                 <div class="dropdown no-arrow">
                     <a class="dropdown-toggle" type="button" data-toggle="dropdown"><i class="fas fa-chevron-down"></i></a>
                     <div class="dropdown-menu shadow">
-                        <a href="#" class="dropdown-item">
-                            <i class="fas fa-eye fa-lg fa-fw mr-2 text-gray-400"></i>
-                            Ver
-                        </a>
                         @can('manipularRol', $user->roles->first())
                             <a href="{{route('usuarios.editar', $user)}}" class="dropdown-item">
                                 <i class="fas fa-pencil-alt fa-lg fa-fw mr-2 text-gray-400"></i>

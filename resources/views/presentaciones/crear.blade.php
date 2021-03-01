@@ -15,7 +15,7 @@
                 <div class="form-row">
                     <div class="form-group col-12">
                         <label for="titulo">*Titulo proyecto: </label>
-                        <input type="text" class="form-control" id="titulo" name="titulo">
+                        <input type="text" class="form-control" id="titulo" name="titulo" value="{{old('titulo')}}">
                     </div>
                 </div>
 
@@ -52,21 +52,21 @@
                 <div class="form-row">
                     <div class="form-group col-12">
                         <label for="resumen">*Resumen: </label>
-                        <textarea name="resumen" id="resumen" rows="7" class="form-control"></textarea>
+                        <textarea name="resumen" id="resumen" rows="7" class="form-control">{{old('resumen')}}</textarea>
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group col-12">
                         <label for="tecnologias">*Tecnologias: </label>
-                        <textarea name="tecnologias" id="tecnologias" rows="1" class="form-control"></textarea>
+                        <textarea name="tecnologias" id="tecnologias" rows="1" class="form-control">{{old('tecnologias')}}</textarea>
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group col-12">
                         <label for="descripcion">*Descripcion detallada del proyecto: </label>
-                        <textarea name="descripcion" id="descripcion" rows="10" class="form-control"></textarea>
+                        <textarea name="descripcion" id="descripcion" rows="10" class="form-control">{{old('descripcion')}}</textarea>
                     </div>
                 </div>
                 <small>*Campos obligatorios</small>
