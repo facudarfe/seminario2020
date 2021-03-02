@@ -22,7 +22,7 @@
 @section('contenido-antes-tabla')
     @include('includes.mensaje_exito')
     @include('includes.mensajes_error')
-    @can('presentaciones.crear')
+    @if (auth()->user()->can('crear', App\Models\Anexo1::class))
         <div class="row justify-content-start mb-3">
             <div class="col-12">
                 <a href="{{route('presentaciones.crear')}}" class="btn btn-success">
@@ -30,7 +30,7 @@
                 </a>
             </div>
         </div>
-    @endcan
+    @endif
 @endsection
 
 @section('contenido-tabla')

@@ -20,6 +20,12 @@ class Anexo1Policy
         //
     }
 
+    public function crear(User $user){
+        $presentaciones = $user->presentaciones()->join('estados', 'anexos1.estado_id', '=', 'estados.id')->whereIn('nombre', ['Pendiente', 'Resubir', 'Aceptado', 'Regular', 'Aprobado'])->get();
+
+        return count($presentaciones)>0 ? false : true;
+    }
+
     public function resubirVersion(User $user, Anexo1 $anexo){
         if($anexo->estado->nombre == 'Resubir' && $user->id == $anexo->alumno->id){
             return true;

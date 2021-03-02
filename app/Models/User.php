@@ -68,4 +68,8 @@ class User extends Authenticatable
         }
         return $roles;
     }
+
+    public function presentaciones(){
+        return $this->hasMany(Anexo1::class, 'alumno_id');
+    }
 }
