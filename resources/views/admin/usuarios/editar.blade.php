@@ -8,13 +8,13 @@
 
     @include('includes.mensaje_exito')
     @include('includes.mensajes_error')
-    <form action="{{route('usuarios.actualizar', $user)}}" method="POST">
+    <form action="{{route('usuarios.actualizar', $user)}}" method="POST" id="formUsuarios" data-operation="editando">
         @csrf
         @method('put')
         <div class="row">
             <div class="col-xl-6 col-lg-8">
                 <div class="form-row">
-                    <input type="hidden" name="id" value="{{$user->id}}">
+                    <input type="hidden" name="id" id="id" value="{{$user->id}}">
                     <div class="col-xl-6 form-group">
                         <label for="dni">*Documento: </label>
                         <input type="number" name="dni" class="form-control" value="{{$user->dni}}">
@@ -80,4 +80,9 @@
         </div>
     </form>
 
+@endsection
+
+@section('otros-scripts')
+    @include('includes.scripts_validaciones')
+    <script src="{{asset('js/validaciones/validacionUsuarios.js')}}"></script>
 @endsection

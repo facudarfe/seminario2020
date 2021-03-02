@@ -8,7 +8,7 @@
 
     @include('includes.mensaje_exito')
     @include('includes.mensajes_error')
-    <form action="{{route('usuarios.almacenar')}}" method="POST" id="formUsuarios">
+    <form action="{{route('usuarios.almacenar')}}" method="POST" id="formUsuarios" data-operation="creando">
         @csrf
         <div class="row">
             <div class="col-xl-6 col-lg-8">

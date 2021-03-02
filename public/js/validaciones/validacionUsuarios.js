@@ -1,3 +1,14 @@
+function validationData(){
+    return {
+        operacion: function(){
+            return $('#formUsuarios').data('operation')
+        },
+        id: function(){
+            return $('#formUsuarios').find('#id').val();
+        }
+    };  
+}
+
 $(document).ready(function(){
     $('#formUsuarios').validate({
         rules: {
@@ -7,7 +18,8 @@ $(document).ready(function(){
                 number: true,
                 remote: {
                     url: '/verificar/dni',
-                    type: 'POST'
+                    type: 'POST',
+                    data: validationData()
                 }
             },
             lu: {
@@ -15,7 +27,8 @@ $(document).ready(function(){
                 number: true,
                 remote: {
                     url: '/verificar/lu',
-                    type: 'POST'
+                    type: 'POST',
+                    data: validationData()
                 }
             },
             name: {
@@ -31,7 +44,8 @@ $(document).ready(function(){
                 email: true,
                 remote: {
                     url: '/verificar/email',
-                    type: 'POST'
+                    type: 'POST',
+                    data: validationData()
                 }
             },
             direccion: {
