@@ -23,7 +23,7 @@ class Anexo1Policy
     public function crear(User $user){
         $presentaciones = $user->presentaciones()->join('estados', 'anexos1.estado_id', '=', 'estados.id')->whereIn('nombre', ['Pendiente', 'Resubir', 'Aceptado', 'Regular', 'Aprobado'])->get();
 
-        return count($presentaciones)>0 ? false : true;
+        return count($presentaciones)==0 && $user->getRoleNames()->first() == 'Estudiante' ? true : false;
     }
 
     public function resubirVersion(User $user, Anexo1 $anexo){
