@@ -66,7 +66,7 @@
                 <td class="text-center">
                     <div class="dropdown no-arrow">
                         <a class="dropdown-toggle" type="button" data-toggle="dropdown"><i class="fas fa-chevron-down"></i></a>
-                        <div class="dropdown-menu shadow">
+                        <div class="dropdown-menu shadow activeOptions">
                             @can('subirInforme', $presentacion)
                                 <button class="dropdown-item" data-presentacion="{{$presentacion->id}}" id="botonInforme">
                                     <i class="fas fa-file-pdf fa-lg fa-fw text-gray-400"></i>

@@ -93,5 +93,15 @@ $('#botonInforme').click(function(){
                 }
             }
         });
+    }); 
+});     
+
+//Cuando no hay acciones disponibles se deshabilita el boton de accion
+$(document).ready(function(){
+    $('.activeOptions').each(function(index){
+        let cant = $(this).children().length;
+        if(cant == 0){
+            $(this).prev('a').hide();
+        }
     });
 });
