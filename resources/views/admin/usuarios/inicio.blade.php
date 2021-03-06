@@ -20,7 +20,7 @@
 @endsection
 
 @section('contenido-tabla')
-<table class="table" id="dataTable" width="100%" cellspacing="0">
+<table class="table" id="tablaUsuarios" width="100%" cellspacing="0">
     <thead>
         <tr>
             <th>DNI</th>
@@ -43,8 +43,8 @@
             <td>{{$user->telefono}}</td>
             <td class="text-center">
                 <div class="dropdown no-arrow">
-                    <a class="dropdown-toggle" type="button" data-toggle="dropdown"><i class="fas fa-chevron-down"></i></a>
-                    <div class="dropdown-menu shadow">
+                    <a class="dropdown-toggle" type="button" data-toggle="dropdown"><i class="fas fa-chevron-down btn-accion"></i></a>
+                    <div class="dropdown-menu shadow activeOptions">
                         @can('manipularRol', $user->roles->first())
                             <a href="{{route('usuarios.editar', $user)}}" class="dropdown-item">
                                 <i class="fas fa-pencil-alt fa-lg fa-fw mr-2 text-gray-400"></i>
@@ -96,16 +96,5 @@
     <script src="{{asset('sbadmin/vendor/datatables/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('sbadmin/vendor/datatables/dataTables.bootstrap4.min.js')}}"></script>
 
-    <!-- Page level custom scripts -->
-    <script src="{{asset('js/dataTables.js')}}"></script>
-
-    <script>
-        $(document).on('click', '#botonElimina', function(){
-            var user_id = $(this).attr('data-user_id');
-            $('#deleteModal').modal('show');
-            $('#deleteModal').ready(function(){
-                $('#input_user_id').val(user_id);
-            });
-        });  
-    </script>
+    <script src="{{asset('js/usuarios/inicio.js')}}"></script>
 @endsection
