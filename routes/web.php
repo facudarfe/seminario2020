@@ -38,53 +38,59 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/', [HomeController::class, 'index'])->name('inicio');
 
     //Rutas usuario
-    Route::get('usuarios', [UserController::class, 'index'])->name('usuarios.inicio')
+    Route::prefix('usuarios')->group(function(){
+        Route::get('/', [UserController::class, 'index'])->name('usuarios.inicio')
         ->middleware('permission:usuarios.ver');
-    Route::get('usuarios/crear', [UserController::class, 'create'])->name('usuarios.crear')
-        ->middleware('permission:usuarios.crear');
-    Route::post('usuarios', [UserController::class, 'store'])->name('usuarios.almacenar')
-        ->middleware('permission:usuarios.crear');
-    Route::get('usuarios/{user}/editar', [UserController::class, 'edit'])->name('usuarios.editar')
-        ->middleware(['permission:usuarios.editar', 'can:gestionar,user']);
-    Route::put('usuarios/{user}', [UserController::class, 'update'])->name('usuarios.actualizar');
-        //->middleware(['permission:usuarios.editar', 'can:gestionar,user']);
-    Route::delete('usuarios/eliminar', [UserController::class, 'destroy'])->name('usuarios.eliminar')
-        ->middleware(['permission:usuarios.eliminar', 'can:gestionar,user']);
-    Route::get('usuarios/editarPerfil', [UserController::class, 'editarPerfil'])->name('usuarios.editarPerfil');
-    Route::post('usuarios/changePassword', [UserController::class, 'changePassword'])->name('usuarios.changePassword');
+        Route::get('/crear', [UserController::class, 'create'])->name('usuarios.crear')
+            ->middleware('permission:usuarios.crear');
+        Route::post('/', [UserController::class, 'store'])->name('usuarios.almacenar')
+            ->middleware('permission:usuarios.crear');
+        Route::get('/{user}/editar', [UserController::class, 'edit'])->name('usuarios.editar')
+            ->middleware(['permission:usuarios.editar', 'can:gestionar,user']);
+        Route::put('/{user}', [UserController::class, 'update'])->name('usuarios.actualizar');
+            //->middleware(['permission:usuarios.editar', 'can:gestionar,user']);
+        Route::delete('/eliminar', [UserController::class, 'destroy'])->name('usuarios.eliminar')
+            ->middleware(['permission:usuarios.eliminar', 'can:gestionar,user']);
+        Route::get('/editarPerfil', [UserController::class, 'editarPerfil'])->name('usuarios.editarPerfil');
+        Route::post('/changePassword', [UserController::class, 'changePassword'])->name('usuarios.changePassword');
+    });
 
     //Rutas roles y permisos
-    Route::get('permisos', [PermisoController::class, 'index'])->name('permisos.inicio')
+    Route::prefix('permisos')->group(function(){
+        Route::get('/', [PermisoController::class, 'index'])->name('permisos.inicio')
         ->middleware('permission:permisos.ver');
-    Route::post('permisos', [PermisoController::class, 'store'])->name('permisos.almacenar')
-        ->middleware('permission:permisos.crear');
+        Route::post('/', [PermisoController::class, 'store'])->name('permisos.almacenar')
+            ->middleware('permission:permisos.crear');
+    });
 
     //Rutas presentaciones
-    Route::get('presentaciones', [PresentacionesController::class, 'index'])->name('presentaciones.inicio');
-    Route::get('presentaciones/crear', [PresentacionesController::class, 'create'])->name('presentaciones.crear')
-        ->middleware('can:crear,App\Models\Anexo1');
-    Route::post('presentaciones', [PresentacionesController::class, 'store'])->name('presentaciones.almacenar')
-        ->middleware('permission:presentaciones.crear');
-    Route::get('presentaciones/{presentacion}/ver', [PresentacionesController::class, 'show'])->name('presentaciones.ver')
-        ->middleware('can:mostrar,presentacion');
-    Route::post('presentaciones/{presentacion}/asignarEvaluador', [PresentacionesController::class, 'asignarEvaluador'])->name('presentaciones.asignarEvaluador')
-        ->middleware('permission:presentaciones.asignar.evaluador');
-    Route::post('presentaciones/corregir', [PresentacionesController::class, 'corregirVersion'])->name('presentaciones.corregir')
-        ->middleware('permission:presentaciones.corregir');
-    Route::get('presentaciones/{presentacion}/resubir', [PresentacionesController::class, 'resubir'])->name('presentaciones.resubir');
-    Route::post('presentaciones/{presentacion}/resubir', [PresentacionesController::class, 'resubirVersion'])->name('presentaciones.resubirVersion')
-        ->middleware('can:resubirVersion,presentacion');
-    Route::post('presentaciones/{presentacion}/regularizar', [PresentacionesController::class, 'regularizarPresentacion'])->name('presentaciones.regularizar')
-        ->middleware('permission:presentaciones.regularizar');
+    Route::prefix('presentaciones')->group(function(){
+        Route::get('/', [PresentacionesController::class, 'index'])->name('presentaciones.inicio');
+        Route::get('/crear', [PresentacionesController::class, 'create'])->name('presentaciones.crear')
+            ->middleware('can:crear,App\Models\Anexo1');
+        Route::post('/', [PresentacionesController::class, 'store'])->name('presentaciones.almacenar')
+            ->middleware('permission:presentaciones.crear');
+        Route::get('/{presentacion}/ver', [PresentacionesController::class, 'show'])->name('presentaciones.ver')
+            ->middleware('can:mostrar,presentacion');
+        Route::post('/{presentacion}/asignarEvaluador', [PresentacionesController::class, 'asignarEvaluador'])->name('presentaciones.asignarEvaluador')
+            ->middleware('permission:presentaciones.asignar.evaluador');
+        Route::post('/corregir', [PresentacionesController::class, 'corregirVersion'])->name('presentaciones.corregir')
+            ->middleware('permission:presentaciones.corregir');
+        Route::get('/{presentacion}/resubir', [PresentacionesController::class, 'resubir'])->name('presentaciones.resubir');
+        Route::post('/{presentacion}/resubir', [PresentacionesController::class, 'resubirVersion'])->name('presentaciones.resubirVersion')
+            ->middleware('can:resubirVersion,presentacion');
+        Route::post('/{presentacion}/regularizar', [PresentacionesController::class, 'regularizarPresentacion'])->name('presentaciones.regularizar')
+            ->middleware('permission:presentaciones.regularizar');
+    
+        //Rutas PDF presentaciones
+        Route::get('/{presentacion}/{version}/PDF', [PDFController::class, 'generarAnexo1'])->name('pdf.anexo1')
+            ->middleware('permission:generar.pdf.anexo1');
 
-    //Rutas PDF presentaciones
-    Route::get('presentaciones/{presentacion}/{version}/PDF', [PDFController::class, 'generarAnexo1'])->name('pdf.anexo1')
-        ->middleware('permission:generar.pdf.anexo1');
-
-    //Rutas almacenamiento
-    Route::post('presentaciones/{presentacion}/subirInforme', [StorageController::class, 'guardarInforme'])->name('presentaciones.subirInforme')
-        ->middleware('can:subirInforme,presentacion');
-    Route::get('presentaciones/{presentacion}/descargarInforme', [StorageController::class, 'descargarInforme'])->name('presentaciones.descargarInforme');
+            //Rutas almacenamiento
+        Route::post('/{presentacion}/subirInforme', [StorageController::class, 'guardarInforme'])->name('presentaciones.subirInforme')
+            ->middleware('can:subirInforme,presentacion');
+        Route::get('/{presentacion}/descargarInforme', [StorageController::class, 'descargarInforme'])->name('presentaciones.descargarInforme');
+    });
 
     //Rutas contacto
     Route::get('contacto', [ContactoController::class, 'index'])->name('contacto.inicio');

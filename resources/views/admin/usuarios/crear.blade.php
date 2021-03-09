@@ -72,5 +72,5 @@
 
 @section('otros-scripts')
     @include('includes.scripts_validaciones')
-    <script src="{{asset('js/validaciones/validacionUsuarios.js')}}"></script>
+    <script src="{{asset('js/usuarios/crear.js')}}"></script>
 @endsection
