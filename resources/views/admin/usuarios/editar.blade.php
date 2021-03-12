@@ -35,7 +35,7 @@
                         <label for="email">*Email: </label>
                         <input type="email" name="email" class="form-control" value="{{old('email', $user->email)}}">
                     </div>
-                    @if ($user->hasRole('Administrador') && $admin)
+                    @if (auth()->user()->can('usuarios.editar.password') && $admin)
                         <div class="col-xl-6 form-group">
                             <label for="password">*Contraseña: </label>
                             <input type="password" name="password" class="form-control">
