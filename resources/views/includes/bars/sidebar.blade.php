@@ -56,7 +56,7 @@
 
     <!-- Nav Item - Propuestas temas -->
     <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="{{route('temas.inicio')}}">
             <i class="fas fa-fw fa-laptop"></i>
             <span>Propuestas temas</span>
         </a>
