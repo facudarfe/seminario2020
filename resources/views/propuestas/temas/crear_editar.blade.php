@@ -8,7 +8,7 @@
     @include('includes.mensaje_exito')
     @include('includes.mensajes_error')
 
-    <form action="{{$tema->exists ? route('temas.actualizar', $tema) : route('temas.crear_editar')}}" method="POST" id="formTemas">
+    <form action="{{$tema->exists ? route('temas.actualizar', $tema) : route('temas.subir')}}" method="POST" id="formTemas">
         @csrf
         @if ($tema->exists)
             {{method_field('PUT')}}
