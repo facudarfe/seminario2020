@@ -26,6 +26,7 @@
     <table class="table" id="tablaTemas" data-role="{{auth()->user()->getRoleNames()->first()}}">
         <thead>
             <th></th>
+            <th>Fecha</th>
             <th>Titulo</th>
             <th>Tecnologias</th>
             <th>Propuesto por</th>
@@ -36,6 +37,7 @@
             @foreach ($temas as $tema)
                 <tr>
                     <td><a href="#"><i class="fas fa-eye"></i></a></td>
+                    <td>{{$tema->created_at}}</td>
                     <td>{{$tema->titulo}}</td>
                     <td>{{$tema->tecnologias}}</td>
                     <td>{{$tema->docente->name}}</td>

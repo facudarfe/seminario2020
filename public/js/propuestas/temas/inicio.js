@@ -1,5 +1,6 @@
 $(document).ready(function(){
     table = $('#tablaTemas').DataTable({
+        "order": [[1, 'desc']],
         "columnDefs": [
             {"targets": [0,5], "searchable": false, "orderable": false},
         ],
