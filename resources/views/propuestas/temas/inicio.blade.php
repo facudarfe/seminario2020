@@ -36,7 +36,7 @@
         <tbody>
             @foreach ($temas as $tema)
                 <tr>
-                    <td><a href="#"><i class="fas fa-eye"></i></a></td>
+                    <td><a href="{{route('temas.ver', $tema)}}"><i class="fas fa-eye"></i></a></td>
                     <td>{{$tema->created_at}}</td>
                     <td>{{$tema->titulo}}</td>
                     <td>{{$tema->tecnologias}}</td>

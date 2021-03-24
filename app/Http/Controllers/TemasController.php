@@ -61,4 +61,8 @@ class TemasController extends Controller
 
         return redirect()->route('temas.inicio')->with('exito', 'Se ha eliminado el tema con éxito.');
     }
+
+    public function show(PropuestaTema $tema){
+        return view('propuestas.temas.ver', compact('tema'));
+    }
 }
