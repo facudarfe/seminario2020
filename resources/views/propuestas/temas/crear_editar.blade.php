@@ -1,8 +1,12 @@
 @extends('layouts.aplicacion')
 
-@section('titulo', 'Crear propuesta de tema')
+@section('titulo')
+    {{$tema->exists ? 'Editar tema' : 'Crear nueva propuesta de tema'}}
+@endsection
 
-@section('titulo-contenido', 'Crear nueva propuesta de tema')
+@section('titulo-contenido')
+    {{$tema->exists ? 'Editar tema' : 'Crear nueva propuesta de tema'}}
+@endsection
 
 @section('contenido')
     @include('includes.mensaje_exito')

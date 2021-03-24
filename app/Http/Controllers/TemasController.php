@@ -29,7 +29,7 @@ class TemasController extends Controller
         $request->validate([
             'titulo' => ['required', 'max:255'],
             'descripcion' => ['required', 'max:500'],
-            'tecnologias' => ['required', 'max:255'],
+            'tecnologias' => ['max:255'],
         ]);
 
         $tema = new PropuestaTema();
@@ -51,6 +51,12 @@ class TemasController extends Controller
     }
 
     public function update(Request $request, PropuestaTema $tema){
+        $request->validate([
+            'titulo' => ['required', 'max:255'],
+            'descripcion' => ['required', 'max:500'],
+            'tecnologias' => ['max:255'],
+        ]);
+        
         $tema->update($request->all());
 
         return redirect()->route('temas.inicio')->with('exito', 'Se ha actualizado el tema con éxito.');
