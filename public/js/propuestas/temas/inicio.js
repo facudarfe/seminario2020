@@ -12,4 +12,14 @@ $(document).ready(function(){
         },
         
     });
+
+    //Codigo para eliminar un tema
+    $(document).on('click', '#botonElimina', function(){
+        var id = $(this).data('id');
+        $('#deleteModal').modal('show');
+        $('#deleteModal').ready(function(){
+            let form = $(this).find('form');
+            form.attr('action', '/temas/' + id + '/eliminar');
+        });
+    });
 });

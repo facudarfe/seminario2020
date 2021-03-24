@@ -53,7 +53,7 @@
                                             <i class="fas fa-pencil-alt fa-lg fa-fw mr-2 text-gray-400"></i>
                                             Editar
                                     </a>
-                                    <button id="botonElimina" data-id="" class="dropdown-item">
+                                    <button id="botonElimina" data-id="{{$tema->id}}" class="dropdown-item">
                                             <i class="fas fa-trash-alt fa-lg fa-fw mr-2 text-gray-400"></i>
                                             Eliminar
                                     </button>
@@ -67,7 +67,29 @@
     </table>
 @endsection
 @section('contenido-despues-tabla')
-    
+    <!-- Modal eliminacion-->
+    <div class="modal fade" id="deleteModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="" method="POST">
+                    @csrf @method('delete')
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Eliminar tema</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        ¿Esta seguro que desea eliminar a este tema?
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-danger" id="botonElimina">Eliminar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('otros-scripts')

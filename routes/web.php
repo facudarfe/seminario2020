@@ -111,6 +111,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/', [TemasController::class, 'store'])->name('temas.subir')->middleware('permission:propuestas.temas.crear');
         Route::get('/{tema}/editar', [TemasController::class, 'edit'])->name('temas.editar')->middleware('can:manipular,tema');
         Route::put('/{tema}', [TemasController::class, 'update'])->name('temas.actualizar')->middleware('can:manipular,tema');
+        Route::delete('/{tema}/eliminar', [TemasController::class, 'destroy'])->name('temas.eliminar')->middleware('can:manipular,tema');
     });
 });
 

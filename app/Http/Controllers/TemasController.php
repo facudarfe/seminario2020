@@ -55,4 +55,10 @@ class TemasController extends Controller
 
         return redirect()->route('temas.inicio')->with('exito', 'Se ha actualizado el tema con éxito.');
     }
+
+    public function destroy(PropuestaTema $tema){
+        $tema->delete();
+
+        return redirect()->route('temas.inicio')->with('exito', 'Se ha eliminado el tema con éxito.');
+    }
 }
