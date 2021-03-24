@@ -3,8 +3,10 @@
 namespace App\Providers;
 
 use App\Models\Anexo1;
+use App\Models\PropuestaTema;
 use App\Models\User;
 use App\Policies\Anexo1Policy;
+use App\Policies\PropuestaTemaPolicy;
 use App\Policies\RolePolicy;
 use App\Policies\UserPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -22,6 +24,7 @@ class AuthServiceProvider extends ServiceProvider
         Anexo1::class => Anexo1Policy::class,
         Role::class => RolePolicy::class,
         User::class => UserPolicy::class,
+        PropuestaTema::class => PropuestaTemaPolicy::class,
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
     ];
 

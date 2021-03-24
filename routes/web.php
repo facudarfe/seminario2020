@@ -107,8 +107,10 @@ Route::group(['middleware' => 'auth'], function () {
     //Rutas propuestas de temas
     Route::prefix('temas')->group(function(){
         Route::get('/', [TemasController::class, 'index'])->name('temas.inicio');
-        Route::get('/crear', [TemasController::class, 'create'])->name('temas.crear')->middleware('permission:propuestas.temas.crear');
+        Route::get('/crear', [TemasController::class, 'create'])->name('temas.crear_editar')->middleware('permission:propuestas.temas.crear');
         Route::post('/', [TemasController::class, 'store'])->name('temas.subir')->middleware('permission:propuestas.temas.crear');
+        Route::get('/{tema}/editar', [TemasController::class, 'edit'])->name('temas.editar')->middleware('can:manipular,tema');
+        Route::put('/{tema}', [TemasController::class, 'update'])->name('temas.actualizar')->middleware('can:manipular,tema');
     });
 });
 

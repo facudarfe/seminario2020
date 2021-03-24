@@ -17,7 +17,7 @@ class CreatePropuestasTemasTable extends Migration
             $table->id();
             $table->string('titulo');
             $table->text('descripcion');
-            $table->string('tecnologias');
+            $table->string('tecnologias')->nullable();
             $table->foreignId('docente_id');
 
             $table->foreign('docente_id')->references('id')->on('users');

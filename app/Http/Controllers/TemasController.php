@@ -22,7 +22,7 @@ class TemasController extends Controller
     }
 
     public function create(){
-        return view('propuestas.temas.crear');
+        return view('propuestas.temas.crear_editar', ['tema' => new PropuestaTema()]);
     }
 
     public function store(Request $request){
@@ -44,5 +44,15 @@ class TemasController extends Controller
         $tema->save();
 
         return redirect(route('temas.inicio'))->with('exito', 'Se ha creado la propuesta de tema con éxito.');
+    }
+
+    public function edit(PropuestaTema $tema){
+        return view('propuestas.temas.crear_editar', compact('tema'));
+    }
+
+    public function update(Request $request, PropuestaTema $tema){
+        $tema->update($request->all());
+
+        return redirect()->route('temas.inicio')->with('exito', 'Se ha actualizado el tema con éxito.');
     }
 }

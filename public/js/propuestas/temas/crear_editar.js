@@ -10,7 +10,6 @@ $(document).ready(function(){
                 maxlength: 500,
             },
             tecnologias: {
-                required: true,
                 maxlength: 255,
             }
         }

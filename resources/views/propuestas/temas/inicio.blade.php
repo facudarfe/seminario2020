@@ -14,7 +14,7 @@
     @can ('propuestas.temas.crear')
         <div class="row justify-content-start mb-3">
             <div class="col-12">
-                <a href="{{route('temas.crear')}}" class="btn btn-success">
+                <a href="{{route('temas.crear_editar')}}" class="btn btn-success">
                     Nuevo tema
                 </a>
             </div>
@@ -44,7 +44,23 @@
                     <td>
                         <span class="badge badge-{{$tema->estado->color_clase}}">{{$tema->estado->nombre}}</span>
                     </td>
-                    <td>das</td>
+                    <td class="text-center">
+                        @can('manipular', $tema)
+                            <div class="dropdown no-arrow">
+                                <a class="dropdown-toggle" type="button" data-toggle="dropdown"><i class="fas fa-chevron-down btn-accion"></i></a>
+                                <div class="dropdown-menu shadow activeOptions">
+                                    <a href="{{route('temas.editar', $tema)}}" class="dropdown-item">
+                                            <i class="fas fa-pencil-alt fa-lg fa-fw mr-2 text-gray-400"></i>
+                                            Editar
+                                    </a>
+                                    <button id="botonElimina" data-id="" class="dropdown-item">
+                                            <i class="fas fa-trash-alt fa-lg fa-fw mr-2 text-gray-400"></i>
+                                            Eliminar
+                                    </button>
+                                </div>
+                            </div>
+                        @endcan
+                    </td>
                 </tr>
             @endforeach
         </tbody>
