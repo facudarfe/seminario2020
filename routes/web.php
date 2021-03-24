@@ -105,7 +105,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('contacto', [ContactoController::class, 'send'])->name('contacto.enviar');
 
     //Rutas propuestas de temas
-    Route::get('/temas', [TemasController::class, 'index'])->name('temas.inicio');
+    Route::prefix('temas')->group(function(){
+        Route::get('/', [TemasController::class, 'index'])->name('temas.inicio');
+        Route::get('/crear', [TemasController::class, 'create'])->name('temas.crear')->middleware('permission:propuestas.temas.crear');
+        Route::post('/', [TemasController::class, 'store'])->name('temas.subir')->middleware('permission:propuestas.temas.crear');
+    });
 });
 
 //Rutas para validaciones AJAX

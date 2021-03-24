@@ -6,8 +6,20 @@
     <link href="{{asset('sbadmin/vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
 @endsection
 
+@section('titulo-contenido', 'Propuestas de temas')
+
 @section('contenido-antes-tabla')
-    
+    @include('includes.mensaje_exito')
+    @include('includes.mensajes_error')
+    @can ('propuestas.temas.crear')
+        <div class="row justify-content-start mb-3">
+            <div class="col-12">
+                <a href="{{route('temas.crear')}}" class="btn btn-success">
+                    Nuevo tema
+                </a>
+            </div>
+        </div>
+    @endcan
 @endsection
 @section('titulo-tabla', 'Temas disponibles')
 @section('contenido-tabla')

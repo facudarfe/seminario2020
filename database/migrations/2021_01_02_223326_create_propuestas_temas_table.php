@@ -16,7 +16,7 @@ class CreatePropuestasTemasTable extends Migration
         Schema::create('propuestas_temas', function (Blueprint $table) {
             $table->id();
             $table->string('titulo');
-            $table->string('descripcion');
+            $table->text('descripcion');
             $table->string('tecnologias');
             $table->foreignId('docente_id');
 
