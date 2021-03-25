@@ -73,4 +73,8 @@ class User extends Authenticatable
     public function presentaciones(){
         return $this->hasMany(Anexo1::class, 'alumno_id');
     }
+
+    public function propuestaTema(){
+        return $this->hasOne(PropuestaTema::class, 'alumno_id');
+    }
 }

@@ -20,6 +20,74 @@
             </div>
         </div>
     @endcan
+
+    <!--Si el usuario ya tiene una propuesta solicitada se le muestra-->
+    @if ($solicitado != null)
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Tema solicitado</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <th></th>
+                            <th>Fecha</th>
+                            <th>Titulo</th>
+                            <th>Tecnologias</th>
+                            <th>Propuesto por</th>
+                            <th>Acciones</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><a href="{{route('temas.ver', $solicitado)}}"><i class="fas fa-eye"></i></a></td>
+                                <td>{{$solicitado->created_at}}</td>
+                                <td>{{$solicitado->titulo}}</td>
+                                <td>{{$solicitado->tecnologias}}</td>
+                                <td>{{$solicitado->docente->name}}</td>
+                                <td class="text-center">
+                                    @if ($solicitado->estado->nombre == 'Solicitado')
+                                        <div class="dropdown no-arrow">
+                                            <a class="dropdown-toggle" type="button" data-toggle="dropdown"><i class="fas fa-chevron-down btn-accion"></i></a>
+                                            <div class="dropdown-menu shadow activeOptions">
+                                                <a href="#" class="dropdown-item" data-toggle="modal" data-target="#liberarModal">
+                                                    Ya no lo quiero
+                                                </a>
+                                                <a href="#" class="dropdown-item">
+                                                    Crear presentación
+                                                </a>
+                                            </div>
+                                        </div>
+                                    @endif   
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal liberar tema-->
+        <div class="modal fade" id="liberarModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Liberar tema</h5>
+                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            ¿Esta seguro que desea liberar el tema solicitado?
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                            <a href="{{route('temas.liberar', $solicitado)}}" class="btn btn-primary">Liberar</a>
+                        </div>
+                </div>
+            </div>
+        </div>
+    @endif
 @endsection
 @section('titulo-tabla', 'Temas disponibles')
 @section('contenido-tabla')

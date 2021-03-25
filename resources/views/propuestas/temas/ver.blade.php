@@ -18,6 +18,12 @@
                     <div class="col-12 col-sm-6 col-md-4 col-lg-3"><h5>Propuesto por: </h5></div>
                     <div class="col-12 col-sm-6 col-md-8 col-lg-9">{{$tema->docente->name}}</div>
                 </div>
+                @if ($tema->alumno_id)
+                    <div class="row mb-2 mb-sm-0">
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-3"><h5>Solicitado por: </h5></div>
+                        <div class="col-12 col-sm-6 col-md-8 col-lg-9">{{$tema->alumno->name}}</div>
+                    </div>
+                @endif
                 <div class="row mb-2 mb-md-0">
                     <div class="col-12 col-md-4 col-lg-3"><h5>Titulo: </h5></div>
                     <div class="col-12 col-md-8 col-lg-9">{{$tema->titulo}}</div>
@@ -35,7 +41,16 @@
                             <p>{!! nl2br($tema->tecnologias) !!}</p>
                         </div>
                     </div>
-                @endif     
+                @endif
+                @if (auth()->user()->can('propuestas.temas.solicitar') && auth()->user()->can('solicitar', App\Models\PropuestaTema::class))
+                    <div class="row">
+                        <div class="col-12 text-right">
+                            <a href="{{route('temas.solicitar', $tema)}}" class="btn btn-primary btn-user">
+                                Solicitar tema
+                            </a>
+                        </div>
+                    </div>  
+                @endif   
             </div>
         </div>    
     </div>

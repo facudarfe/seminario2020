@@ -23,13 +23,26 @@
     @include('includes.mensaje_exito')
     @include('includes.mensajes_error')
     @if (auth()->user()->can('crear', App\Models\Anexo1::class))
-        <div class="row justify-content-start mb-3">
-            <div class="col-12">
-                <a href="{{route('presentaciones.crear')}}" class="btn btn-success">
-                    Nueva presentación
-                </a>
+        @if ($solicitado)
+            <div class="row">
+                <div class="col-12">
+                    <div class="alert alert-primary fade show">
+                        Se detectó que solicitaste desarrollar una propuesta de tema o pasantia. Debes dirigirte a la sección
+                        <b>Propuestas Temas/Pasantias</b> y en tu propuesta solicitada seleccionar la opción "Crear presentación". 
+                        Si ya no querés dicha propuesta podes liberarla en la misma sección con la opción "Ya no lo quiero" para que esté
+                        disponible para otro estudiante.
+                    </div>
+                </div>
             </div>
-        </div>
+        @else
+            <div class="row justify-content-start mb-3">
+                <div class="col-12">
+                    <a href="{{route('presentaciones.crear')}}" class="btn btn-success">
+                        Nueva presentación
+                    </a>
+                </div>
+            </div>
+        @endif  
     @endif
 @endsection
 

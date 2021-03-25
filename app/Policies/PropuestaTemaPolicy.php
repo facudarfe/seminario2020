@@ -5,6 +5,7 @@ namespace App\Policies;
 use App\Models\PropuestaTema;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Support\Facades\Log;
 
 class PropuestaTemaPolicy
 {
@@ -22,5 +23,22 @@ class PropuestaTemaPolicy
 
     public function manipular(User $user, PropuestaTema $tema){
         return $user->id == $tema->docente_id ? true : false;
+    }
+
+    public function solicitar(User $user){
+        $presentaciones = $user->presentaciones()->whereHas('estado', function($q){
+                                    $q->where('nombre', '!=', 'Rechazado');
+                                })->get();
+
+        $propuestaTema = $user->propuestaTema()->whereHas('estado', function($q){
+                                    $q->where('nombre', '=', 'Solicitado');
+                                })->get();
+        
+        if(count($propuestaTema) == 0 && count($presentaciones) == 0){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 }

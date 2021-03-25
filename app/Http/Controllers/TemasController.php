@@ -4,12 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Models\Estado;
 use App\Models\PropuestaTema;
+use Exception;
 use Illuminate\Http\Request;
+use Throwable;
 
 class TemasController extends Controller
 {
     public function index(){
-        if(auth()->user()->getRoleNames()->first == 'Estudiante'){
+        //Si el usuario tiene una propuesta de tema solicitada se obtiene para mostrarla
+        $solicitado = auth()->user()->propuestaTema()->whereHas('estado', function($q){
+                                        $q->where('nombre', '=', 'Solicitado');
+                                    })->first();
+
+        if(auth()->user()->getRoleNames()->first() == 'Estudiante'){
             $temas = PropuestaTema::whereHas('estado', function($q){
                 $q->where('nombre', 'Disponible');
             })->get();
@@ -18,7 +25,7 @@ class TemasController extends Controller
             $temas = PropuestaTema::all();
         }   
 
-        return view('propuestas.temas.inicio', compact('temas'));
+        return view('propuestas.temas.inicio', compact('temas', 'solicitado'));
     }
 
     public function create(){
@@ -57,9 +64,14 @@ class TemasController extends Controller
             'tecnologias' => ['max:255'],
         ]);
         
-        $tema->update($request->all());
+        try{
+            $tema->update($request->all());
 
-        return redirect()->route('temas.inicio')->with('exito', 'Se ha actualizado el tema con éxito.');
+            return redirect()->route('temas.inicio')->with('exito', 'Se ha actualizado el tema con éxito.');
+        }
+        catch(Exception $e){
+            return redirect()->route('temas.inicio')->withErrors('No se puede editar o eliminar un tema ya asignado.');
+        }
     }
 
     public function destroy(PropuestaTema $tema){
@@ -70,5 +82,28 @@ class TemasController extends Controller
 
     public function show(PropuestaTema $tema){
         return view('propuestas.temas.ver', compact('tema'));
+    }
+
+    public function request(PropuestaTema $tema){
+        $tema->alumno_id = auth()->user()->id;
+
+        $estado = Estado::where('nombre', 'Solicitado')->first();
+        $tema->estado()->associate($estado);
+
+        $tema->save();
+
+        return redirect()->route('temas.inicio')
+                ->with('exito', 'Ha solicitado el tema exitosamente. No te olvides de realizar la presentación correspondiente.');
+    }
+
+    public function free(PropuestaTema $tema){
+        $tema->alumno()->dissociate();
+
+        $estado = Estado::where('nombre', 'Disponible')->first();
+        $tema->estado()->associate($estado);
+
+        $tema->save();
+
+        return redirect()->route('temas.inicio')->with('exito', 'Se ha liberado el tema con éxito.');
     }
 }

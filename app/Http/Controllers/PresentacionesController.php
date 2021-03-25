@@ -32,7 +32,11 @@ class PresentacionesController extends Controller
             $presentaciones = Anexo1::all();
         }
 
-        return view('presentaciones.inicio', compact('presentaciones'));
+        $solicitado = auth()->user()->propuestaTema()->whereHas('estado', function($q){
+                                        $q->where('nombre', '=', 'Solicitado');
+                                    })->first();
+
+        return view('presentaciones.inicio', compact('presentaciones', 'solicitado'));
     }
 
     public function create(){

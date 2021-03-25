@@ -21,6 +21,10 @@ class PropuestaTema extends Model
         return $this->belongsTo(User::class, 'docente_id');
     }
 
+    public function alumno(){
+        return $this->belongsTo(User::class, 'alumno_id');
+    }
+
     public function getCreatedAtAttribute($value){
         return date('d/m/Y', strtotime($value));
     }

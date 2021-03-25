@@ -12,8 +12,8 @@
 
     <title>@yield('titulo') | Seminarios TUP</title>
 
-    @include('includes.stylesheets')
     @yield('otros-estilos')
+    @include('includes.stylesheets')
 
 </head>
 

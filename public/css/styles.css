@@ -10,6 +10,12 @@
     color: white;
 }
 
+.custom-alert-info{
+    background-color: blue;
+    opacity: 0.70;
+    color: white;
+}
+
 /*Correccion de error cuando se apreta en checkbox, la pagina vuelve arriba*/
 .fix-checkbox{
     visibility: hidden !important;
