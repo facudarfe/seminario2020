@@ -75,9 +75,14 @@ class TemasController extends Controller
     }
 
     public function destroy(PropuestaTema $tema){
-        $tema->delete();
+        try{
+            $tema->delete();
 
-        return redirect()->route('temas.inicio')->with('exito', 'Se ha eliminado el tema con éxito.');
+            return redirect()->route('temas.inicio')->with('exito', 'Se ha eliminado el tema con éxito.');
+        }
+        catch(Exception $e){
+            return redirect()->route('temas.inicio')->withErrors('No se puede editar o eliminar un tema ya asignado.');
+        }
     }
 
     public function show(PropuestaTema $tema){
