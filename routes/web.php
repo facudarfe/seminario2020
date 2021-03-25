@@ -76,8 +76,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/', [PresentacionesController::class, 'index'])->name('presentaciones.inicio');
         Route::get('/crear', [PresentacionesController::class, 'create'])->name('presentaciones.crear')
             ->middleware('can:crear,App\Models\Anexo1');
-        Route::post('/', [PresentacionesController::class, 'store'])->name('presentaciones.almacenar')
-            ->middleware('permission:presentaciones.crear');
+        Route::post('/', [PresentacionesController::class, 'store'])->name('presentaciones.almacenar');
         Route::get('/{presentacion}/ver', [PresentacionesController::class, 'show'])->name('presentaciones.ver')
             ->middleware('can:mostrar,presentacion');
         Route::post('/{presentacion}/asignarEvaluador', [PresentacionesController::class, 'asignarEvaluador'])->name('presentaciones.asignarEvaluador')
@@ -115,6 +114,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::delete('/{tema}/eliminar', [TemasController::class, 'destroy'])->name('temas.eliminar')->middleware('can:manipular,tema');
         Route::get('/{tema}/solicitar', [TemasController::class, 'request'])->name('temas.solicitar')->middleware('permission:propuestas.temas.solicitar');
         Route::get('/{tema}/liberar', [TemasController::class, 'free'])->name('temas.liberar');
+        Route::get('/{tema}/crearPresentacion', [TemasController::class, 'createPresentation'])->name('temas.crearPresentacion')
+            ->middleware('can:crearPresentacion,tema');
     });
 });
 

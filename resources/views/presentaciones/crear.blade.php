@@ -15,7 +15,8 @@
                 <div class="form-row">
                     <div class="form-group col-12">
                         <label for="titulo">*Titulo proyecto: </label>
-                        <input type="text" class="form-control" id="titulo" name="titulo" value="{{old('titulo')}}">
+                        <input type="text" class="form-control" id="titulo" name="titulo" value="{{old('titulo', $tema->titulo)}}" 
+                        {{$tema->exists ? 'readonly' : ''}}>
                     </div>
                 </div>
 
@@ -43,7 +44,7 @@
                         <label for="modalidad">*Modalidad: </label>
                         <select name="modalidad" id="modalidad" class="custom-select">
                             @foreach ($modalidades as $modalidad)
-                                <option value="{{$modalidad->id}}" selected>{{$modalidad->nombre}}</option>
+                                <option value="{{$modalidad->id}}">{{$modalidad->nombre}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -59,14 +60,14 @@
                 <div class="form-row">
                     <div class="form-group col-12">
                         <label for="tecnologias">*Tecnologias: </label>
-                        <textarea name="tecnologias" id="tecnologias" rows="1" class="form-control">{{old('tecnologias')}}</textarea>
+                        <textarea name="tecnologias" id="tecnologias" rows="1" class="form-control">{{old('tecnologias', $tema->tecnologias)}}</textarea>
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group col-12">
                         <label for="descripcion">*Descripcion detallada del proyecto: </label>
-                        <textarea name="descripcion" id="descripcion" rows="10" class="form-control">{{old('descripcion')}}</textarea>
+                        <textarea name="descripcion" id="descripcion" rows="10" class="form-control">{{old('descripcion', $tema->descripcion)}}</textarea>
                     </div>
                 </div>
                 <small>*Campos obligatorios</small>

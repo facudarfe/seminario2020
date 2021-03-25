@@ -41,4 +41,12 @@ class PropuestaTemaPolicy
             return false;
         }
     }
+
+    public function crearPresentacion(User $user, PropuestaTema $tema){
+        if($tema->alumno != null){
+            return $tema->alumno->id == $user->id ? true : false;
+        }
+        else
+            return false;
+    }
 }

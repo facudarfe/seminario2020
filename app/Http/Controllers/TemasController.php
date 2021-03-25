@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Estado;
+use App\Models\User;
+use App\Models\Modalidad;
 use App\Models\PropuestaTema;
 use Exception;
 use Illuminate\Http\Request;
@@ -110,5 +112,12 @@ class TemasController extends Controller
         $tema->save();
 
         return redirect()->route('temas.inicio')->with('exito', 'Se ha liberado el tema con éxito.');
+    }
+
+    public function createPresentation(PropuestaTema $tema){
+        $docentes = User::role(['Docente responsable', 'Docente colaborador'])->get();
+        $modalidades = Modalidad::all();
+
+        return view('presentaciones.crear', compact('docentes', 'modalidades', 'tema'));
     }
 }

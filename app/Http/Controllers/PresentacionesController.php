@@ -8,6 +8,7 @@ use App\Mail\NuevaPresentacionMail;
 use App\Models\Anexo1;
 use App\Models\Estado;
 use App\Models\Modalidad;
+use App\Models\PropuestaTema;
 use App\Models\User;
 use App\Models\Version_Anexo1;
 use Carbon\Carbon;
@@ -42,8 +43,9 @@ class PresentacionesController extends Controller
     public function create(){
         $docentes = User::role(['Docente responsable', 'Docente colaborador'])->get();
         $modalidades = Modalidad::all();
+        $tema = new PropuestaTema();
 
-        return view ('presentaciones.crear', compact('docentes', 'modalidades'));
+        return view ('presentaciones.crear', compact('docentes', 'modalidades', 'tema'));
     }
 
     public function store(Request $request){
@@ -86,6 +88,16 @@ class PresentacionesController extends Controller
         $version->estado()->associate($estado); //Se le asocia el mismo estado que el encabezado
 
         $version->save();
+
+        //Si la presentacion proviene de una propuesta de tema o pasantia se le cambia el estado
+        $tema = $request->user()->propuestaTema()->whereHas('estado', function($q){
+            $q->where('nombre', 'Solicitado');
+        })->first();
+        if($tema){
+            $estado = Estado::where('nombre', 'Asignado')->first();
+            $tema->estado()->associate($estado);
+            $tema->save();
+        }
 
         //Envio de mail al estudiante
         Mail::to($encabezado->alumno->email)->send(new NuevaPresentacionMail($encabezado->titulo));

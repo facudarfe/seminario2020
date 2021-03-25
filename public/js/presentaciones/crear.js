@@ -1,5 +1,8 @@
 $(document).ready(function(){
     validarFormulario();
+
+    //Opcion por defecto en el select de las modalidades
+    $("#modalidad option[value='2']").attr('selected', true);
 });
 
 function validarFormulario(){
