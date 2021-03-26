@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ContactoController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\PasantiaController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\PresentacionesController;
 use App\Http\Controllers\StorageController;
@@ -117,6 +118,22 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/{tema}/liberar', [TemasController::class, 'free'])->name('temas.liberar')->middleware('can:liberar,tema');
         Route::get('/{tema}/crearPresentacion', [TemasController::class, 'createPresentation'])->name('temas.crearPresentacion')
             ->middleware('can:crearPresentacion,tema');
+    });
+
+    //Rutas propuestas de pasantias
+    Route::prefix('pasantias')->group(function(){
+        Route::get('/', [PasantiaController::class, 'index'])->name('pasantias.inicio');
+        /*Route::get('/{tema}/ver', [TemasController::class, 'show'])->name('propuestas.ver');
+        Route::get('/crear', [TemasController::class, 'create'])->name('propuestas.crear_editar')->middleware('permission:propuestas.temas.crear');
+        Route::post('/', [TemasController::class, 'store'])->name('propuestas.subir')->middleware('permission:propuestas.temas.crear');
+        Route::get('/{tema}/editar', [TemasController::class, 'edit'])->name('propuestas.editar')->middleware('can:manipular,tema');
+        Route::put('/{tema}', [TemasController::class, 'update'])->name('propuestas.actualizar')->middleware('can:manipular,tema');
+        Route::delete('/{tema}/eliminar', [TemasController::class, 'destroy'])->name('propuestas.eliminar')->middleware('can:manipular,tema');
+        Route::get('/{tema}/solicitar', [TemasController::class, 'request'])->name('propuestas.solicitar')
+        ->middleware('permission:propuestas.temas.solicitar', 'can:solicitar,tema');
+        Route::get('/{tema}/liberar', [TemasController::class, 'free'])->name('propuestas.liberar')->middleware('can:liberar,tema');
+        Route::get('/{tema}/crearPresentacion', [TemasController::class, 'createPresentation'])->name('temas.crearPresentacion')
+            ->middleware('can:crearPresentacion,tema');*/
     });
 });
 

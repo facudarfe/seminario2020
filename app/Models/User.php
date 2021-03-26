@@ -77,4 +77,8 @@ class User extends Authenticatable
     public function propuestaTema(){
         return $this->hasOne(PropuestaTema::class, 'alumno_id');
     }
+
+    public function propuestaPasantia(){
+        return $this->hasOne(PropuestaPasantia::class, 'alumno_id');
+    }
 }

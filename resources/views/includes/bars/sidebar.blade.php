@@ -64,7 +64,7 @@
 
     <!-- Nav Item - Propuestas pasantias -->
     <li class="nav-item">
-        <a class="nav-link" href="#">
+        <a class="nav-link" href="{{route('pasantias.inicio')}}">
             <i class="fas fa-fw fa-briefcase"></i>
             <span>Propuestas pasantias</span>
         </a>
