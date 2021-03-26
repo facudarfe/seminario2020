@@ -25,7 +25,7 @@ class PropuestaTemaPolicy
         return $user->id == $tema->docente_id ? true : false;
     }
 
-    public function solicitar(User $user){
+    public function solicitar(User $user, PropuestaTema $tema){
         $presentaciones = $user->presentaciones()->whereHas('estado', function($q){
                                     $q->where('nombre', '!=', 'Rechazado');
                                 })->get();
@@ -34,7 +34,7 @@ class PropuestaTemaPolicy
                                     $q->where('nombre', '=', 'Solicitado');
                                 })->get();
         
-        if(count($propuestaTema) == 0 && count($presentaciones) == 0){
+        if(count($propuestaTema) == 0 && count($presentaciones) == 0 && $tema->alumno == null){
             return true;
         }
         else{
@@ -45,6 +45,14 @@ class PropuestaTemaPolicy
     public function crearPresentacion(User $user, PropuestaTema $tema){
         if($tema->alumno != null){
             return $tema->alumno->id == $user->id ? true : false;
+        }
+        else
+            return false;
+    }
+
+    public function liberar(User $user, PropuestaTema $tema){
+        if($tema->alumno != null){
+            return $tema->alumno->id == $user->id;
         }
         else
             return false;

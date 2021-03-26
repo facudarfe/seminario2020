@@ -112,8 +112,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/{tema}/editar', [TemasController::class, 'edit'])->name('temas.editar')->middleware('can:manipular,tema');
         Route::put('/{tema}', [TemasController::class, 'update'])->name('temas.actualizar')->middleware('can:manipular,tema');
         Route::delete('/{tema}/eliminar', [TemasController::class, 'destroy'])->name('temas.eliminar')->middleware('can:manipular,tema');
-        Route::get('/{tema}/solicitar', [TemasController::class, 'request'])->name('temas.solicitar')->middleware('permission:propuestas.temas.solicitar');
-        Route::get('/{tema}/liberar', [TemasController::class, 'free'])->name('temas.liberar');
+        Route::get('/{tema}/solicitar', [TemasController::class, 'request'])->name('temas.solicitar')
+        ->middleware('permission:propuestas.temas.solicitar', 'can:solicitar,tema');
+        Route::get('/{tema}/liberar', [TemasController::class, 'free'])->name('temas.liberar')->middleware('can:liberar,tema');
         Route::get('/{tema}/crearPresentacion', [TemasController::class, 'createPresentation'])->name('temas.crearPresentacion')
             ->middleware('can:crearPresentacion,tema');
     });

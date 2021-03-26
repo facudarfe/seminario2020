@@ -42,7 +42,7 @@
                         </div>
                     </div>
                 @endif
-                @if (auth()->user()->can('propuestas.temas.solicitar') && auth()->user()->can('solicitar', App\Models\PropuestaTema::class))
+                @if (auth()->user()->can('propuestas.temas.solicitar') && auth()->user()->can('solicitar', $tema))
                     <div class="row">
                         <div class="col-12 text-right">
                             <a href="{{route('temas.solicitar', $tema)}}" class="btn btn-primary btn-user">
