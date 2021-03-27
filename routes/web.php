@@ -125,8 +125,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/', [PasantiasController::class, 'index'])->name('pasantias.inicio');
         Route::get('/crear', [PasantiasController::class, 'create'])->name('pasantias.crear_editar')->middleware('permission:propuestas.pasantias.crear');
         Route::post('/', [PasantiasController::class, 'store'])->name('pasantias.subir')->middleware('permission:propuestas.pasantias.crear');
-        /*Route::get('/{tema}/ver', [TemasController::class, 'show'])->name('propuestas.ver');
-        Route::get('/{tema}/editar', [TemasController::class, 'edit'])->name('propuestas.editar')->middleware('can:manipular,tema');
+        Route::get('/{pasantia}/ver', [PasantiasController::class, 'show'])->name('pasantias.ver');
+        /*Route::get('/{tema}/editar', [TemasController::class, 'edit'])->name('propuestas.editar')->middleware('can:manipular,tema');
         Route::put('/{tema}', [TemasController::class, 'update'])->name('propuestas.actualizar')->middleware('can:manipular,tema');
         Route::delete('/{tema}/eliminar', [TemasController::class, 'destroy'])->name('propuestas.eliminar')->middleware('can:manipular,tema');
         Route::get('/{tema}/solicitar', [TemasController::class, 'request'])->name('propuestas.solicitar')

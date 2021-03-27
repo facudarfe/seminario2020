@@ -118,7 +118,7 @@
         <tbody>
             @foreach ($pasantias as $pasantia)
                 <tr>
-                    <td><a href="#"><i class="fas fa-eye"></i></a></td>
+                    <td><a href="{{route('pasantias.ver', $pasantia)}}"><i class="fas fa-eye"></i></a></td>
                     <td>{{$pasantia->created_at}}</td>
                     <td>{{$pasantia->titulo}}</td>
                     <td>{{$pasantia->lugar}}</td>

@@ -53,4 +53,8 @@ class PasantiasController extends Controller
 
         return redirect()->route('pasantias.inicio')->with('exito', 'La propuesta de pasantia se ha creado con éxito');
     }
+
+    public function show(PropuestaPasantia $pasantia){
+        return view('propuestas.pasantias.ver', compact('pasantia'));
+    }
 }
