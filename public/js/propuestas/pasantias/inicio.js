@@ -2,7 +2,7 @@ $(document).ready(function(){
     table = $('#tablaTemas').DataTable({
         "order": [[1, 'desc']],
         "columnDefs": [
-            {"targets": [0,7], "searchable": false, "orderable": false},
+            {"targets": [0,8], "searchable": false, "orderable": false},
         ],
         dom: "<'row'<'col-sm-6'<'float-sm-left'f>><'col-sm-6 p-0'<'float-sm-right'l>>>"+
                 "<'row'<'col-12'rt>>"+

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddColumnsToPropuestasPasantiasTable extends Migration
+class AlterPropuestasPasantiasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,9 +14,9 @@ class AddColumnsToPropuestasPasantiasTable extends Migration
     public function up()
     {
         Schema::table('propuestas_pasantias', function (Blueprint $table) {
-            $table->foreignId('docente_id')->after('fecha_fin');
-
-            $table->foreign('docente_id')->references('id')->on('users');
+            $table->dropColumn('fecha_inicio');
+            $table->string('lugar')->after('titulo');
+            $table->integer('duracion')->after('tutores');
         });
     }
 
@@ -28,9 +28,10 @@ class AddColumnsToPropuestasPasantiasTable extends Migration
     public function down()
     {
         Schema::table('propuestas_pasantias', function (Blueprint $table) {
-            $table->dropForeign('propuestas_pasantias_docente_id_foreign');
+            $table->date('fecha_inicio')->after('tutores');
 
-            $table->dropColumn('docente_id');
+            $table->dropColumn('lugar');
+            $table->dropColumn('duracion');
         });
     }
 }

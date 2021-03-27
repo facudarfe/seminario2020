@@ -22,18 +22,18 @@
                 </div>
             </div>
         </div>
-    @endrole
-    @can ('propuestas.temas.crear')
+    @endrole --}}
+    @can ('propuestas.pasantias.crear')
         <div class="row justify-content-start mb-3">
             <div class="col-12">
-                <a href="{{route('temas.crear_editar')}}" class="btn btn-success">
-                    Nuevo tema
+                <a href="{{route('pasantias.crear_editar')}}" class="btn btn-success">
+                    Nueva pasantía
                 </a>
             </div>
         </div>
     @endcan
 
-    <!--Si el usuario ya tiene una propuesta solicitada se le muestra-->
+{{--     <!--Si el usuario ya tiene una propuesta solicitada se le muestra-->
     @if ($solicitado != null)
         <div class="card shadow mb-4">
             <div class="card-header py-3">
@@ -108,8 +108,9 @@
             <th></th>
             <th>Fecha</th>
             <th>Titulo</th>
-            <th>Fecha inicio</th>
-            <th>Fecha fin</th>
+            <th>Lugar</th>
+            <th>Duración</th>
+            <th>Fin de propuesta</th>
             <th>Propuesto por</th>
             <th>Estado</th>
             <th>Acciones</th>
@@ -120,7 +121,8 @@
                     <td><a href="#"><i class="fas fa-eye"></i></a></td>
                     <td>{{$pasantia->created_at}}</td>
                     <td>{{$pasantia->titulo}}</td>
-                    <td>{{$pasantia->fecha_inicio}}</td>
+                    <td>{{$pasantia->lugar}}</td>
+                    <td>{{$pasantia->duracion}} meses</td>
                     <td>{{$pasantia->fecha_fin}}</td>
                     <td>{{$pasantia->docente->name}}</td>
                     <td>

@@ -6,7 +6,7 @@ use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ContactoController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\PasantiaController;
+use App\Http\Controllers\PasantiasController;
 use App\Http\Controllers\PDFController;
 use App\Http\Controllers\PresentacionesController;
 use App\Http\Controllers\StorageController;
@@ -122,10 +122,10 @@ Route::group(['middleware' => 'auth'], function () {
 
     //Rutas propuestas de pasantias
     Route::prefix('pasantias')->group(function(){
-        Route::get('/', [PasantiaController::class, 'index'])->name('pasantias.inicio');
+        Route::get('/', [PasantiasController::class, 'index'])->name('pasantias.inicio');
+        Route::get('/crear', [PasantiasController::class, 'create'])->name('pasantias.crear_editar')->middleware('permission:propuestas.pasantias.crear');
+        Route::post('/', [PasantiasController::class, 'store'])->name('pasantias.subir')->middleware('permission:propuestas.pasantias.crear');
         /*Route::get('/{tema}/ver', [TemasController::class, 'show'])->name('propuestas.ver');
-        Route::get('/crear', [TemasController::class, 'create'])->name('propuestas.crear_editar')->middleware('permission:propuestas.temas.crear');
-        Route::post('/', [TemasController::class, 'store'])->name('propuestas.subir')->middleware('permission:propuestas.temas.crear');
         Route::get('/{tema}/editar', [TemasController::class, 'edit'])->name('propuestas.editar')->middleware('can:manipular,tema');
         Route::put('/{tema}', [TemasController::class, 'update'])->name('propuestas.actualizar')->middleware('can:manipular,tema');
         Route::delete('/{tema}/eliminar', [TemasController::class, 'destroy'])->name('propuestas.eliminar')->middleware('can:manipular,tema');

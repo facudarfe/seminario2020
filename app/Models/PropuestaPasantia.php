@@ -10,14 +10,10 @@ class PropuestaPasantia extends Model
     use HasFactory;
 
     protected $table = 'propuestas_pasantias';
-    protected $fillable = ['titulo', 'descripcion', 'tutores', 'fecha_iniio', 'fecha_fin'];
+    protected $fillable = ['titulo', 'lugar', 'descripcion', 'tutores', 'duracion', 'fecha_fin'];
 
     public function docente(){
         return $this->belongsTo(User::class, 'docente_id');
-    }
-
-    public function alumno(){
-        return $this->belongsTo(User::class, 'alumno_id');
     }
 
     public function estado(){
@@ -25,6 +21,10 @@ class PropuestaPasantia extends Model
     }
 
     public function getCreatedAtAttribute($value){
+        return date('d/m/Y', strtotime($value));
+    }
+
+    public function getFechaFinAttribute($value){
         return date('d/m/Y', strtotime($value));
     }
 }
