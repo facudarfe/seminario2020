@@ -67,8 +67,8 @@
                                             <div class="dropdown no-arrow">
                                                 <a class="dropdown-toggle" type="button" data-toggle="dropdown"><i class="fas fa-chevron-down btn-accion"></i></a>
                                                 <div class="dropdown-menu shadow activeOptions">
-                                                    <a href="#" class="dropdown-item" data-toggle="modal" data-target="#liberarModal">
-                                                        Ya no lo quiero
+                                                    <a href="#" id="botonBaja" class="dropdown-item" data-id="{{$pasantia->id}}">
+                                                        Darse de baja
                                                     </a>
                                                 </div>
                                             </div>
@@ -83,27 +83,26 @@
         </div>
     @endif
 
-{{--         <!-- Modal liberar tema-->
-        <div class="modal fade" id="liberarModal" tabindex="-1">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Liberar tema</h5>
-                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">×</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            ¿Esta seguro que desea liberar el tema solicitado?
-                        </div>
-                        <div class="modal-footer">
-                            <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                            <a href="{{route('temas.liberar', $solicitado)}}" class="btn btn-primary">Liberar</a>
-                        </div>
-                </div>
+    <!-- Modal liberar pasantia-->
+    <div class="modal fade" id="liberarModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Darse de baja pasantía</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        ¿Esta seguro que desea darse de baja de esta pasantía?
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                        <a href="" class="btn btn-primary" id="darBaja">Darse de baja</a>
+                    </div>
             </div>
         </div>
-    @endif --}}
+    </div>
 @endsection
 @section('titulo-tabla', 'Pasantías disponibles')
 @section('contenido-tabla')

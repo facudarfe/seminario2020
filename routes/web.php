@@ -128,10 +128,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/{pasantia}/ver', [PasantiasController::class, 'show'])->name('pasantias.ver');
         Route::post('/{pasantia}/solicitar', [PasantiasController::class, 'request'])->name('pasantias.solicitar')
             ->middleware('permission:propuestas.pasantias.solicitar', 'can:solicitar,pasantia');
+        Route::get('/{pasantia}/liberar', [PasantiasController::class, 'free'])->name('pasantias.liberar')->middleware('can:liberar,pasantia');
         /*Route::get('/{tema}/editar', [TemasController::class, 'edit'])->name('propuestas.editar')->middleware('can:manipular,tema');
         Route::put('/{tema}', [TemasController::class, 'update'])->name('propuestas.actualizar')->middleware('can:manipular,tema');
         Route::delete('/{tema}/eliminar', [TemasController::class, 'destroy'])->name('propuestas.eliminar')->middleware('can:manipular,tema');
-        Route::get('/{tema}/liberar', [TemasController::class, 'free'])->name('propuestas.liberar')->middleware('can:liberar,tema');
         Route::get('/{tema}/crearPresentacion', [TemasController::class, 'createPresentation'])->name('temas.crearPresentacion')
             ->middleware('can:crearPresentacion,tema');*/
     });

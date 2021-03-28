@@ -13,13 +13,11 @@ $(document).ready(function(){
         
     });
 
-/*     //Codigo para eliminar un tema
-    $(document).on('click', '#botonElimina', function(){
+    $(document).on('click', '#botonBaja', function(){
         var id = $(this).data('id');
-        $('#deleteModal').modal('show');
-        $('#deleteModal').ready(function(){
-            let form = $(this).find('form');
-            form.attr('action', '/temas/' + id + '/eliminar');
+        $('#liberarModal').modal('show');
+        $('#liberareModal').ready(function(){
+            $('#darBaja').attr('href', '/pasantias/'+id+'/liberar');
         });
-    }); */
+    });
 });

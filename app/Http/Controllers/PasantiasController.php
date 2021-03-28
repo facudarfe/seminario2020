@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Estado;
 use App\Models\PropuestaPasantia;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class PasantiasController extends Controller
 {
@@ -67,5 +68,15 @@ class PasantiasController extends Controller
         $pasantia->alumnos()->attach([$request->user()->id => ['ruta_cv' => $ruta]]);
 
         return redirect()->route('pasantias.inicio')->with('exito', 'La solicitud para la pasantia ha sido cargada con éxito');
+    }
+
+    public function free(PropuestaPasantia $pasantia){
+        //Eliminamos el CV del estudiante
+        $ruta = auth()->user()->propuestasPasantias->where('id', $pasantia->id)->first()->pivot->ruta_cv;
+        Storage::delete($ruta);
+
+        $pasantia->alumnos()->detach(auth()->user()->id);
+        
+        return redirect()->route('pasantias.inicio')->with('exito', 'Se te ha dado de baja de la propuesta de pasantía con éxito');
     }
 }
