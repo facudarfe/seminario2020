@@ -81,4 +81,9 @@ class User extends Authenticatable
     public function propuestaPasantia(){
         return $this->hasOne(PropuestaPasantia::class, 'alumno_id');
     }
+
+    public function propuestasPasantias(){
+        return $this->belongsToMany(PropuestaPasantia::class, 'propuesta_pasantia_user', 'user_id', 'pasantia_id')
+        ->withPivot(['ruta_cv']);
+    }
 }

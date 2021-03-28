@@ -27,4 +27,9 @@ class PropuestaPasantia extends Model
     public function getFechaFinAttribute($value){
         return date('d/m/Y', strtotime($value));
     }
+
+    public function alumnos(){
+        return $this->belongsToMany(User::class, 'propuesta_pasantia_user', 'pasantia_id', 'user_id')
+        ->withPivot(['ruta_cv']);
+    }
 }

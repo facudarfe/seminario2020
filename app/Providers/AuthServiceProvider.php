@@ -3,9 +3,11 @@
 namespace App\Providers;
 
 use App\Models\Anexo1;
+use App\Models\PropuestaPasantia;
 use App\Models\PropuestaTema;
 use App\Models\User;
 use App\Policies\Anexo1Policy;
+use App\Policies\PropuestaPasantiaPolicy;
 use App\Policies\PropuestaTemaPolicy;
 use App\Policies\RolePolicy;
 use App\Policies\UserPolicy;
@@ -25,6 +27,7 @@ class AuthServiceProvider extends ServiceProvider
         Role::class => RolePolicy::class,
         User::class => UserPolicy::class,
         PropuestaTema::class => PropuestaTemaPolicy::class,
+        PropuestaPasantia::class => PropuestaPasantiaPolicy::class,
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
     ];
 

@@ -57,4 +57,15 @@ class PasantiasController extends Controller
     public function show(PropuestaPasantia $pasantia){
         return view('propuestas.pasantias.ver', compact('pasantia'));
     }
+
+    public function request(Request $request, PropuestaPasantia $pasantia){
+       $request->validate([
+            'CV' => ['required', 'file', 'mimes:pdf']
+        ]);
+
+        $ruta = $request->file('CV')->store('public/CVs');
+        $pasantia->alumnos()->attach([$request->user()->id => ['ruta_cv' => $ruta]]);
+
+        return redirect()->route('pasantias.inicio')->with('exito', 'La solicitud para la pasantia ha sido cargada con éxito');
+    }
 }

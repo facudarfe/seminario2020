@@ -151,7 +151,8 @@ return [
         'dni' => 'documento',
         'lu' => 'LU',
         'direccion' => 'domicilio',
-        'password' => 'contraseña'
+        'password' => 'contraseña',
+        'CV' => 'Curriculum',
     ],
 
 ];
