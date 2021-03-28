@@ -33,11 +33,11 @@
         </div>
     @endcan
 
-{{--     <!--Si el usuario ya tiene una propuesta solicitada se le muestra-->
-    @if ($solicitado != null)
+    <!--Si el usuario ya tiene una propuesta solicitada se le muestra-->
+    @if (count(auth()->user()->propuestasPasantias))
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Tema solicitado</h6>
+                <h6 class="m-0 font-weight-bold text-primary">Pasantias solicitadas</h6>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -46,40 +46,44 @@
                             <th></th>
                             <th>Fecha</th>
                             <th>Titulo</th>
-                            <th>Tecnologias</th>
+                            <th>Lugar</th>
+                            <th>Duración</th>
+                            <th>Fin propuesta</th>
                             <th>Propuesto por</th>
                             <th>Acciones</th>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td><a href="{{route('temas.ver', $solicitado)}}"><i class="fas fa-eye"></i></a></td>
-                                <td>{{$solicitado->created_at}}</td>
-                                <td>{{$solicitado->titulo}}</td>
-                                <td>{{$solicitado->tecnologias}}</td>
-                                <td>{{$solicitado->docente->name}}</td>
-                                <td class="text-center">
-                                    @if ($solicitado->estado->nombre == 'Solicitado')
-                                        <div class="dropdown no-arrow">
-                                            <a class="dropdown-toggle" type="button" data-toggle="dropdown"><i class="fas fa-chevron-down btn-accion"></i></a>
-                                            <div class="dropdown-menu shadow activeOptions">
-                                                <a href="#" class="dropdown-item" data-toggle="modal" data-target="#liberarModal">
-                                                    Ya no lo quiero
-                                                </a>
-                                                <a href="{{route('temas.crearPresentacion', $solicitado)}}" class="dropdown-item">
-                                                    Crear presentación
-                                                </a>
+                            @foreach (auth()->user()->propuestasPasantias as $pasantia)
+                                <tr>
+                                    <td><a href="{{route('pasantias.ver', $pasantia)}}"><i class="fas fa-eye"></i></a></td>
+                                    <td>{{$pasantia->created_at}}</td>
+                                    <td>{{$pasantia->titulo}}</td>
+                                    <td>{{$pasantia->lugar}}</td>
+                                    <td>{{$pasantia->duracion}} meses</td>
+                                    <td>{{$pasantia->fecha_fin}}</td>
+                                    <td>{{$pasantia->docente->name}}</td>
+                                    <td class="text-center">
+                                        @can('liberar', $pasantia)
+                                            <div class="dropdown no-arrow">
+                                                <a class="dropdown-toggle" type="button" data-toggle="dropdown"><i class="fas fa-chevron-down btn-accion"></i></a>
+                                                <div class="dropdown-menu shadow activeOptions">
+                                                    <a href="#" class="dropdown-item" data-toggle="modal" data-target="#liberarModal">
+                                                        Ya no lo quiero
+                                                    </a>
+                                                </div>
                                             </div>
-                                        </div>
-                                    @endif   
-                                </td>
-                            </tr>
+                                        @endcan  
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
+    @endif
 
-        <!-- Modal liberar tema-->
+{{--         <!-- Modal liberar tema-->
         <div class="modal fade" id="liberarModal" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">

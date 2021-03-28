@@ -45,7 +45,7 @@ class PropuestaPasantiaPolicy
     }
 
     public function liberar(User $user, PropuestaPasantia $pasantia){
-        if($user->propuestasPasantias->contains($pasantia)){
+        if($user->propuestasPasantias->contains($pasantia) && $pasantia->estado->nombre == 'Disponible'){
             return true;
         }
         else
