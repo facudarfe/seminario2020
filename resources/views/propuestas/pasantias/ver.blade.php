@@ -9,6 +9,7 @@
         <div class="card shadow mb-4">
             <div class="card-header py-3">
                 <h6 class="d-inline m-0 font-weight-bold text-primary">Detalle pasantía</h6>
+                <h5 class="d-inline float-right"><span class="badge badge-{{$pasantia->estado->color_clase}}">{{$pasantia->estado->nombre}}</span></h5>
             </div>
             <div class="card-body">
                 <div class="row mb-2 mb-sm-0">
@@ -30,6 +31,10 @@
                 <div class="row mb-2 mb-md-0">
                     <div class="col-12 col-md-4 col-lg-3"><h5>Duración: </h5></div>
                     <div class="col-12 col-md-8 col-lg-9">{{$pasantia->duracion}} meses</div>
+                </div>
+                <div class="row mb-2 mb-md-0">
+                    <div class="col-12 col-md-4 col-lg-3"><h5>Tutor/es: </h5></div>
+                    <div class="col-12 col-md-8 col-lg-9">{{$pasantia->tutores}}</div>
                 </div>
                 <div class="row mb-2 mb-md-0">
                     <div class="col-12 col-md-4 col-lg-3"><h5>Cierre propuesta: </h5></div>
