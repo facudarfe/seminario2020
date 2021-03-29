@@ -79,4 +79,30 @@ class PasantiasController extends Controller
         
         return redirect()->route('pasantias.inicio')->with('exito', 'Se te ha dado de baja de la propuesta de pasantía con éxito');
     }
+
+    public function edit(PropuestaPasantia $pasantia){
+        return view('propuestas.pasantias.crear_editar', compact('pasantia'));
+    }
+
+    public function update(Request $request, PropuestaPasantia $pasantia){
+        $request->validate([
+            'titulo' => ['required', 'max:255'],
+            'lugar' => ['required', 'max:255'],
+            'descripcion' => ['required'],
+            'tutores' => ['required', 'max:255'],
+            'duracion' => ['required', 'numeric', 'between:1,12'],
+            'fecha_fin' => ['required', 'date', 'after:' . date('Y-m-d')],
+        ]);
+
+        $pasantia->update($request->all());
+
+        return redirect()->route('pasantias.inicio')->with('exito', 'Se ha editado la propuesta de pasantía con éxito.');
+    }
+
+    public function destroy(PropuestaPasantia $pasantia){
+        $pasantia->delete();
+
+        return redirect()->route('pasantias.inicio')->with('exito', 'Se ha eliminado la pasantia con éxito.');
+    }
+
 }

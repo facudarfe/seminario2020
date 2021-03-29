@@ -13,11 +13,22 @@ $(document).ready(function(){
         
     });
 
+    //Darse de baja de una pasantia
     $(document).on('click', '#botonBaja', function(){
         var id = $(this).data('id');
         $('#liberarModal').modal('show');
         $('#liberareModal').ready(function(){
             $('#darBaja').attr('href', '/pasantias/'+id+'/liberar');
+        });
+    });
+
+    //Eliminar una pasantia
+    $(document).on('click', '#botonElimina', function(){
+        var id = $(this).data('id');
+        $('#deleteModal').modal('show');
+        $('#deleteModal').ready(function(){
+            let form = $(this).find('form');
+            form.attr('action', '/pasantias/' + id + '/eliminar');
         });
     });
 });

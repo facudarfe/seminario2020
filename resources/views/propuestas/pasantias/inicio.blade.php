@@ -132,21 +132,21 @@
                         <span class="badge badge-{{$pasantia->estado->color_clase}}">{{$pasantia->estado->nombre}}</span>
                     </td>
                     <td class="text-center">
-                       {{--  @can('manipular', $tema)
+                        @can('manipular', $pasantia)
                             <div class="dropdown no-arrow">
                                 <a class="dropdown-toggle" type="button" data-toggle="dropdown"><i class="fas fa-chevron-down btn-accion"></i></a>
                                 <div class="dropdown-menu shadow activeOptions">
-                                    <a href="{{route('temas.editar', $tema)}}" class="dropdown-item">
+                                    <a href="{{route('pasantias.editar', $pasantia)}}" class="dropdown-item">
                                             <i class="fas fa-pencil-alt fa-lg fa-fw mr-2 text-gray-400"></i>
                                             Editar
                                     </a>
-                                    <button id="botonElimina" data-id="{{$tema->id}}" class="dropdown-item">
+                                    <button id="botonElimina" data-id="{{$pasantia->id}}" class="dropdown-item">
                                             <i class="fas fa-trash-alt fa-lg fa-fw mr-2 text-gray-400"></i>
                                             Eliminar
                                     </button>
                                 </div>
                             </div>
-                        @endcan --}}
+                        @endcan
                     </td>
                 </tr>
             @endforeach
@@ -154,20 +154,20 @@
     </table>
 @endsection
 @section('contenido-despues-tabla')
-    {{-- <!-- Modal eliminacion-->
+    <!-- Modal eliminacion-->
     <div class="modal fade" id="deleteModal" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
                 <form action="" method="POST">
                     @csrf @method('delete')
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Eliminar tema</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Eliminar pasantía</h5>
                         <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        ¿Esta seguro que desea eliminar a este tema?
+                        ¿Esta seguro que desea eliminar esta pasantía?
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
@@ -176,7 +176,7 @@
                 </form>
             </div>
         </div>
-    </div> --}}
+    </div>
 @endsection
 
 @section('otros-scripts')

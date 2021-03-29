@@ -12,7 +12,7 @@
     @include('includes.mensaje_exito')
     @include('includes.mensajes_error')
 
-    <form action="{{route('pasantias.subir')}}"" method="POST" id="formPasantias">
+    <form action="{{$pasantia->exists ? route('pasantias.actualizar', $pasantia) : route('pasantias.subir')}}"" method="POST" id="formPasantias">
         @csrf
         @if ($pasantia->exists)
             {{method_field('PUT')}}
@@ -54,7 +54,7 @@
                     </div>
                     <div class="form-group col-6">
                         <label for="tecnologias">*Fecha cierre propuesta: </label>
-                        <input type="date" class="form-control" name="fecha_fin" id="fecha_fin" value="{{old('fecha_fin', $pasantia->fecha_fin)}}">
+                        <input type="date" class="form-control" name="fecha_fin" id="fecha_fin" value="{{old('fecha_fin', $pasantia->getRawOriginal('fecha_fin'))}}">
                     </div>
                 </div>
 

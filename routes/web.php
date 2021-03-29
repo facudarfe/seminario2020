@@ -129,11 +129,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/{pasantia}/solicitar', [PasantiasController::class, 'request'])->name('pasantias.solicitar')
             ->middleware('permission:propuestas.pasantias.solicitar', 'can:solicitar,pasantia');
         Route::get('/{pasantia}/liberar', [PasantiasController::class, 'free'])->name('pasantias.liberar')->middleware('can:liberar,pasantia');
-        /*Route::get('/{tema}/editar', [TemasController::class, 'edit'])->name('propuestas.editar')->middleware('can:manipular,tema');
-        Route::put('/{tema}', [TemasController::class, 'update'])->name('propuestas.actualizar')->middleware('can:manipular,tema');
-        Route::delete('/{tema}/eliminar', [TemasController::class, 'destroy'])->name('propuestas.eliminar')->middleware('can:manipular,tema');
-        Route::get('/{tema}/crearPresentacion', [TemasController::class, 'createPresentation'])->name('temas.crearPresentacion')
-            ->middleware('can:crearPresentacion,tema');*/
+        Route::get('/{pasantia}/editar', [PasantiasController::class, 'edit'])->name('pasantias.editar')->middleware('can:manipular,pasantia');
+        Route::put('/{pasantia}', [PasantiasController::class, 'update'])->name('pasantias.actualizar')->middleware('can:manipular,pasantia');
+        Route::delete('/{pasantia}/eliminar', [PasantiasController::class, 'destroy'])->name('pasantias.eliminar')->middleware('can:manipular,pasantia');
     });
 });
 
