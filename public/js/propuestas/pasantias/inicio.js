@@ -31,4 +31,18 @@ $(document).ready(function(){
             form.attr('action', '/pasantias/' + id + '/eliminar');
         });
     });
+
+    //Codigo para habilitar o deshabilitar una pasantia a traves de AJAX
+    $('#habilitar, #deshabilitar').on('click', function(e){
+        e.preventDefault();
+
+        var id = $(this).data('id');
+        $.ajax({
+            url: 'pasantias/' + id + '/' + $(this).attr('id'),
+            method: 'PATCH',
+            success: function(){
+                location.reload(); //Recargamos la pagina una vez se actualizo el estado
+            }
+        });
+    });
 });

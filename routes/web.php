@@ -132,6 +132,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/{pasantia}/editar', [PasantiasController::class, 'edit'])->name('pasantias.editar')->middleware('can:manipular,pasantia');
         Route::put('/{pasantia}', [PasantiasController::class, 'update'])->name('pasantias.actualizar')->middleware('can:manipular,pasantia');
         Route::delete('/{pasantia}/eliminar', [PasantiasController::class, 'destroy'])->name('pasantias.eliminar')->middleware('can:manipular,pasantia');
+        Route::patch('/{pasantia}/habilitar', [PasantiasController::class, 'enable'])->name('pasantias.habilitar')->middleware('can:manipular,pasantia');
+        Route::patch('/{pasantia}/deshabilitar', [PasantiasController::class, 'disable'])->name('pasantias.deshabilitar')->middleware('can:manipular,pasantia');
     });
 });
 

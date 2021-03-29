@@ -144,6 +144,18 @@
                                             <i class="fas fa-trash-alt fa-lg fa-fw mr-2 text-gray-400"></i>
                                             Eliminar
                                     </button>
+                                    @if ($pasantia->estado->nombre == 'Cerrado')
+                                        <a href="#" data-id={{$pasantia->id}} id="habilitar" class="dropdown-item">
+                                            <i class="fas fa-lock-open fa-lg fa-fw mr-2 text-gray-400"></i>
+                                            Poner disponible
+                                        </a>
+                                    @endif
+                                    @if ($pasantia->estado->nombre == 'Disponible')
+                                        <a href="#" data-id={{$pasantia->id}} id="deshabilitar" class="dropdown-item">
+                                            <i class="fas fa-lock fa-lg fa-fw mr-2 text-gray-400"></i>
+                                            Cerrar propuesta
+                                        </a>
+                                    @endif 
                                 </div>
                             </div>
                         @endcan

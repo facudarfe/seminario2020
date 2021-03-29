@@ -105,4 +105,18 @@ class PasantiasController extends Controller
         return redirect()->route('pasantias.inicio')->with('exito', 'Se ha eliminado la pasantia con éxito.');
     }
 
+    public function enable(PropuestaPasantia $pasantia){
+        $estado = Estado::where('nombre', 'Disponible')->first();
+
+        $pasantia->estado()->associate($estado);
+        $pasantia->save();
+    }
+
+    public function disable(PropuestaPasantia $pasantia){
+        $estado = Estado::where('nombre', 'Cerrado')->first();
+
+        $pasantia->estado()->associate($estado);
+        $pasantia->save();
+    }
+
 }
