@@ -27,8 +27,8 @@ class Anexo1 extends Model
         return $this->belongsTo(Estado::class, 'estado_id');
     }
 
-    public function alumno(){
-        return $this->belongsTo(User::class, 'alumno_id');
+    public function alumnos(){
+        return $this->belongsToMany(User::class, 'anexo1_user', 'anexo1_id', 'alumno_id')->withPivot(['aceptado']);
     }
 
     public function director(){

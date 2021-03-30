@@ -54,7 +54,7 @@
             <th>Fecha</th>
             <th>Titulo</th>
             @unlessrole('Estudiante')
-            <th>Alumno</th>
+            <th>Alumno/s</th>
             @endrole
             <th>Director</th>
             <th>Modalidad</th>
@@ -69,7 +69,15 @@
                 <td>{{$presentacion->created_at}}</td>
                 <td>{{$presentacion->titulo}}</td>
                 @unlessrole('Estudiante')
-                <td>{{$presentacion->alumno->name}}</td>
+                <td>
+                    @for ($i = 0; $i < count($presentacion->alumnos); $i++)
+                        @if ($i != count($presentacion->alumnos)-1)
+                            {{($presentacion->alumnos[$i])->name . '- '}}
+                        @else
+                            {{($presentacion->alumnos[$i])->name}}
+                        @endif
+                    @endfor
+                </td>
                 @endrole
                 <td>{{$presentacion->director->name}}</td>
                 <td>{{$presentacion->modalidad->nombre}}</td>

@@ -71,7 +71,7 @@ class User extends Authenticatable
     }
 
     public function presentaciones(){
-        return $this->hasMany(Anexo1::class, 'alumno_id');
+        return $this->belongsToMany(Anexo1::class, 'anexo1_user', 'alumno_id', 'anexo1_id')->withPivot(['aceptado']);
     }
 
     public function propuestaTema(){

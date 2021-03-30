@@ -27,13 +27,15 @@
         </p>
         <table width="100%" style="margin-top: 8em;">
             <tr class="text-right">
-                <td colspan="2">
-                    <p>______________________</p>
-                    <p>
-                        Alumno: {{$presentacion->alumno->name}}<br>
-                        LU: {{$presentacion->alumno->lu}}
-                    </p> 
-                </td>
+                @foreach ($presentacion->alumnos as $alumno)
+                    <td colspan="2">
+                        <p>______________________</p>
+                        <p>
+                            Alumno: {{$alumno->name}}<br>
+                            LU: {{$alumno->lu}}
+                        </p> 
+                    </td>
+                @endforeach        
             </tr>
             <tr>
                 <td class="separacion-firma">
@@ -68,18 +70,20 @@
                 <td colspan="2">{{$presentacion->codirector->name}}</td>
             </tr>
             <tr class="text-center">
-                <td colspan="3"><b>Alumno/a</b></td>
+                <td colspan="3"><b>Alumno/s</b></td>
             </tr>
-            <tr class="text-center">
-                <td><b>LU</b></td>
-                <td><b>Apellidos y Nombres</b></td>
-                <td><b>Dirección, teléfono, e-mail</b></td>
-            </tr>
-            <tr class="text-center">
-                <td>{{$presentacion->alumno->lu}}</td>
-                <td>{{$presentacion->alumno->name}}</td>
-                <td>{{$presentacion->alumno->direccion . ' - ' . $presentacion->alumno->telefono . ' - ' . $presentacion->alumno->email}}</td>
-            </tr>
+            @foreach ($presentacion->alumnos as $alumno)
+                <tr class="text-center">
+                    <td><b>LU</b></td>
+                    <td><b>Apellidos y Nombres</b></td>
+                    <td><b>Dirección, teléfono, e-mail</b></td>
+                </tr>
+                <tr class="text-center">
+                    <td>{{$alumno->lu}}</td>
+                    <td>{{$alumno->name}}</td>
+                    <td>{{$alumno->direccion . ' - ' . $alumno->telefono . ' - ' . $alumno->email}}</td>
+                </tr>
+            @endforeach
             <tr>
                 <td><b>Modalidad</b></td>
                 <td colspan="2">{{$presentacion->modalidad->nombre}}</td>
@@ -105,7 +109,9 @@
         <hr class="firma">
         <table width="100%">
             <tr class="text-center">
-                <td>Alumno: {{$presentacion->alumno->name}}</td>
+                @foreach ($presentacion->alumnos as $alumno)
+                    <td>Alumno: {{$alumno->name}}</td>
+                @endforeach
                 <td>Director: {{$presentacion->director->name}}</td>
                 <td>Codirector: {{$presentacion->codirector->name}}</td>
             </tr>

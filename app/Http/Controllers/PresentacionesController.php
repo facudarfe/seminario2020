@@ -21,11 +21,10 @@ class PresentacionesController extends Controller
     public function index(){
         //Se muestra la tabla con las presentaciones dependiendo del rol
         if(auth()->user()->hasRole('Estudiante')){
-            $presentaciones = Anexo1::where('alumno_id', auth()->user()->id)->get();
+            $presentaciones = auth()->user()->presentaciones;
+            //$presentaciones = Anexo1::where('alumno_id', auth()->user()->id)->get();
         }
-        elseif(auth()->user()->hasRole('Docente colaborador')){
-            //$presentaciones = Anexo1::all()->versiones()->where('docente_id', auth()->user()->id)->get();
-            
+        elseif(auth()->user()->hasRole('Docente colaborador')){            
             //Para los docentes colaboradores solo se mostraran las presentaciones que le fueron asignadas para corregir
             $presentaciones = Anexo1::where('docente_id', auth()->user()->id)->get();
         }
@@ -62,7 +61,7 @@ class PresentacionesController extends Controller
         
         //Codigo para el encabezado
         $encabezado->titulo = $request->titulo;
-        $encabezado->alumno()->associate(auth()->user()); //Se le asocia a la presentacion el usuario que esta haciendo la carga
+        $encabezado->alumnos()->attach(auth()->user()); //Se le asocia a la presentacion el usuario que esta haciendo la carga
         
         //Asociar el director y codirector
         $director = User::find($request->get('director'));

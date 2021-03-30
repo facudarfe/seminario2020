@@ -27,7 +27,7 @@ class Anexo1Policy
     }
 
     public function resubirVersion(User $user, Anexo1 $anexo){
-        if($anexo->estado->nombre == 'Resubir' && $user->id == $anexo->alumno->id){
+        if($anexo->estado->nombre == 'Resubir' && $user->presentaciones->contains($anexo)){
             return true;
         }
         else{
@@ -39,7 +39,7 @@ class Anexo1Policy
         $rol = $user->getRoleNames()->first();
         switch($rol){
             case 'Estudiante':
-                return $user->id == $anexo->alumno_id;
+                return $user->presentaciones->contains($anexo);
                 break;
             case 'Docente colaborador':
                 return $user->id == $anexo->docente_id;
@@ -53,7 +53,7 @@ class Anexo1Policy
     }
 
     public function subirInforme(User $user, Anexo1 $anexo){
-        if($anexo->alumno->id == $user->id && $anexo->estado->nombre == "Aceptado"){
+        if($user->presentaciones->contains($anexo) && $anexo->estado->nombre == "Aceptado"){
             return true;
         }
         else{
@@ -64,7 +64,7 @@ class Anexo1Policy
     public function mostrar(User $user, Anexo1 $anexo){
         if($user->hasRole(['Administrador', 'Docente responsable']))
             return true;
-        elseif($user->hasRole('Estudiante') && $user->id == $anexo->alumno_id)
+        elseif($user->hasRole('Estudiante') && $user->presentaciones->contains($anexo))
             return true;
         elseif($user->hasRole('Docente colaborador') && $user->id == $anexo->docente_id)
             return true;
