@@ -4,6 +4,10 @@
     
 @section('titulo-contenido', 'Nueva presentación')
 
+@section('otros-estilos')
+    <link rel="stylesheet" href="{{asset('css/bootstrap-multiselect.css')}}" type="text/css">
+@endsection
+
 @section('contenido')
     @include('includes.mensaje_exito')
     @include('includes.mensajes_error')
@@ -45,6 +49,24 @@
                         <select name="modalidad" id="modalidad" class="custom-select">
                             @foreach ($modalidades as $modalidad)
                                 <option value="{{$modalidad->id}}">{{$modalidad->nombre}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row" id="trabajoGrupal">
+                    <div class="form-group ml-2 custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="checkGrupal" name="checkGrupal">
+                        <label class="custom-control-label" for="checkGrupal">¿Es trabajo grupal?</label>
+                    </div>
+                </div>
+
+                <div class="form-row" id="nombresGrupo" hidden>
+                    <div class="form-group col-md-6">
+                        <label for="grupo">Seleccionar compañeros: </label>
+                        <select name="grupo[]" id="grupo" class="custom-select" multiple>
+                            @foreach ($grupo as $estudiante)
+                                <option value="{{$estudiante->id}}">{{$estudiante->name}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -134,5 +156,6 @@
 
 @section('otros-scripts')
     @include('includes.scripts_validaciones')
+    <script src="{{asset('js/bootstrap-multiselect.js')}}"></script>
     <script src="{{asset('js/presentaciones/crear.js')}}"></script>
 @endsection

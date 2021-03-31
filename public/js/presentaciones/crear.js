@@ -3,6 +3,36 @@ $(document).ready(function(){
 
     //Opcion por defecto en el select de las modalidades
     $("#modalidad option[value='2']").attr('selected', true);
+
+    //Mostrar checkbox de trabajo grupal si se selecciono como modalidad Seminario
+    $('#modalidad').change(function(){
+        let modalidad = $('#modalidad option:selected').text();
+        
+        if(modalidad == 'Seminario')
+            $('#trabajoGrupal').removeAttr('hidden');
+        else
+            $('#trabajoGrupal').attr('hidden', 'true');
+    });
+
+
+    $('#grupo').multiselect({
+        buttonWidth: '100%',
+        nonSelectedText: 'Ninguno seleccionado',
+        allSelectedText: 'Todos seleccionados',
+        enableFiltering: true,
+        enableCaseInsensitiveFiltering: true,
+        filterPlaceholder: 'Buscar',
+        dropRight: true,
+        nSelectedText: 'seleccionados',
+    }); //Inicializamos el select con opciones multiples
+
+    //Si se selecciona el checkbox de trabajo grupal se van a mostrar los estudiantes disponibles
+    $('#checkGrupal').change(function(){
+        if($(this).prop('checked'))
+            $('#nombresGrupo').removeAttr('hidden');
+        else
+            $('#nombresGrupo').attr('hidden', 'true');
+    });
 });
 
 function validarFormulario(){

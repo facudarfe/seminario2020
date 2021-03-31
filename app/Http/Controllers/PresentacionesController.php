@@ -44,7 +44,16 @@ class PresentacionesController extends Controller
         $modalidades = Modalidad::all();
         $tema = new PropuestaTema();
 
-        return view ('presentaciones.crear', compact('docentes', 'modalidades', 'tema'));
+        //Seleccionar los estudiantes que se pueden elegir para hacer trabajo juntos
+        $c1 = User::role('Estudiante')->where('id', '!=', auth()->id())->doesntHave('presentaciones')->get();
+        $c2 = User::role('Estudiante')->where('id', '!=', auth()->id())->whereHas('presentaciones', function($q){
+            $q->whereHas('estado', function($q2){
+                $q2->where('nombre', 'Rechazado');
+            });
+        })->get();
+        $grupo = $c1->concat($c2);
+
+        return view ('presentaciones.crear', compact('docentes', 'modalidades', 'tema', 'grupo'));
     }
 
     public function store(Request $request){
@@ -61,7 +70,6 @@ class PresentacionesController extends Controller
         
         //Codigo para el encabezado
         $encabezado->titulo = $request->titulo;
-        $encabezado->alumnos()->attach(auth()->user()); //Se le asocia a la presentacion el usuario que esta haciendo la carga
         
         //Asociar el director y codirector
         $director = User::find($request->get('director'));
@@ -78,6 +86,12 @@ class PresentacionesController extends Controller
         $encabezado->estado()->associate($estado);
 
         $encabezado->save();
+
+        //Asociar al alumno que creo la presentacion y si los hubiera a los compañeros
+        $encabezado->alumnos()->attach(auth()->id());
+        if($modalidad->nombre == 'Seminario' && isset($request->checkGrupal) && isset($request->grupo)){
+            $encabezado->alumnos()->attach($request->get('grupo'), ['aceptado' => false]);
+        }
 
         //Codigo para la version
         $version->anexo()->associate($encabezado);
@@ -98,8 +112,10 @@ class PresentacionesController extends Controller
             $tema->save();
         }
 
-        //Envio de mail al estudiante
-        Mail::to($encabezado->alumno->email)->send(new NuevaPresentacionMail($encabezado->titulo));
+        //Envio de mail al estudiante o estudiantes
+        foreach($encabezado->alumnos as $alumno){
+            Mail::to($alumno->email)->send(new NuevaPresentacionMail($encabezado->titulo));
+        }
 
         return redirect(route('presentaciones.inicio'))->with('exito', 'Se ha creado la presentacion con exito.');
     }
