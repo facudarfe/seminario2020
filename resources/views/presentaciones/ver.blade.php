@@ -25,6 +25,18 @@
                 </div>
             </div>
             <div class="card-body">
+                @can ('aceptarORechazar', $presentacion)
+                    <div class="row mb-2 mb-sm-0">
+                        <div class="col-12 text-center">
+                            <button type="button" id="aceptarParticipacion" class="btn btn-sm btn-success">
+                                <i class="fas fa-check mr-1"></i>Aceptar
+                            </button>
+                            <button type="button" id="rechazarParticipacion" class="btn btn-sm btn-danger">
+                                <i class="fas fa-times mr-1"></i>Rechazar
+                            </button>
+                        </div>
+                    </div>
+                @endcan
                 <div class="row mb-2 mb-sm-0">
                     <div class="col-12 col-sm-6 col-md-4 col-lg-3"><h5>Fecha: </h5></div>
                     <div class="col-12 col-sm-6 col-md-8 col-lg-9">{{$presentacion->created_at}}</div>
@@ -256,17 +268,34 @@
     </div>
 </div>
 
+<!--Modal para aceptar o no participar en el trabajo-->
+<div class="modal fade" id="modalParticipacion" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Participación trabajo</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form action="{{route('presentaciones.aceptarORechazar', [auth()->user(), $presentacion])}}" method="POST">
+                @csrf
+                @method('PATCH')
+                <input type="hidden" name="tipo" id="tipo" value="">
+                <div class="modal-body">
+                    <p id="modal-body-text">¿Esta seguro de aceptar la participación en este proyecto?</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-success" id="confirmar">Aceptar</button>
+                </div>
+            </form> 
+        </div>
+    </div>
+</div>
+
 @endsection
 
 @section('otros-scripts')
-    <script>
-        $('#botonCorreccion').click(function(){
-            var version_id = $(this).data('version');
-
-            $('#modalCorregir').modal('show');
-            $('#modalCorregir').ready(function(){
-                $(this).find('#version').val(version_id);
-            });
-        });  
-    </script>
+    <script src="{{asset('js/presentaciones/ver.js')}}"></script>
 @endsection

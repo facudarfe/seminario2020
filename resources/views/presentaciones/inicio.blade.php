@@ -22,6 +22,18 @@
 @section('contenido-antes-tabla')
     @include('includes.mensaje_exito')
     @include('includes.mensajes_error')
+    @foreach (auth()->user()->presentacionesPendientes as $pendiente)
+        <div class="row">
+            <div class="col-12">
+                <div class="alert alert-info fade show">
+                    <i class="fas fa-exclamation mr-1"></i>
+                    Te han agregado como participante del trabajo <b>"{{$pendiente->titulo}}"</b>. Para aceptar o rechazar la 
+                    participación en este proyecto ingresa al mismo y selecciona la opción.
+                    <a href="{{route('presentaciones.ver', $pendiente)}}">Ver proyecto</a>
+                </div>
+            </div>
+        </div>
+    @endforeach
     @if (auth()->user()->can('crear', App\Models\Anexo1::class))
         @if ($solicitado)
             <div class="row">

@@ -71,7 +71,13 @@ class User extends Authenticatable
     }
 
     public function presentaciones(){
-        return $this->belongsToMany(Anexo1::class, 'anexo1_user', 'alumno_id', 'anexo1_id')->withPivot(['aceptado']);
+        return $this->belongsToMany(Anexo1::class, 'anexo1_user', 'alumno_id', 'anexo1_id')->withPivot(['aceptado'])
+        ->where('anexo1_user.aceptado', true);
+    }
+
+    public function presentacionesPendientes(){
+        return $this->belongsToMany(Anexo1::class, 'anexo1_user', 'alumno_id', 'anexo1_id')->withPivot(['aceptado'])
+        ->where('anexo1_user.aceptado', false);
     }
 
     public function propuestaTema(){

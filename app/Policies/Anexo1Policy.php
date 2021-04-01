@@ -22,8 +22,9 @@ class Anexo1Policy
 
     public function crear(User $user){
         $presentaciones = $user->presentaciones()->join('estados', 'anexos1.estado_id', '=', 'estados.id')->whereIn('nombre', ['Pendiente', 'Resubir', 'Aceptado', 'Regular', 'Aprobado'])->get();
+        $presentacionesPendientes = $user->presentacionesPendientes;
 
-        return count($presentaciones)==0 && $user->getRoleNames()->first() == 'Estudiante' ? true : false;
+        return count($presentaciones)==0 && count($presentacionesPendientes)==0 && $user->getRoleNames()->first() == 'Estudiante';
     }
 
     public function resubirVersion(User $user, Anexo1 $anexo){
@@ -64,11 +65,16 @@ class Anexo1Policy
     public function mostrar(User $user, Anexo1 $anexo){
         if($user->hasRole(['Administrador', 'Docente responsable']))
             return true;
-        elseif($user->hasRole('Estudiante') && $user->presentaciones->contains($anexo))
+        elseif($user->hasRole('Estudiante') && ($user->presentaciones->contains($anexo) || 
+                $user->presentacionesPendientes->contains($anexo)))
             return true;
         elseif($user->hasRole('Docente colaborador') && $user->id == $anexo->docente_id)
             return true;
         else
             return false;
+    }
+
+    public function aceptarORechazar(User $user, Anexo1 $anexo){
+        return $anexo->alumnosPendientes->contains($user);
     }
 }

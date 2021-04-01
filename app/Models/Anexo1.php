@@ -28,7 +28,13 @@ class Anexo1 extends Model
     }
 
     public function alumnos(){
-        return $this->belongsToMany(User::class, 'anexo1_user', 'anexo1_id', 'alumno_id')->withPivot(['aceptado']);
+        return $this->belongsToMany(User::class, 'anexo1_user', 'anexo1_id', 'alumno_id')->withPivot(['aceptado'])
+        ->where('anexo1_user.aceptado', true);
+    }
+
+    public function alumnosPendientes(){
+        return $this->belongsToMany(User::class, 'anexo1_user', 'anexo1_id', 'alumno_id')->withPivot(['aceptado'])
+        ->where('anexo1_user.aceptado', false);
     }
 
     public function director(){

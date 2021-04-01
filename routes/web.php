@@ -98,6 +98,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/{presentacion}/subirInforme', [StorageController::class, 'guardarInforme'])->name('presentaciones.subirInforme')
             ->middleware('can:subirInforme,presentacion');
         Route::get('/{presentacion}/descargarInforme', [StorageController::class, 'descargarInforme'])->name('presentaciones.descargarInforme');
+
+        //Rutas para aceptar o rechazar la participacion de otro estudiante en la presentacion
+        Route::patch('/{user}/{presentacion}/aceptarORechazar', [PresentacionesController::class, 'aceptarORechazar'])
+            ->name('presentaciones.aceptarORechazar')->middleware('can:aceptarORechazar,presentacion');
     });
 
     //Rutas contacto

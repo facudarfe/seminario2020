@@ -213,4 +213,25 @@ class PresentacionesController extends Controller
             abort(403, 'No tienes permisos para regularizar esta presentación.');
         }
     }
+
+    public function aceptarORechazar(Request $request, User $user, Anexo1 $presentacion){
+        if($request->tipo == 'aceptar'){
+            $pivot = $presentacion->alumnosPendientes()->find($user->id)->pivot;
+            $pivot->aceptado = true;
+            $pivot->save();
+
+            //Si se le hubiera mandado solicitud para participar en mas de un proyecto se borran todas esas relaciones
+            foreach($user->presentacionesPendientes as $pendiente){
+                $user->presentacionesPendientes()->detach($pendiente->id);
+            }
+
+            return redirect()->route('presentaciones.inicio')->with('exito', 'Has aceptado la participación en el proyecto.
+            Ahora aparecerá en la tabla de tus presentaciones.');
+        }
+        else{
+            $user->presentacionesPendientes()->detach($presentacion->id);
+
+            return redirect()->route('presentaciones.inicio')->with('exito', 'Has rechazado la participación en el proyecto.');
+        }
+    }
 }
