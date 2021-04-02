@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UsuarioRequest;
 use App\Mail\RegistroMail;
+use App\Models\Docente;
 use App\Models\User;
 use App\Rules\ChequearPassword;
 use Illuminate\Http\Request;
@@ -57,6 +58,8 @@ class UserController extends Controller
 
             $user->assignRole($rol->name);
 
+            $this->cargarDocente($user); //Cargar a usuario docente en la tabla de docentes
+
             //Envio de mail
             $mail = new RegistroMail($user->name, $rol->name);
             Mail::to($user->email)->send($mail);
@@ -107,6 +110,8 @@ class UserController extends Controller
         /*Se va a controlar los permisos desde aca y no desde el middleware para poder reutilizar la ruta cuando se edita desde el
         panel administrativo y desde el 'Editar Perfil'*/
         if($request->user()->can('gestionar', $user) || $user->id == $request->user()->id){
+            $dniViejo = $user->dni; //Esto para mantener la redundancia en la tabla de docentes
+
             $user->dni = $request->dni;
             $user->name = $request->name;
             $user->lu = $request->lu;
@@ -122,6 +127,8 @@ class UserController extends Controller
             $rol = Role::find($request->get('rol')) ?? $user->roles->first(); //Si el campo rol no esta definido se le asigna el rol que ya tiene
             $user->syncRoles($rol->name);
             $user->save();
+
+            $this->editarDocente($user, $dniViejo);
     
             return redirect()->back()->with('exito', 'El usuario se ha modificado exitosamente'); 
         }
@@ -165,5 +172,31 @@ class UserController extends Controller
         $user->save();
 
         return redirect()->back()->with('exito', 'La contraseña se actualizó con éxito.');
+    }
+
+    //Metodo para que cuando se cree un usuario de tipo docente este se cargue en la tabla de docentes
+    private function cargarDocente(User $user){
+        if($user->hasRole(['Docente responsable', 'Docente colaborador'])){
+            $docente = Docente::find($user->dni);
+            if(!$docente){
+                $docente = new Docente();
+                $docente->dni = $user->dni;
+            }
+
+            $docente->name = $user->name;
+            $docente->email = $user->email;
+            $docente->save();
+        }
+    }
+
+    //Metodo para que cuando se edite un usuario de tipo docente este se edite en la tabla de docentes
+    private function editarDocente(User $user, $dniViejo){
+        $docente = Docente::find($dniViejo);
+        if($docente){
+            $docente->dni = $user->dni;
+            $docente->name = $user->name;
+            $docente->email = $user->email;
+            $docente->save();
+        }
     }
 }
