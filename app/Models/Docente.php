@@ -10,6 +10,8 @@ class Docente extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $fillable = ['dni', 'name', 'email'];
     protected $primaryKey = 'dni';
     public $timestamps = false;
+
 }

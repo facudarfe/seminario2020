@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Docente;
+use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
 
-class DocentesController extends Controller
+class DocenteController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -25,7 +26,8 @@ class DocentesController extends Controller
      */
     public function create()
     {
-        //
+        $docente = new Docente();
+        return view('admin.docentes.crear_editar', compact('docente'));
     }
 
     /**
@@ -36,7 +38,14 @@ class DocentesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'dni' => ['required', 'unique:docentes,dni', 'numeric', 'min:1000000'],
+            'name' => ['required', 'max:255'],
+            'email' => ['required', 'unique:docentes,email', 'email'],
+        ]);
+
+        Docente::create($request->all());
+        return redirect()->route('docentes.inicio')->with('exito', 'Se ha creado el docente con éxito');
     }
 
     /**

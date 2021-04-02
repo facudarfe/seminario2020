@@ -5,7 +5,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ContactoController;
-use App\Http\Controllers\DocentesController;
+use App\Http\Controllers\DocenteController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PasantiasController;
 use App\Http\Controllers\PDFController;
@@ -75,7 +75,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     //Rutas cuerpo docente
     Route::group(['middleware' => 'permission:docentes.gestionar', 'prefix' => 'docentes'], function(){
-        Route::get('/', [DocentesController::class, 'index'])->name('docentes.inicio');
+        Route::get('/', [DocenteController::class, 'index'])->name('docentes.inicio');
+        Route::get('/crear', [DocenteController::class, 'create'])->name('docentes.crear');
+        Route::post('/', [DocenteController::class, 'store'])->name('docentes.almacenar');
     });
 
     //Rutas presentaciones

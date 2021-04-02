@@ -6,7 +6,18 @@
     <link href="{{asset('sbadmin/vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
 @endsection
 
+@section('titulo-contenido', 'Docentes')
+
 @section('titulo-tabla', 'Cuerpo docente')
+
+@section('contenido-antes-tabla')
+    @include('includes.mensaje_exito')
+    <div class="row">
+        <div class="col-12 col-md-6 col-lg-4 col-xl-2">
+            <a href="{{route('docentes.crear')}}" class="btn btn-block btn-success mb-3">Nuevo docente</a>
+        </div>
+    </div>
+@endsection
 
 @section('contenido-tabla')
     <table class="table" id="tablaDocentes">
