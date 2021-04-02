@@ -9,7 +9,7 @@
         <div class="sidebar-brand-text mx-3">Seminarios TUP</div>
     </a>
 
-    @canany (['usuarios.ver', 'permisos.ver', 'roles.ver'])
+    @canany (['usuarios.ver', 'permisos.ver', 'docentes.gestionar'])
     <!-- Divider -->
     <hr class="sidebar-divider">
 
@@ -34,6 +34,16 @@
             <a class="nav-link" href="{{route('permisos.inicio')}}">
                 <i class="fas fa-fw fa-key"></i>
                 <span>Roles y Permisos</span>
+            </a>
+        </li>
+    @endcan
+
+    <!-- Nav Item - Cuerpo docente -->
+    @can('docentes.gestionar')
+        <li class="nav-item">
+            <a class="nav-link" href="{{route('docentes.inicio')}}">
+                <i class="fas fa-chalkboard-teacher"></i>
+                <span>Cuerpo docente DI</span>
             </a>
         </li>
     @endcan

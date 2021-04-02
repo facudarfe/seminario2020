@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ContactoController;
+use App\Http\Controllers\DocentesController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PasantiasController;
 use App\Http\Controllers\PDFController;
@@ -70,6 +71,11 @@ Route::group(['middleware' => 'auth'], function () {
         ->middleware('permission:permisos.ver');
         Route::post('/', [PermisoController::class, 'store'])->name('permisos.almacenar')
             ->middleware('permission:permisos.crear');
+    });
+
+    //Rutas cuerpo docente
+    Route::group(['middleware' => 'permission:docentes.gestionar', 'prefix' => 'docentes'], function(){
+        Route::get('/', [DocentesController::class, 'index'])->name('docentes.inicio');
     });
 
     //Rutas presentaciones
