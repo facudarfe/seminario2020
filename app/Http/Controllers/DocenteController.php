@@ -65,9 +65,9 @@ class DocenteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Docente $docente)
     {
-        //
+        return view('admin.docentes.crear_editar', compact('docente'));
     }
 
     /**
@@ -77,9 +77,16 @@ class DocenteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Docente $docente)
     {
-        //
+        $request->validate([
+            'dni' => ['required', Rule::unique('docentes')->ignore($docente->dni, 'dni'), 'numeric', 'min:1000000'],
+            'name' => ['required', 'max:255'],
+            'email' => ['required', Rule::unique('docentes')->ignore($docente->dni, 'dni'), 'email'],
+        ]);
+        $docente->update($request->all());
+
+        return redirect()->route('docentes.inicio')->with('exito', 'Se ha actualizado el docente con éxito');
     }
 
     /**
@@ -88,8 +95,10 @@ class DocenteController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Docente $docente)
     {
-        //
+        $docente->delete();
+
+        return redirect()->route('docentes.inicio')->with('exito', 'Se ha eliminado el docente con éxito');
     }
 }

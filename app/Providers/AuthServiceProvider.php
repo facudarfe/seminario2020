@@ -3,10 +3,12 @@
 namespace App\Providers;
 
 use App\Models\Anexo1;
+use App\Models\Docente;
 use App\Models\PropuestaPasantia;
 use App\Models\PropuestaTema;
 use App\Models\User;
 use App\Policies\Anexo1Policy;
+use App\Policies\DocentePolicy;
 use App\Policies\PropuestaPasantiaPolicy;
 use App\Policies\PropuestaTemaPolicy;
 use App\Policies\RolePolicy;
@@ -28,6 +30,7 @@ class AuthServiceProvider extends ServiceProvider
         User::class => UserPolicy::class,
         PropuestaTema::class => PropuestaTemaPolicy::class,
         PropuestaPasantia::class => PropuestaPasantiaPolicy::class,
+        Docente::class => DocentePolicy::class,
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
     ];
 

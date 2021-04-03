@@ -78,6 +78,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/', [DocenteController::class, 'index'])->name('docentes.inicio');
         Route::get('/crear', [DocenteController::class, 'create'])->name('docentes.crear');
         Route::post('/', [DocenteController::class, 'store'])->name('docentes.almacenar');
+        Route::get('/{docente}/editar', [DocenteController::class, 'edit'])->name('docentes.editar');
+        Route::put('/{docente}', [DocenteController::class, 'update'])->name('docentes.actualizar');
+        Route::delete('/{docente}/eliminar', [DocenteController::class, 'destroy'])->name('docentes.eliminar');
     });
 
     //Rutas presentaciones

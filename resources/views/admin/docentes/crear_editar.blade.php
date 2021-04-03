@@ -7,8 +7,11 @@
 @section('contenido')
     @include('includes.mensaje_exito')
     @include('includes.mensajes_error')
-    <form action="{{route('docentes.almacenar')}}" method="POST" id="formDocentes">
+    <form action="{{$docente->exists ? route('docentes.actualizar', $docente) : route('docentes.almacenar')}}" method="POST" id="formDocentes">
         @csrf
+        @if ($docente->exists)
+            @method('PUT')
+        @endif
         <div class="row">
             <div class="col-xl-6 col-lg-8">
                 <div class="form-row">

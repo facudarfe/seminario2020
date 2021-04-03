@@ -10,4 +10,13 @@ $(document).ready(function(){
             {"targets": 3, "searchable": false, "orderable": false}
         ],
     });
+
+    $('#botonElimina').click(function(){
+        var dni = $(this).data('dni');
+
+        $('#deleteModal').modal('show');
+        $('#deleteModal').ready(function(){
+            $(this).find('form').attr('action', '/docentes/' + dni + '/eliminar')
+        });
+    });
 });
