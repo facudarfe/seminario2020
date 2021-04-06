@@ -105,3 +105,28 @@ $(document).ready(function(){
         }
     });
 });
+
+$('#modalFinal').ready(function(){
+    let fecha = $(this).find('#fecha');
+    fecha.datetimepicker({
+        minDate: moment(),
+        icons: {
+            time: 'fas fa-clock'
+        },
+        format: "DD/MM/yyyy HH:mm",
+        locale: moment.locale('es')
+    });
+
+});
+
+//Propuesta de fecha
+$('#botonPropuestaFecha').click(function(){
+    var id = $(this).data('id');
+    console.log('Hola');
+
+    $('#modalFinal').modal('show');
+    $('#modalFinal').ready(function(){
+        //Seteamos el atributo 'action' del form a la ruta con el id de la presentacion
+        $(this).find('#formFecha').attr('action', '/presentaciones/'+id+'/proponerFecha');
+    }); 
+});

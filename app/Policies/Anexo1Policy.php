@@ -77,4 +77,9 @@ class Anexo1Policy
     public function aceptarORechazar(User $user, Anexo1 $anexo){
         return $anexo->alumnosPendientes->contains($user);
     }
+
+    public function proponerFecha(User $user, Anexo1 $presentacion){
+        return $user->getRoleNames()->first() == 'Estudiante' && $user->presentaciones->contains($presentacion) 
+                && $presentacion->estado->nombre == 'Regular';
+    }
 }

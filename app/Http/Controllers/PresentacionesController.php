@@ -6,6 +6,7 @@ use App\Mail\AsignarDocenteMail;
 use App\Mail\CorreccionMail;
 use App\Mail\NuevaPresentacionMail;
 use App\Models\Anexo1;
+use App\Models\Anexo2;
 use App\Models\Estado;
 use App\Models\Modalidad;
 use App\Models\PropuestaTema;
@@ -233,5 +234,24 @@ class PresentacionesController extends Controller
 
             return redirect()->route('presentaciones.inicio')->with('exito', 'Has rechazado la participación en el proyecto.');
         }
+    }
+
+    public function proponerFecha(Request $request, Anexo1 $presentacion){
+        $anexo2 = new Anexo2();
+
+        $fecha = str_replace('/', '-', $request->input('fecha'));
+        $fecha = date('Y-m-d H:i', strtotime($fecha));
+        $anexo2->fecha_propuesta = $fecha;
+        $anexo2->presentacion()->associate($presentacion);
+
+        $estado = Estado::where('nombre', 'Fecha propuesta')->first();
+        $anexo2->estado()->associate($estado);
+        $anexo2->save();
+
+        $presentacion->estado()->associate($estado);
+        $presentacion->save();
+
+        return redirect()->route('presentaciones.inicio')
+                ->with('exito', 'Se ha propuesto la fecha con éxito y se ha generado el formulario Anexo 2.');
     }
 }

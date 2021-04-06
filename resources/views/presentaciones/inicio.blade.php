@@ -6,6 +6,10 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.5/css/buttons.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/searchbuilder/1.0.1/css/searchBuilder.bootstrap4.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/datetime/1.0.2/css/dataTables.dateTime.min.css">
+    
+    <!--Estilo para datetimepicker-->
+    <link rel="stylesheet" href="{{asset('css/bootstrap-datetimepicker.min.css')}}">
+
     <style>
         /*Cambiar la posicion del input de busqueda del DataTable a la izquierda reescribiendo las clases*/
         div.dataTables_wrapper div.dataTables_filter{
@@ -103,15 +107,21 @@
                             @can('subirInforme', $presentacion)
                                 <button class="dropdown-item" data-presentacion="{{$presentacion->id}}" id="botonInforme">
                                     <i class="fas fa-file-pdf fa-lg fa-fw text-gray-400"></i>
-                                    Subir informe
+                                    Subir informe de avance
                                 </button>
                             @endcan
                             @if ($presentacion->ruta_informe)
                                 <a href="{{route('presentaciones.descargarInforme', $presentacion)}}" class="dropdown-item">
                                     <i class="fas fa-file-download fa-lg fa-fw text-gray-400"></i>
-                                    Descargar informe
+                                    Descargar informe de avance
                                 </a>
                             @endif
+                            @can('proponerFecha', $presentacion)
+                                <a href="#" class="dropdown-item" id="botonPropuestaFecha" data-id="{{$presentacion->id}}">
+                                    <i class="fas fa-calendar-alt fa-lg fa-fw text-gray-400"></i>
+                                    Proponer fecha finalización
+                                </a>
+                            @endcan
                         </div>
                     </div>
                 </td>
@@ -154,6 +164,35 @@
         </div>
     </div>
 </div>
+
+<!--Modal para elegir fecha de finalizacion-->
+<div class="modal fade" id="modalFinal" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Elegir fecha del final</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form action="" method="POST" id="formFecha">
+                @csrf
+                <div class="modal-body">
+                    <div class="form-row justify-content-center">
+                        <div class="col-11 form-group">
+                            <label for="fecha">Elija fecha y hora de presentación del proyecto:</label>
+                            <input type="text" class="form-control" id="fecha" name="fecha">
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-success" id="aceptar">Aceptar</button>
+                </div>
+            </form> 
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('otros-scripts')
@@ -175,6 +214,12 @@
     
     <!--Script adicional para jQuery validation para validar las extensiones de los archivos-->
     <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/additional-methods.js"></script>
+
+    <!--Script moment para manejo de tiempo en el datetimepicker-->
+    <script src="{{asset('js/moment-with-locales.js')}}"></script>
+
+    <!--Script para datetimepicker-->
+    <script src="{{asset('js/bootstrap-datetimepicker.min.js')}}"></script>
 
     <!--Script propio para este pagina-->
     <script src="{{asset('js/presentaciones/inicio.js')}}"></script>

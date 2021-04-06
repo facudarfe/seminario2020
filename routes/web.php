@@ -113,6 +113,10 @@ Route::group(['middleware' => 'auth'], function () {
         //Rutas para aceptar o rechazar la participacion de otro estudiante en la presentacion
         Route::patch('/{user}/{presentacion}/aceptarORechazar', [PresentacionesController::class, 'aceptarORechazar'])
             ->name('presentaciones.aceptarORechazar')->middleware('can:aceptarORechazar,presentacion');
+
+        //Rutas para Anexo 2
+        Route::post('/{presentacion}/proponerFecha',[PresentacionesController::class, 'proponerFecha'])->name('presentaciones.proponerFecha')
+            ->middleware('can:proponerFecha,presentacion');
     });
 
     //Rutas contacto
