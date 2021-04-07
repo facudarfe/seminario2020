@@ -18,4 +18,8 @@ class Anexo2 extends Model
     public function estado(){
         return $this->belongsTo(Estado::class, 'estado_id', 'id');
     }
+
+    public function getFechaPropuestaAttribute($value){
+        return date('d/m/Y H:i', strtotime($value));
+    }
 }

@@ -154,6 +154,11 @@ Route::group(['middleware' => 'auth'], function () {
         Route::patch('/{pasantia}/habilitar', [PasantiasController::class, 'enable'])->name('pasantias.habilitar')->middleware('can:manipular,pasantia');
         Route::patch('/{pasantia}/deshabilitar', [PasantiasController::class, 'disable'])->name('pasantias.deshabilitar')->middleware('can:manipular,pasantia');
     });
+
+    //Rutas Anexos 2
+    Route::prefix('anexos2')->group(function () {
+        Route::get('/{anexo2}/PDF', [PDFController::class, 'generarAnexo2'])->name('anexos2.PDF')->middleware('can:generarPDF,anexo2');
+    });
 });
 
 //Rutas para validaciones AJAX

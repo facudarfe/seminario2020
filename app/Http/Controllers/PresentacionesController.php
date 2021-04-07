@@ -23,21 +23,24 @@ class PresentacionesController extends Controller
         //Se muestra la tabla con las presentaciones dependiendo del rol
         if(auth()->user()->hasRole('Estudiante')){
             $presentaciones = auth()->user()->presentaciones;
-            //$presentaciones = Anexo1::where('alumno_id', auth()->user()->id)->get();
+            $anexos2 = Anexo2::orderByDesc('updated_at')->whereIn('anexo1_id', auth()->user()
+            ->presentaciones()->pluck('id')->toArray())->get();
         }
         elseif(auth()->user()->hasRole('Docente colaborador')){            
             //Para los docentes colaboradores solo se mostraran las presentaciones que le fueron asignadas para corregir
             $presentaciones = Anexo1::where('docente_id', auth()->user()->id)->get();
+            $anexos2 = null;
         }
         else{
             $presentaciones = Anexo1::all();
+            $anexos2 = Anexo2::orderByDesc('updated_at')->get();
         }
 
         $solicitado = auth()->user()->propuestaTema()->whereHas('estado', function($q){
                                         $q->where('nombre', '=', 'Solicitado');
                                     })->first();
 
-        return view('presentaciones.inicio', compact('presentaciones', 'solicitado'));
+        return view('presentaciones.inicio', compact('presentaciones', 'solicitado', 'anexos2'));
     }
 
     public function create(){

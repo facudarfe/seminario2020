@@ -21,7 +21,7 @@
 @section('titulo', 'Presentaciones')  
 @section('titulo-contenido', 'Presentaciones')
 
-@section('titulo-tabla', 'Presentaciones')
+@section('titulo-tabla', 'Proyectos')
 
 @section('contenido-antes-tabla')
     @include('includes.mensaje_exito')
@@ -63,136 +63,194 @@
 @endsection
 
 @section('contenido-tabla')
-<table class="table" id="dataTable" width="100%" cellspacing="0" data-role="{{auth()->user()->getRoleNames()->first()}}">
-    <thead>
-        <tr>
-            <th></th>
-            <th>Fecha</th>
-            <th>Titulo</th>
-            @unlessrole('Estudiante')
-            <th>Alumno/s</th>
-            @endrole
-            <th>Director</th>
-            <th>Modalidad</th>
-            <th>Estado</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach ($presentaciones as $presentacion)
+    <table class="table" id="dataTable" width="100%" cellspacing="0" data-role="{{auth()->user()->getRoleNames()->first()}}">
+        <thead>
             <tr>
-                <th><a href="{{route('presentaciones.ver', $presentacion)}}"><i class="fas fa-eye"></i></a></th>
-                <td>{{$presentacion->created_at}}</td>
-                <td>{{$presentacion->titulo}}</td>
+                <th></th>
+                <th>Fecha</th>
+                <th>Titulo</th>
                 @unlessrole('Estudiante')
-                <td>
-                    @for ($i = 0; $i < count($presentacion->alumnos); $i++)
-                        @if ($i != count($presentacion->alumnos)-1)
-                            {{($presentacion->alumnos[$i])->name . '- '}}
-                        @else
-                            {{($presentacion->alumnos[$i])->name}}
-                        @endif
-                    @endfor
-                </td>
+                <th>Alumno/s</th>
                 @endrole
-                <td>{{$presentacion->director->name}}</td>
-                <td>{{$presentacion->modalidad->nombre}}</td>
-                <td>
-                    <span class="badge badge-{{$presentacion->estado->color_clase}}">{{$presentacion->estado->nombre}}</span>
-                </td>
-                <td class="text-center">
-                    <div class="dropdown no-arrow">
-                        <a class="dropdown-toggle" type="button" data-toggle="dropdown"><i class="fas fa-chevron-down"></i></a>
-                        <div class="dropdown-menu shadow activeOptions">
-                            @can('subirInforme', $presentacion)
-                                <button class="dropdown-item" data-presentacion="{{$presentacion->id}}" id="botonInforme">
-                                    <i class="fas fa-file-pdf fa-lg fa-fw text-gray-400"></i>
-                                    Subir informe de avance
-                                </button>
-                            @endcan
-                            @if ($presentacion->ruta_informe)
-                                <a href="{{route('presentaciones.descargarInforme', $presentacion)}}" class="dropdown-item">
-                                    <i class="fas fa-file-download fa-lg fa-fw text-gray-400"></i>
-                                    Descargar informe de avance
-                                </a>
-                            @endif
-                            @can('proponerFecha', $presentacion)
-                                <a href="#" class="dropdown-item" id="botonPropuestaFecha" data-id="{{$presentacion->id}}">
-                                    <i class="fas fa-calendar-alt fa-lg fa-fw text-gray-400"></i>
-                                    Proponer fecha finalización
-                                </a>
-                            @endcan
-                        </div>
-                    </div>
-                </td>
+                <th>Director</th>
+                <th>Modalidad</th>
+                <th>Estado</th>
+                <th>Acciones</th>
             </tr>
-        @endforeach
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach ($presentaciones as $presentacion)
+                <tr>
+                    <th><a href="{{route('presentaciones.ver', $presentacion)}}"><i class="fas fa-eye"></i></a></th>
+                    <td>{{$presentacion->created_at}}</td>
+                    <td>{{$presentacion->titulo}}</td>
+                    @unlessrole('Estudiante')
+                    <td>
+                        @for ($i = 0; $i < count($presentacion->alumnos); $i++)
+                            @if ($i != count($presentacion->alumnos)-1)
+                                {{($presentacion->alumnos[$i])->name . '- '}}
+                            @else
+                                {{($presentacion->alumnos[$i])->name}}
+                            @endif
+                        @endfor
+                    </td>
+                    @endrole
+                    <td>{{$presentacion->director->name}}</td>
+                    <td>{{$presentacion->modalidad->nombre}}</td>
+                    <td>
+                        <span class="badge badge-{{$presentacion->estado->color_clase}}">{{$presentacion->estado->nombre}}</span>
+                    </td>
+                    <td class="text-center">
+                        <div class="dropdown no-arrow">
+                            <a class="dropdown-toggle" type="button" data-toggle="dropdown"><i class="fas fa-chevron-down"></i></a>
+                            <div class="dropdown-menu shadow activeOptions">
+                                @can('subirInforme', $presentacion)
+                                    <button class="dropdown-item" data-presentacion="{{$presentacion->id}}" id="botonInforme">
+                                        <i class="fas fa-file-pdf fa-lg fa-fw text-gray-400"></i>
+                                        Subir informe de avance
+                                    </button>
+                                @endcan
+                                @if ($presentacion->ruta_informe)
+                                    <a href="{{route('presentaciones.descargarInforme', $presentacion)}}" class="dropdown-item">
+                                        <i class="fas fa-file-download fa-lg fa-fw text-gray-400"></i>
+                                        Descargar informe de avance
+                                    </a>
+                                @endif
+                                @can('proponerFecha', $presentacion)
+                                    <a href="#" class="dropdown-item" id="botonPropuestaFecha" data-id="{{$presentacion->id}}">
+                                        <i class="fas fa-calendar-alt fa-lg fa-fw text-gray-400"></i>
+                                        Proponer fecha finalización
+                                    </a>
+                                @endcan
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+@endsection
 
-<!--Modal para subir el archivo del informe-->
-<div class="modal fade" id="modalInforme" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Subir informe Presentación</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
+@section('contenido-despues-tabla')
+    @if(auth()->user()->can('anexos2.ver') && $anexos2->count() > 0)
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Solicitudes mesa examinadora</h6>
             </div>
-            <form action="" method="POST" enctype="multipart/form-data" id="formInforme">
-                @csrf
-                <div class="modal-body">
-                    <div class="form-row justify-content-center">
-                        <div class="col-11 form-group">
-                            <label for="informe">Sube el informe en formato PDF:</label>
-                            <input type="file" class="form-control" id="informe" name="informe">
-                            {{-- <div class="input-group">
-                                <div class="custom-file">
-                                  <input type="file" class="custom-file-input" name="informe" id="informe">
-                                  <label class="custom-file-label" for="informe">Subir informe</label>
-                                </div>
-                            </div> --}}
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <th></th>
+                            <th>Fecha y hora propuesta</th>
+                            <th>Fecha y hora definitiva</th>
+                            <th>Titulo proyecto</th>
+                            <th>Alumno/s</th>
+                            <th>Estado</th>
+                            <th>Acciones</th>
+                        </thead>
+                        <tbody>
+                            @foreach ($anexos2 as $anexo2)
+                                <tr>
+                                    <td><i class="fas fa-eye"></i></td>
+                                    <td>{{$anexo2->fecha_propuesta}}</td>
+                                    <td>{{$anexo2->fecha_definitiva}}</td>
+                                    <td>{{$anexo2->presentacion->titulo}}</td>
+                                    <td>
+                                        @for ($i = 0; $i < count($anexo2->presentacion->alumnos); $i++)
+                                            @if ($i != count($anexo2->presentacion->alumnos)-1)
+                                                {{($anexo2->presentacion->alumnos[$i])->name . ' - '}}
+                                            @else
+                                                {{($anexo2->presentacion->alumnos[$i])->name}}
+                                            @endif
+                                        @endfor
+                                    </td>
+                                    <td><span class="badge badge-{{$anexo2->estado->color_clase}}">{{$anexo2->estado->nombre}}</span></td>
+                                    <td class="text-center">
+                                        <div class="dropdown no-arrow">
+                                            <a class="dropdown-toggle" type="button" data-toggle="dropdown"><i class="fas fa-chevron-down"></i></a>
+                                            <div class="dropdown-menu shadow activeOptions">
+                                                @can('generarPDF', $anexo2)
+                                                    <a class="dropdown-item" href="{{route('anexos2.PDF', $anexo2)}}" target="_blank">
+                                                        <i class="fas fa-file-download fa-lg fa-fw text-gray-400"></i>
+                                                        Descargar Anexo 2
+                                                    </a>
+                                                @endcan
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    @endif
+
+    <!--Modal para subir el archivo del informe-->
+    <div class="modal fade" id="modalInforme" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Subir informe Presentación</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <form action="" method="POST" enctype="multipart/form-data" id="formInforme">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-row justify-content-center">
+                            <div class="col-11 form-group">
+                                <label for="informe">Sube el informe en formato PDF:</label>
+                                <input type="file" class="form-control" id="informe" name="informe">
+                                {{-- <div class="input-group">
+                                    <div class="custom-file">
+                                    <input type="file" class="custom-file-input" name="informe" id="informe">
+                                    <label class="custom-file-label" for="informe">Subir informe</label>
+                                    </div>
+                                </div> --}}
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-success" id="subir">Subir</button>
-                </div>
-            </form> 
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-success" id="subir">Subir</button>
+                    </div>
+                </form> 
+            </div>
         </div>
     </div>
-</div>
 
-<!--Modal para elegir fecha de finalizacion-->
-<div class="modal fade" id="modalFinal" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Elegir fecha del final</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <form action="" method="POST" id="formFecha">
-                @csrf
-                <div class="modal-body">
-                    <div class="form-row justify-content-center">
-                        <div class="col-11 form-group">
-                            <label for="fecha">Elija fecha y hora de presentación del proyecto:</label>
-                            <input type="text" class="form-control" id="fecha" name="fecha">
+    <!--Modal para elegir fecha de finalizacion-->
+    <div class="modal fade" id="modalFinal" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Elegir fecha del final</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <form action="" method="POST" id="formFecha">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-row justify-content-center">
+                            <div class="col-11 form-group">
+                                <label for="fecha">Elija fecha y hora de presentación del proyecto:</label>
+                                <input type="text" class="form-control" id="fecha" name="fecha">
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                    <button type="submit" class="btn btn-success" id="aceptar">Aceptar</button>
-                </div>
-            </form> 
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-success" id="aceptar">Aceptar</button>
+                    </div>
+                </form> 
+            </div>
         </div>
     </div>
-</div>
 @endsection
 
 @section('otros-scripts')
