@@ -22,4 +22,12 @@ class Anexo2 extends Model
     public function getFechaPropuestaAttribute($value){
         return date('d/m/Y H:i', strtotime($value));
     }
+
+    public function getFechaDefinitivaAttribute($value){
+        return $value ? date('d/m/Y H:i', strtotime($value)) : null;
+    }
+
+    public function tribunal(){
+        return $this->belongsToMany(Docente::class, 'tribunales_evaluadores', 'anexo2_id', 'docente_dni')->withPivot(['titular']);
+    }
 }

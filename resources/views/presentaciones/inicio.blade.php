@@ -10,6 +10,9 @@
     <!--Estilo para datetimepicker-->
     <link rel="stylesheet" href="{{asset('css/bootstrap-datetimepicker.min.css')}}">
 
+    <!--Multiselect-->
+    <link rel="stylesheet" href="{{asset('css/bootstrap-multiselect.css')}}" type="text/css">
+
     <style>
         /*Cambiar la posicion del input de busqueda del DataTable a la izquierda reescribiendo las clases*/
         div.dataTables_wrapper div.dataTables_filter{
@@ -139,7 +142,7 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table">
+                    <table class="table" id="tablaAnexos2">
                         <thead>
                             <th></th>
                             <th>Fecha y hora propuesta</th>
@@ -175,6 +178,12 @@
                                                         <i class="fas fa-file-download fa-lg fa-fw text-gray-400"></i>
                                                         Descargar Anexo 2
                                                     </a>
+                                                    @if(auth()->user()->can('anexos2.definirFechaYTribunal') && $anexo2->estado->nombre == 'Fecha propuesta')
+                                                        <button type="button" data-id="{{$anexo2->id}}" class="dropdown-item" id="botonDefinirFecha">
+                                                            <i class="fas fa-calendar-alt fa-lg fa-fw text-gray-400"></i>
+                                                            Definir fecha y tribunal
+                                                        </button>
+                                                    @endif
                                                 @endcan
                                             </div>
                                         </div>
@@ -239,7 +248,58 @@
                         <div class="form-row justify-content-center">
                             <div class="col-11 form-group">
                                 <label for="fecha">Elija fecha y hora de presentación del proyecto:</label>
-                                <input type="text" class="form-control" id="fecha" name="fecha">
+                                <input type="text" class="form-control" id="fecha_propuesta" name="fecha_propuesta">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-success" id="aceptar">Aceptar</button>
+                    </div>
+                </form> 
+            </div>
+        </div>
+    </div>
+
+    <!--Modal para elegir fecha definitiva y tribunal evaluador-->
+    <div class="modal fade" id="modalFinalTribunal" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Definir fecha y tribunal</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <form action="" method="POST" id="formFechaTribunal">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-row justify-content-center">
+                            <div class="col-11 form-group">
+                                <label for="fecha">Elija fecha y hora para el final:</label>
+                                <input type="text" class="form-control" id="fecha_definitiva" name="fecha_definitiva">
+                            </div>
+                        </div>
+                        
+                        <div class="form-row justify-content-center">
+                            <div class="form-group col-11">
+                                <label for="grupo">Tribunal titular: </label>
+                                <select name="tribunalTitular[]" class="custom-select tribunal" id="tribunalTitular" multiple>
+                                    @foreach ($docentes as $docente)
+                                        <option value="{{$docente->dni}}">{{$docente->name}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row justify-content-center">
+                            <div class="form-group col-11">
+                                <label for="grupo">Tribunal suplente: </label>
+                                <select name="tribunalSuplente[]" class="custom-select tribunal" id="tribunalSuplente" multiple>
+                                    @foreach ($docentes as $docente)
+                                        <option value="{{$docente->dni}}">{{$docente->name}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -267,6 +327,9 @@
     <script src="https://cdn.datatables.net/searchbuilder/1.0.1/js/dataTables.searchBuilder.min.js"></script>
     <script src="https://cdn.datatables.net/searchbuilder/1.0.1/js/searchBuilder.bootstrap4.min.js"></script>
     <script src="https://cdn.datatables.net/datetime/1.0.2/js/dataTables.dateTime.min.js"></script>
+
+    <!--Multiselect-->
+    <script src="{{asset('js/bootstrap-multiselect.js')}}"></script>
 
     @include('includes.scripts_validaciones')
     

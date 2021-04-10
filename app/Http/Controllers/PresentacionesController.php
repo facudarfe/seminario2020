@@ -7,6 +7,7 @@ use App\Mail\CorreccionMail;
 use App\Mail\NuevaPresentacionMail;
 use App\Models\Anexo1;
 use App\Models\Anexo2;
+use App\Models\Docente;
 use App\Models\Estado;
 use App\Models\Modalidad;
 use App\Models\PropuestaTema;
@@ -39,8 +40,10 @@ class PresentacionesController extends Controller
         $solicitado = auth()->user()->propuestaTema()->whereHas('estado', function($q){
                                         $q->where('nombre', '=', 'Solicitado');
                                     })->first();
+        
+        $docentes = Docente::all();
 
-        return view('presentaciones.inicio', compact('presentaciones', 'solicitado', 'anexos2'));
+        return view('presentaciones.inicio', compact('presentaciones', 'solicitado', 'anexos2', 'docentes'));
     }
 
     public function create(){
@@ -242,7 +245,7 @@ class PresentacionesController extends Controller
     public function proponerFecha(Request $request, Anexo1 $presentacion){
         $anexo2 = new Anexo2();
 
-        $fecha = str_replace('/', '-', $request->input('fecha'));
+        $fecha = str_replace('/', '-', $request->input('fecha_propuesta'));
         $fecha = date('Y-m-d H:i', strtotime($fecha));
         $anexo2->fecha_propuesta = $fecha;
         $anexo2->presentacion()->associate($presentacion);

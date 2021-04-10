@@ -63,7 +63,7 @@
             </tr>
             <tr>
                 <td><b>Fecha del examen final</b></td>
-                <td>{{date('d/m/Y', strtotime($anexo2->fecha_propuesta))}}. Hora: {{date('H:i', strtotime($anexo2->fecha_propuesta))}}</td>
+                <td>{{date('d/m/Y', strtotime($anexo2->getRawOriginal('fecha_propuesta')))}}. Hora: {{date('H:i', strtotime($anexo2->getRawOriginal('fecha_propuesta')))}}</td>
             </tr>
         </table>
         <p>Se adjuntan a la presente 4 (cuatro) ejemplares del Trabajo Final, debidamente firmados 
@@ -89,17 +89,31 @@
             <p>Jefe del Departamento de Alumnos</p>
         </div>
         <hr>
-        <p><b>Comisión de Seminario TUP, </b>___ / ___ / ___ .</p>
+        <p><b>Comisión de Seminario TUP, </b>{{$anexo2->fecha_definitiva ? date('d/m/Y', strtotime(now())) : '___ / ___ / ___ .'}}</p>
         <p>Propuesta de Tribunal examinador:</p>
         <p>Miembros titulares</p>
-        <hr class="separacion">
-        <hr class="separacion">
+        @if ($anexo2->fecha_definitiva)
+            @foreach ($anexo2->tribunal()->where('tribunales_evaluadores.titular', true)->get() as $docente)
+                {{$docente->name}}
+                <br>
+            @endforeach
+        @else
+            <hr class="separacion">
+            <hr class="separacion">
+        @endif
         <p>Miembros suplentes</p>
-        <hr class="separacion">
-        <hr class="separacion">
+        @if ($anexo2->fecha_definitiva)
+            @foreach ($anexo2->tribunal()->where('tribunales_evaluadores.titular', false)->get() as $docente)
+                {{$docente->name}}
+                <br>
+            @endforeach
+        @else
+            <hr class="separacion">
+            <hr class="separacion">
+        @endif
 
         <p>Constitución del tribunal examinador:</p>
-        <p>Fecha: __/__/__. Horas: ____</p>
+        <p>{{$anexo2->fecha_definitiva ? 'Fecha: ' . date('d/m/Y', strtotime($anexo2->getRawOriginal('fecha_definitiva'))) . '. Horas: ' . date('H:i', strtotime($anexo2->getRawOriginal('fecha_definitiva'))) : 'Fecha: __/__/__. Horas: ____'}}</p>
         <div class="text-right">
             <p>_________________________</p>
         </div>

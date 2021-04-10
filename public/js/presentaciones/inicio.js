@@ -68,6 +68,20 @@ if(rol != 'Estudiante'){
             }
         ]
     });
+
+    // Datatable para los Anexos 2
+    $('#tablaAnexos2').DataTable({
+        "columnDefs": [
+            {"targets": 0, "orderable": false, "searchable": false},
+            {"targets": 6, "searchable": false, "orderable": false}
+        ],
+        language: {
+            "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json",
+        },
+        dom: "<'row'<'col-sm-6'f><'col-sm-6 p-0'>>"+
+        "<'row'<'col-12'rt>>"+
+        "<'row'<'col-12'<'float-right'p>>>",
+    });
 }
 
 //Subida del informe
@@ -106,9 +120,8 @@ $(document).ready(function(){
     });
 });
 
-$('#modalFinal').ready(function(){
-    let fecha = $(this).find('#fecha');
-    fecha.datetimepicker({
+$('#modalFinal, #modalFinalTribunal').ready(function(){
+    $('#fecha_propuesta, #fecha_definitiva').datetimepicker({
         minDate: moment(),
         icons: {
             time: 'fas fa-clock'
@@ -117,16 +130,62 @@ $('#modalFinal').ready(function(){
         locale: moment.locale('es')
     });
 
+    // Inicializamos el select con opciones multiples
+    $('.tribunal').multiselect({
+        buttonWidth: '100%',
+        nonSelectedText: 'Ninguno seleccionado',
+        allSelectedText: 'Todos seleccionados',
+        enableFiltering: true,
+        enableCaseInsensitiveFiltering: true,
+        filterPlaceholder: 'Buscar',
+        dropRight: true,
+        nSelectedText: 'seleccionados',
+    }); 
+
+    // Validaciones para la definicion de fecha y de tribunal
+    $('#formFechaTribunal').validate({
+        rules: {
+            fecha_definitiva: {
+                required: true,
+            },
+            'tribunalTitular[]': {
+                required: true,
+                minlength: 1
+            },
+            'tribunalSuplente[]': {
+                required: true,
+                minlength: 1
+            },
+        },
+        messages: {
+            'tribunalTitular[]': {
+                minlength: 'Seleccione al menos un docente'
+            },
+            'tribunalSuplente[]': {
+                minlength: 'Seleccione al menos un docente'
+            },
+        }
+    });
 });
 
 //Propuesta de fecha
 $('#botonPropuestaFecha').click(function(){
     var id = $(this).data('id');
-    console.log('Hola');
 
     $('#modalFinal').modal('show');
     $('#modalFinal').ready(function(){
         //Seteamos el atributo 'action' del form a la ruta con el id de la presentacion
         $(this).find('#formFecha').attr('action', '/presentaciones/'+id+'/proponerFecha');
+    }); 
+});
+
+//Definir fecha y tribunal
+$('#botonDefinirFecha').click(function(){
+    var id = $(this).data('id');
+
+    $('#modalFinalTribunal').modal('show');
+    $('#modalFinalTribunal').ready(function(){
+        //Seteamos el atributo 'action' del form a la ruta con el id de la presentacion
+        $(this).find('#formFechaTribunal').attr('action', '/anexos2/'+id+'/definirFechaYTribunal');
     }); 
 });

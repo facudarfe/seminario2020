@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\PermisoController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Anexo2Controller;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ContactoController;
@@ -158,6 +159,8 @@ Route::group(['middleware' => 'auth'], function () {
     //Rutas Anexos 2
     Route::prefix('anexos2')->group(function () {
         Route::get('/{anexo2}/PDF', [PDFController::class, 'generarAnexo2'])->name('anexos2.PDF')->middleware('can:generarPDF,anexo2');
+        Route::post('/{anexo2}/definirFechaYTribunal', [Anexo2Controller::class, 'definirFechaYTribunal'])
+            ->middleware('permission:anexos2.definirFechaYTribunal');
     });
 });
 
