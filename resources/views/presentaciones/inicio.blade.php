@@ -277,7 +277,10 @@
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-success" id="aceptar">Solicitar</button>
+                        <button type="submit" class="btn btn-success" id="aceptar">
+                            <i class="loading-icon fa fa-spinner fa-spin d-none"></i>
+                            Solicitar
+                        </button>
                     </div>
                 </form> 
             </div>

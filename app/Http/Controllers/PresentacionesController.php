@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Mail\AsignarDocenteMail;
 use App\Mail\CorreccionMail;
 use App\Mail\NuevaPresentacionMail;
+use App\Mail\SolicitudMesaDocenteMail;
+use App\Mail\SolicitudMesaEstudianteMail;
 use App\Models\Anexo1;
 use App\Models\Anexo2;
 use App\Models\Docente;
@@ -264,6 +266,9 @@ class PresentacionesController extends Controller
 
         $presentacion->estado()->associate($estado);
         $presentacion->save();
+
+        Mail::to($presentacion->alumnos)->send(new SolicitudMesaEstudianteMail($anexo2));
+        Mail::to(User::role('Docente responsable')->get())->send(new SolicitudMesaDocenteMail($anexo2));
 
         return redirect()->route('presentaciones.inicio')
                 ->with('exito', 'Has solicitado la mesa examinadora con éxito. En la seccion "Solicitudes mesa examinadora" verás tu solicitud.');

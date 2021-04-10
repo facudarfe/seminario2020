@@ -188,6 +188,11 @@ $('#botonPropuestaFecha').click(function(){
     $('#modalFinal').ready(function(){
         //Seteamos el atributo 'action' del form a la ruta con el id de la presentacion
         $(this).find('#formFecha').attr('action', '/presentaciones/'+id+'/proponerFecha');
+
+        // Se muestra el icono del spinner
+        $('#modalFinal button[type=submit').click(function(){
+            $(this).find('i').removeClass('d-none');
+        });
     }); 
 });
 
