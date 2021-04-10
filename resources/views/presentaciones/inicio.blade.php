@@ -122,7 +122,7 @@
                                 @can('proponerFecha', $presentacion)
                                     <a href="#" class="dropdown-item" id="botonPropuestaFecha" data-id="{{$presentacion->id}}">
                                         <i class="fas fa-calendar-alt fa-lg fa-fw text-gray-400"></i>
-                                        Proponer fecha finalización
+                                        Solicitar mesa examinadora
                                     </a>
                                 @endcan
                             </div>
@@ -236,12 +236,12 @@
         </div>
     </div>
 
-    <!--Modal para elegir fecha de finalizacion-->
+    <!--Modal para solicitar mesa examinadora-->
     <div class="modal fade" id="modalFinal" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Elegir fecha del final</h5>
+                    <h5 class="modal-title">Solicitar mesa examinadora</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
@@ -251,14 +251,17 @@
                     <div class="modal-body">
                         <div class="form-row justify-content-center">
                             <div class="col-11 form-group">
-                                <label for="fecha">Elija fecha y hora de presentación del proyecto:</label>
+                                <label for="fecha">Proponga una fecha y hora para la evaluación del proyecto:</label>
                                 <input type="text" class="form-control" id="fecha_propuesta" name="fecha_propuesta">
                             </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <p class="col-11 text-center">Se generará automaticamente el <b>Anexo 2</b> al solicitar la mesa examinadora.</p>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-success" id="aceptar">Aceptar</button>
+                        <button type="submit" class="btn btn-success" id="aceptar">Solicitar</button>
                     </div>
                 </form> 
             </div>

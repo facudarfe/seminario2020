@@ -261,6 +261,6 @@ class PresentacionesController extends Controller
         $presentacion->save();
 
         return redirect()->route('presentaciones.inicio')
-                ->with('exito', 'Se ha propuesto la fecha con éxito y se ha generado el formulario Anexo 2.');
+                ->with('exito', 'Has solicitado la mesa examinadora con éxito. En la seccion "Solicitudes mesa examinadora" verás tu solicitud.');
     }
 }
