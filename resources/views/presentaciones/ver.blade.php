@@ -9,6 +9,7 @@
             <div class="card-header py-3">
                 <h6 class="d-inline m-0 font-weight-bold text-primary">Detalle presentación</h6>
                 <div class="d-inline float-right dropdown no-arrow">
+                    <h5 class="d-none d-sm-inline mr-3"><span class="badge badge-{{$presentacion->estado->color_clase}}">{{$presentacion->estado->nombre}}</span></h5>
                     <a class="dropdown-toggle" type="button" data-toggle="dropdown"><i class="fas fa-ellipsis-v"></i></a>
                     <div class="dropdown-menu dropdown-menu-right shadow">
                         @if (auth()->user()->can('presentaciones.asignar.evaluador') && !$presentacion->docente_id)
