@@ -15,6 +15,7 @@ use App\Http\Controllers\StorageController;
 use App\Http\Controllers\TemasController;
 use App\Http\Controllers\ValidacionesController;
 use App\Mail\RegistroMail;
+use App\Models\Anexo2;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -162,6 +163,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/{anexo2}/definirFechaYTribunal', [Anexo2Controller::class, 'definirFechaYTribunal'])
             ->middleware('permission:anexos2.definirFechaYTribunal');
         Route::get('/{anexo2}/ver', [Anexo2Controller::class, 'show'])->name('anexo2.ver')->middleware('can:ver,anexo2');
+        Route::patch('/{anexo2}/evaluarExamen', [Anexo2Controller::class, 'evaluarExamen'])->name('anexo2.evaluarExamen')
+            ->middleware('permission:anexos2.evaluar');
     });
 });
 

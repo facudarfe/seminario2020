@@ -76,6 +76,16 @@
                         </div>
                     </div>
                 @endif
+                @if ($anexo2->devolucion)
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="jumbotron p-4">
+                                <h5 class="mt-2">Devolución examen: </h5>
+                                <p>{{$anexo2->devolucion}}</p>
+                            </div>
+                        </div>
+                    </div>
+                @endif
             </div>
         </div>    
     </div>

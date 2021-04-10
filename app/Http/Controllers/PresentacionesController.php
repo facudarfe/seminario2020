@@ -42,8 +42,9 @@ class PresentacionesController extends Controller
                                     })->first();
         
         $docentes = Docente::all();
+        $estadosEvaluacion = Estado::where('nombre', 'Aprobado')->orWhere('nombre', 'Desaprobado')->get();
 
-        return view('presentaciones.inicio', compact('presentaciones', 'solicitado', 'anexos2', 'docentes'));
+        return view('presentaciones.inicio', compact('presentaciones', 'solicitado', 'anexos2', 'docentes', 'estadosEvaluacion'));
     }
 
     public function create(){
@@ -208,8 +209,6 @@ class PresentacionesController extends Controller
     public function regularizarPresentacion(Request $request, Anexo1 $presentacion){
         //Control de que se este por regularizar una presentacion en estado Aceptado
         if($presentacion->estado->nombre == "Aceptado"){
-            $presentacion->devolucion = $request->devolucion;
-            $presentacion->fecha = Carbon::now('America/Argentina/Salta')->format('Y-m-d');
             $estado = Estado::where('nombre', 'Regular')->first();
             $presentacion->estado()->associate($estado);
 

@@ -198,3 +198,23 @@ $('#botonDefinirFecha').click(function(){
         $(this).find('#formFechaTribunal').attr('action', '/anexos2/'+id+'/definirFechaYTribunal');
     }); 
 });
+
+// Evaluar examen
+$('#evaluarExamen').click(function(){
+    var id = $(this).data('id');
+
+    $('#modalEvaluar').modal('show');
+    $('#modalEvaluar').ready(function(){
+        //Seteamos el atributo 'action' del form a la ruta con el id de la presentacion
+        $(this).find('form').attr('action', '/anexos2/'+id+'/evaluarExamen');
+
+        // Validacion
+        $('#formEvaluacion').validate({
+            rules: {
+                estado: {
+                    required: true,
+                }
+            }
+        });
+    }); 
+});

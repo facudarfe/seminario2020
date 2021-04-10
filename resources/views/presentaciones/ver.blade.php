@@ -65,11 +65,11 @@
                     </div>
                 @endif
                 <hr>
-                @if ($presentacion->estado->nombre == "Regular")
+                @if ($presentacion->fecha)
                     <div class="row">
                         <div class="col-12">
                             <div class="jumbotron p-4 bg-success text-light mb-0">
-                                <h5 class="d-inline font-weight-bold">Fecha regularización: </h5>
+                                <h5 class="d-inline font-weight-bold">Fecha finalización: </h5>
                                 <p class="d-sm-inline">{{$presentacion->fecha}}</p>
                                 <h5 class="mt-2 font-weight-bold">Devolución final: </h5>
                                 <p>{{$presentacion->devolucion}}</p>

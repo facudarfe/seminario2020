@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Anexo2;
 use App\Models\Estado;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -44,5 +45,37 @@ class Anexo2Controller extends Controller
 
     public function show(Anexo2 $anexo2){
         return view('anexos2.ver', compact('anexo2'));
+    }
+
+    public function evaluarExamen(Request $request, Anexo2 $anexo2){
+        $request->validate([
+            'estado' => ['required'],
+        ]);
+
+        try{
+            DB::transaction(function () use($request, $anexo2) {
+                $estado = Estado::find($request->get('estado'));
+                $presentacion = $anexo2->presentacion;
+    
+                $anexo2->estado()->associate($estado);
+                $anexo2->devolucion = $request->devolucion;
+                $anexo2->save();
+    
+                if($estado->nombre == 'Aprobado'){
+                    $presentacion->estado()->associate($estado);
+                    $presentacion->fecha = Carbon::now('America/Argentina/Salta')->format('Y-m-d');
+                    $presentacion->devolucion = $request->devolucion;
+                }
+                else{
+                    $presentacion->estado()->associate(Estado::where('nombre', 'Regular')->first());
+                }
+                $presentacion->save();
+            });
+
+            return redirect()->route('presentaciones.inicio')->with('exito', 'Se realizó la evaluación del examen con éxito.');
+        }
+        catch(Exception $e){
+            return redirect()->route('presentaciones.inicio')->withErrors('Ha ocurrido un error en la evaluación. ' . $e->getMessage());
+        }
     }
 }

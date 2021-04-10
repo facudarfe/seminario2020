@@ -189,6 +189,12 @@
                                                         Definir fecha y tribunal
                                                     </button>
                                                 @endif
+                                                @if (auth()->user()->can('anexos2.evaluar') && $anexo2->estado->nombre == 'Fecha y tribunal definidos')
+                                                    <button type="button" data-id="{{$anexo2->id}}" id="evaluarExamen" class="dropdown-item" id="botonDefinirFecha">
+                                                        <i class="fas fa-check-double fa-lg fa-fw text-gray-400"></i>
+                                                        Evaluar exámen
+                                                    </button>
+                                                @endcan
                                             </div>
                                         </div>
                                     </td>
@@ -313,6 +319,52 @@
                     <div class="modal-footer">
                         <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
                         <button type="submit" class="btn btn-success" id="aceptar">Aceptar</button>
+                    </div>
+                </form> 
+            </div>
+        </div>
+    </div>
+
+    <!--Modal para realizar la correcion de un trabajo-->
+    <div class="modal fade" id="modalEvaluar" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Evaluar exámen</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <form action="" method="POST" id="formEvaluacion">
+                    @csrf
+                    @method('PATCH')
+                    <div class="modal-body">
+                        <div class="form-row justify-content-center">
+                            <div class="col-10">
+                                <div class="form-row justify-content-between">
+                                    @foreach ($estadosEvaluacion as $estado)
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id={{"estado" . $estado->id}} name="estado" 
+                                            value="{{$estado->id}}" class="custom-control-input">
+                                            <label for={{"estado" . $estado->id}} class="custom-control-label">
+                                                <span class="badge badge-{{$estado->color_clase}}">{{$estado->nombre}}</span>
+                                            </label>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="form-row justify-content-center">
+                            <div class="form-group col-10">
+                                <label for="observaciones">Devolución: </label>
+                                <textarea class="form-control form-control-user" name="devolucion" id="devolucion" cols="100%" rows="5"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-success" id="confirmar">Aceptar</button>
                     </div>
                 </form> 
             </div>
