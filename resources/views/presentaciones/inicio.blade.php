@@ -155,7 +155,7 @@
                         <tbody>
                             @foreach ($anexos2 as $anexo2)
                                 <tr>
-                                    <td><i class="fas fa-eye"></i></td>
+                                    <th><a href="{{route('anexo2.ver', $anexo2)}}"><i class="fas fa-eye"></i></a></th>
                                     <td>{{$anexo2->fecha_propuesta}}</td>
                                     <td>{{$anexo2->fecha_definitiva}}</td>
                                     <td>{{$anexo2->presentacion->titulo}}</td>
@@ -173,18 +173,22 @@
                                         <div class="dropdown no-arrow">
                                             <a class="dropdown-toggle" type="button" data-toggle="dropdown"><i class="fas fa-chevron-down"></i></a>
                                             <div class="dropdown-menu shadow activeOptions">
+                                                <a class="dropdown-item" href="{{route('presentaciones.ver', $anexo2->anexo1_id)}}">
+                                                    <i class="fas fa-file-alt fa-lg fa-fw text-gray-400"></i>
+                                                    Ver presentación asociada
+                                                </a>
                                                 @can('generarPDF', $anexo2)
                                                     <a class="dropdown-item" href="{{route('anexos2.PDF', $anexo2)}}" target="_blank">
                                                         <i class="fas fa-file-download fa-lg fa-fw text-gray-400"></i>
                                                         Descargar Anexo 2
                                                     </a>
-                                                    @if(auth()->user()->can('anexos2.definirFechaYTribunal') && $anexo2->estado->nombre == 'Fecha propuesta')
-                                                        <button type="button" data-id="{{$anexo2->id}}" class="dropdown-item" id="botonDefinirFecha">
-                                                            <i class="fas fa-calendar-alt fa-lg fa-fw text-gray-400"></i>
-                                                            Definir fecha y tribunal
-                                                        </button>
-                                                    @endif
                                                 @endcan
+                                                @if(auth()->user()->can('anexos2.definirFechaYTribunal') && $anexo2->estado->nombre == 'Fecha propuesta')
+                                                    <button type="button" data-id="{{$anexo2->id}}" class="dropdown-item" id="botonDefinirFecha">
+                                                        <i class="fas fa-calendar-alt fa-lg fa-fw text-gray-400"></i>
+                                                        Definir fecha y tribunal
+                                                    </button>
+                                                @endif
                                             </div>
                                         </div>
                                     </td>

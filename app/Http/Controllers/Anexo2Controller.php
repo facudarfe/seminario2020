@@ -41,4 +41,8 @@ class Anexo2Controller extends Controller
             return redirect()->route('presentaciones.inicio')->withErrors("Ha ocurrido un error. " . $e->getMessage());
         }
     }
+
+    public function show(Anexo2 $anexo2){
+        return view('anexos2.ver', compact('anexo2'));
+    }
 }

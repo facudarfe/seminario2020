@@ -72,7 +72,7 @@ if(rol != 'Estudiante'){
     // Datatable para los Anexos 2
     $('#tablaAnexos2').DataTable({
         "columnDefs": [
-            {"targets": 0, "orderable": false, "searchable": false},
+            {"targets": 0, "searchable": false, "orderable": false},
             {"targets": 6, "searchable": false, "orderable": false}
         ],
         language: {

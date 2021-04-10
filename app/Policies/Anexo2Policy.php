@@ -36,4 +36,17 @@ class Anexo2Policy
                 return false;
         }
     }
+
+    public function ver(User $user, Anexo2 $anexo2){
+        $rol = $user->getRoleNames()->first();
+
+        switch($rol){
+            case 'Administrador': case 'Docente responsable':
+                return true;
+            case 'Estudiante':
+                return $user->presentaciones->contains($anexo2->presentacion);
+            default:
+                return false;
+        }
+    }
 }

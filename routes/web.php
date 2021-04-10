@@ -161,6 +161,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/{anexo2}/PDF', [PDFController::class, 'generarAnexo2'])->name('anexos2.PDF')->middleware('can:generarPDF,anexo2');
         Route::post('/{anexo2}/definirFechaYTribunal', [Anexo2Controller::class, 'definirFechaYTribunal'])
             ->middleware('permission:anexos2.definirFechaYTribunal');
+        Route::get('/{anexo2}/ver', [Anexo2Controller::class, 'show'])->name('anexo2.ver')->middleware('can:ver,anexo2');
     });
 });
 
