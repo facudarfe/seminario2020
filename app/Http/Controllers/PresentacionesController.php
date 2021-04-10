@@ -243,6 +243,9 @@ class PresentacionesController extends Controller
     }
 
     public function proponerFecha(Request $request, Anexo1 $presentacion){
+        $request->validate([
+            'fecha_propuesta' => ['required', 'date_format:d/m/Y H:i'],
+        ]);
         $anexo2 = new Anexo2();
 
         $fecha = str_replace('/', '-', $request->input('fecha_propuesta'));

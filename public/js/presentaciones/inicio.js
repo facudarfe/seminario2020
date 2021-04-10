@@ -142,6 +142,15 @@ $('#modalFinal, #modalFinalTribunal').ready(function(){
         nSelectedText: 'seleccionados',
     }); 
 
+    // Validaciones para la propuesta de fecha
+    $('#formFecha').validate({
+        rules: {
+            fecha_propuesta: {
+                required: true,
+            }
+        }
+    });
+
     // Validaciones para la definicion de fecha y de tribunal
     $('#formFechaTribunal').validate({
         rules: {
