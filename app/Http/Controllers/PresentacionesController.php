@@ -244,6 +244,7 @@ class PresentacionesController extends Controller
     public function proponerFecha(Request $request, Anexo1 $presentacion){
         $request->validate([
             'fecha_propuesta' => ['required', 'date_format:d/m/Y H:i'],
+            'informe_final' => ['required', 'file', 'mimes:pdf']
         ]);
         $anexo2 = new Anexo2();
 
@@ -251,6 +252,11 @@ class PresentacionesController extends Controller
         $fecha = date('Y-m-d H:i', strtotime($fecha));
         $anexo2->fecha_propuesta = $fecha;
         $anexo2->presentacion()->associate($presentacion);
+
+        $ruta = $request->file('informe_final')->store('public/informesFinales');
+
+        //Guardamos la ruta del archivo en el campo ruta_informe
+        $anexo2->ruta_informe = $ruta;
 
         $estado = Estado::where('nombre', 'Fecha propuesta')->first();
         $anexo2->estado()->associate($estado);

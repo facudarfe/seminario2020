@@ -165,6 +165,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/{anexo2}/ver', [Anexo2Controller::class, 'show'])->name('anexo2.ver')->middleware('can:ver,anexo2');
         Route::patch('/{anexo2}/evaluarExamen', [Anexo2Controller::class, 'evaluarExamen'])->name('anexo2.evaluarExamen')
             ->middleware('permission:anexos2.evaluar');
+
+        //Rutas almacenamiento
+        Route::get('/{anexo2}/descargarInforme', [StorageController::class, 'descargarInformeFinal'])->name('anexos2.descargarInforme')
+            ->middleware('can:ver,anexo2');
     });
 });
 

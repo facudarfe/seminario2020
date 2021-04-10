@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Anexo1;
+use App\Models\Anexo2;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -29,5 +30,9 @@ class StorageController extends Controller
 
     public function descargarInforme(Anexo1 $presentacion){
         return Storage::download($presentacion->ruta_informe);
+    }
+
+    public function descargarInformeFinal(Anexo2 $anexo2){
+        return Storage::download($anexo2->ruta_informe);
     }
 }

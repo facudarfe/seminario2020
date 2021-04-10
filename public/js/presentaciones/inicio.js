@@ -142,10 +142,13 @@ $('#modalFinal, #modalFinalTribunal').ready(function(){
         nSelectedText: 'seleccionados',
     }); 
 
-    // Validaciones para la propuesta de fecha
+    // Validaciones para la propuesta de mesa examinadora
     $('#formFecha').validate({
         rules: {
             fecha_propuesta: {
+                required: true,
+            },
+            informe_final: {
                 required: true,
             }
         }

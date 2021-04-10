@@ -189,6 +189,12 @@
                                                         Definir fecha y tribunal
                                                     </button>
                                                 @endif
+                                                @if ($anexo2->ruta_informe && auth()->user()->can('ver', $anexo2))
+                                                    <a href="{{route('anexos2.descargarInforme', $anexo2)}}" class="dropdown-item">
+                                                        <i class="fas fa-file-download fa-lg fa-fw text-gray-400"></i>
+                                                        Descargar informe final
+                                                    </a>
+                                                @endif
                                                 @if (auth()->user()->can('anexos2.evaluar') && $anexo2->estado->nombre == 'Fecha y tribunal definidos')
                                                     <button type="button" data-id="{{$anexo2->id}}" id="evaluarExamen" class="dropdown-item" id="botonDefinirFecha">
                                                         <i class="fas fa-check-double fa-lg fa-fw text-gray-400"></i>
@@ -252,10 +258,14 @@
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <form action="" method="POST" id="formFecha">
+                <form action="" method="POST" id="formFecha" enctype="multipart/form-data">
                     @csrf
                     <div class="modal-body">
                         <div class="form-row justify-content-center">
+                            <div class="col-11 form-group">
+                                <label for="informe_final">Sube el informe final en formato PDF:</label>
+                                <input type="file" class="form-control" id="informe_final" name="informe_final">
+                            </div>
                             <div class="col-11 form-group">
                                 <label for="fecha">Proponga una fecha y hora para la evaluación del proyecto:</label>
                                 <input type="text" class="form-control" id="fecha_propuesta" name="fecha_propuesta">
