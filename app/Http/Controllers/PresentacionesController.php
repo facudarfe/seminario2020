@@ -25,17 +25,17 @@ class PresentacionesController extends Controller
     public function index(){
         //Se muestra la tabla con las presentaciones dependiendo del rol
         if(auth()->user()->hasRole('Estudiante')){
-            $presentaciones = auth()->user()->presentaciones;
+            $presentaciones = auth()->user()->presentaciones()->orderByDesc('updated_at')->get();
             $anexos2 = Anexo2::orderByDesc('updated_at')->whereIn('anexo1_id', auth()->user()
             ->presentaciones()->pluck('id')->toArray())->get();
         }
         elseif(auth()->user()->hasRole('Docente colaborador')){            
             //Para los docentes colaboradores solo se mostraran las presentaciones que le fueron asignadas para corregir
-            $presentaciones = Anexo1::where('docente_id', auth()->user()->id)->get();
+            $presentaciones = Anexo1::where('docente_id', auth()->user()->id)->orderByDesc('updated_at')->get();
             $anexos2 = null;
         }
         else{
-            $presentaciones = Anexo1::all();
+            $presentaciones = Anexo1::orderByDesc('updated_at')->get();
             $anexos2 = Anexo2::orderByDesc('updated_at')->get();
         }
 

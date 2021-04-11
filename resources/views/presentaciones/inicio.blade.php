@@ -46,8 +46,8 @@
             <div class="row">
                 <div class="col-12">
                     <div class="alert alert-primary fade show">
-                        Se detectó que solicitaste desarrollar una propuesta de tema o pasantia. Debes dirigirte a la sección
-                        <b>Propuestas Temas/Pasantias</b> y en tu propuesta solicitada seleccionar la opción "Crear presentación". 
+                        Se detectó que solicitaste desarrollar una propuesta de tema. Debes dirigirte a la sección
+                        <b>Propuestas Temas</b> y en tu propuesta solicitada seleccionar la opción "Crear presentación". 
                         Si ya no querés dicha propuesta podes liberarla en la misma sección con la opción "Ya no lo quiero" para que esté
                         disponible para otro estudiante.
                     </div>
