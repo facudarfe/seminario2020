@@ -340,7 +340,7 @@
         </div>
     </div>
 
-    <!--Modal para realizar la correcion de un trabajo-->
+    <!--Modal para evaluar un examen final-->
     <div class="modal fade" id="modalEvaluar" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -379,7 +379,9 @@
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-success" id="confirmar">Aceptar</button>
+                        <button type="submit" class="btn btn-success" id="confirmar">
+                            <i class="loading-icon fa fa-spinner fa-spin mr-1 d-none"></i>Aceptar
+                        </button>
                     </div>
                 </form> 
             </div>

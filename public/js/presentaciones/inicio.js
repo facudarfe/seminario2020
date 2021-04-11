@@ -221,6 +221,11 @@ $('#evaluarExamen').click(function(){
         //Seteamos el atributo 'action' del form a la ruta con el id de la presentacion
         $(this).find('form').attr('action', '/anexos2/'+id+'/evaluarExamen');
 
+        // Se muestra el icono del spinner
+        $('#modalEvaluar button[type=submit').click(function(){
+            $(this).find('i').removeClass('d-none');
+        });
+
         // Validacion
         $('#formEvaluacion').validate({
             rules: {

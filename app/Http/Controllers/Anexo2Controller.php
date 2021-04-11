@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Mail\DefinicionMesaEstudianteMail;
 use App\Mail\DefinicionMesaTribunalMail;
+use App\Mail\ResultadoMesaMail;
 use App\Models\Anexo2;
 use App\Models\Estado;
 use Carbon\Carbon;
@@ -77,6 +78,8 @@ class Anexo2Controller extends Controller
                     $presentacion->estado()->associate(Estado::where('nombre', 'Regular')->first());
                 }
                 $presentacion->save();
+
+                Mail::to($anexo2->presentacion->alumnos)->send(new ResultadoMesaMail($anexo2));
             });
 
             return redirect()->route('presentaciones.inicio')->with('exito', 'Se realizó la evaluación del examen con éxito.');
