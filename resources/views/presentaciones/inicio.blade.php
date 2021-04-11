@@ -183,17 +183,17 @@
                                                         Descargar Anexo 2
                                                     </a>
                                                 @endcan
-                                                @if(auth()->user()->can('anexos2.definirFechaYTribunal') && $anexo2->estado->nombre == 'Fecha propuesta')
-                                                    <button type="button" data-id="{{$anexo2->id}}" class="dropdown-item" id="botonDefinirFecha">
-                                                        <i class="fas fa-calendar-alt fa-lg fa-fw text-gray-400"></i>
-                                                        Definir fecha y tribunal
-                                                    </button>
-                                                @endif
                                                 @if ($anexo2->ruta_informe && auth()->user()->can('ver', $anexo2))
                                                     <a href="{{route('anexos2.descargarInforme', $anexo2)}}" class="dropdown-item">
                                                         <i class="fas fa-file-download fa-lg fa-fw text-gray-400"></i>
                                                         Descargar informe final
                                                     </a>
+                                                @endif
+                                                @if(auth()->user()->can('anexos2.definirFechaYTribunal') && $anexo2->estado->nombre == 'Fecha propuesta')
+                                                    <button type="button" data-id="{{$anexo2->id}}" class="dropdown-item" id="botonDefinirFecha">
+                                                        <i class="fas fa-calendar-alt fa-lg fa-fw text-gray-400"></i>
+                                                        Definir fecha y tribunal
+                                                    </button>
                                                 @endif
                                                 @if (auth()->user()->can('anexos2.evaluar') && $anexo2->estado->nombre == 'Fecha y tribunal definidos')
                                                     <button type="button" data-id="{{$anexo2->id}}" id="evaluarExamen" class="dropdown-item" id="botonDefinirFecha">
@@ -278,7 +278,7 @@
                     <div class="modal-footer">
                         <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
                         <button type="submit" class="btn btn-success" id="aceptar">
-                            <i class="loading-icon fa fa-spinner fa-spin d-none"></i>
+                            <i class="loading-icon fa fa-spinner fa-spin mr-1 d-none"></i>
                             Solicitar
                         </button>
                     </div>
@@ -331,7 +331,9 @@
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                        <button type="submit" class="btn btn-success" id="aceptar">Aceptar</button>
+                        <button type="submit" class="btn btn-success" id="aceptar">
+                            <i class="loading-icon fa fa-spinner fa-spin mr-1 d-none"></i>Aceptar
+                        </button>
                     </div>
                 </form> 
             </div>

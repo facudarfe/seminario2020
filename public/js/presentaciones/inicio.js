@@ -204,6 +204,11 @@ $('#botonDefinirFecha').click(function(){
     $('#modalFinalTribunal').ready(function(){
         //Seteamos el atributo 'action' del form a la ruta con el id de la presentacion
         $(this).find('#formFechaTribunal').attr('action', '/anexos2/'+id+'/definirFechaYTribunal');
+
+        // Se muestra el icono del spinner
+        $('#modalFinalTribunal button[type=submit').click(function(){
+            $(this).find('i').removeClass('d-none');
+        });
     }); 
 });
 

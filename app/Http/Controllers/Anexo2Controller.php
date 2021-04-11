@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\DefinicionMesaEstudianteMail;
+use App\Mail\DefinicionMesaTribunalMail;
 use App\Models\Anexo2;
 use App\Models\Estado;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class Anexo2Controller extends Controller
 {
@@ -34,6 +37,10 @@ class Anexo2Controller extends Controller
                 $presentacion = $anexo2->presentacion;
                 $presentacion->estado()->associate($estado);
                 $presentacion->save();
+
+                Mail::to($anexo2->presentacion->alumnos)->send(new DefinicionMesaEstudianteMail($anexo2));
+                Mail::to($anexo2->tribunal()->where('tribunales_evaluadores.titular', true)->get())->send(new DefinicionMesaTribunalMail($anexo2, true));
+                Mail::to($anexo2->tribunal()->where('tribunales_evaluadores.titular', false)->get())->send(new DefinicionMesaTribunalMail($anexo2, false));
             });
 
             return redirect()->route('presentaciones.inicio')->with('exito', 'Se ha asignado la fecha y el tribunal con éxito');
