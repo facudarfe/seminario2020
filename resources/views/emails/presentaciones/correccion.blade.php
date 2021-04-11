@@ -1,7 +1,16 @@
 @extends('layouts.emails.inicio')
 
 @section('contenido')
-    <p>Hola {{$version->anexo->alumno->name}}, se ha realizado la corrección de tu ultima presentación.</p>
+    <p>
+        Hola 
+        @foreach ($version->anexo->alumnos as $key => $alumno)
+            @if ($key === count($version->anexo->alumnos)-1)
+                {{'y ' . $alumno->name}}
+            @else
+                {{$alumno->name . ', '}}
+            @endif
+        @endforeach
+        , se ha realizado la corrección de tu ultima presentación.</p>
     <p>
         <b>Estado: </b> {{$version->estado->nombre}} <br>
         <b>Observaciones: </b> {{$version->observaciones}}
