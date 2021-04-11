@@ -20,7 +20,6 @@ class CreateAnexos1Table extends Migration
             $table->foreignId('director_id');
             $table->foreignId('codirector_id');
             $table->foreignId('modalidad_id');
-            $table->date('fecha');
             $table->foreignId('estado_id');
 
             $table->foreign('alumno_id')->references('id')->on('users');

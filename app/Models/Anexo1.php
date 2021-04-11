@@ -52,4 +52,8 @@ class Anexo1 extends Model
     public function evaluador(){
         return $this->belongsTo(User::class, 'docente_id');
     }
+
+    public function anexos2(){
+        return $this->hasMany(Anexo2::class, 'anexo1_id');
+    }
 }

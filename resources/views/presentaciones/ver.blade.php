@@ -65,14 +65,19 @@
                     </div>
                 @endif
                 <hr>
-                @if ($presentacion->fecha)
+                @php
+                    $anexo2Aprobado = $presentacion->anexos2()->whereHas('estado', function($q){
+                        $q->where('nombre', 'Aprobado');
+                    })->first();
+                @endphp
+                @if ($anexo2Aprobado)
                     <div class="row">
                         <div class="col-12">
                             <div class="jumbotron p-4 bg-success text-light mb-0">
                                 <h5 class="d-inline font-weight-bold">Fecha finalización: </h5>
-                                <p class="d-sm-inline">{{$presentacion->fecha}}</p>
+                                <p class="d-sm-inline">{{$anexo2Aprobado->fecha_definitiva}}</p>
                                 <h5 class="mt-2 font-weight-bold">Devolución final: </h5>
-                                <p>{{$presentacion->devolucion}}</p>
+                                <p>{{$anexo2Aprobado->devolucion}}</p>
                             </div>
                         </div>
                     </div>
@@ -93,7 +98,7 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <a href="{{route('pdf.anexo1', ['presentacion' => $presentacion, 'version' => $version])}}"  target="_blank"
-                                            class="float-right" style="color:rgb(236, 75, 75);"><i class="fas fa-file-pdf mr-1" style="color: rgb(236, 75, 75);"></i>Obtener PDF</a>
+                                            class="float-right" style="color:rgb(236, 75, 75);"><i class="fas fa-file-pdf mr-1" style="color: rgb(236, 75, 75);"></i>Anexo 1</a>
                                         </div>
                                     </div>
                                     <div class="row">
