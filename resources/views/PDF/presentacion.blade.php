@@ -126,17 +126,21 @@
                 <p><b>Evaluacion de Presentación de Tema</b></p>
                 <table width="100%">
                     <tr>
-                        <td>Aceptado <div class="checkbox"></div></td>
-                        <td>Reformular <div class="checkbox"></div></td>
-                        <td>Rechazado <div class="checkbox"></div></td>
+                        <td>Aceptado <div class="{{$version->estado->nombre == 'Aceptado' ? 'checkbox-filled' : 'checkbox'}}"></div></td>
+                        <td>Reformular <div class="{{$version->estado->nombre == 'Resubir' ? 'checkbox-filled' : 'checkbox'}}"></div></td>
+                        <td>Rechazado <div class="{{$version->estado->nombre == 'Rechazado' ? 'checkbox-filled' : 'checkbox'}}"></div></td>
                     </tr>
                 </table>
                 <p>Observaciones:</p>
-                <hr class="separacion">
-                <hr class="separacion">
-                <hr class="separacion">
-                <hr class="separacion">
-                <hr class="separacion">
+                @if ($version->observaciones)
+                    <p>{{$version->observaciones}}</p>
+                @else
+                    <hr class="separacion">
+                    <hr class="separacion">
+                    <hr class="separacion">
+                    <hr class="separacion">
+                    <hr class="separacion">
+                @endif
 
                 <p style="margin-bottom: 7cm;"><b>Miembros Comisión de Seminario TUP:</b></p>
             </div>

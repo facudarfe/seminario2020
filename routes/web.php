@@ -105,7 +105,7 @@ Route::group(['middleware' => 'auth'], function () {
     
         //Rutas PDF presentaciones
         Route::get('/{presentacion}/{version}/PDF', [PDFController::class, 'generarAnexo1'])->name('pdf.anexo1')
-            ->middleware('permission:generar.pdf.anexo1');
+            ->middleware('permission:anexos1.generarPDF');
 
         //Rutas almacenamiento
         Route::post('/{presentacion}/subirInforme', [StorageController::class, 'guardarInforme'])->name('presentaciones.subirInforme')

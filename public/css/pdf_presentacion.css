@@ -73,6 +73,14 @@ hr.firma{
     border: 1px solid black;
 }
 
+.checkbox-filled{
+    display: inline-block;
+    height: 25px;
+    width: 25px;
+    background-color: black;
+    border: 1px solid black;
+}
+
 hr.separacion{
     margin-top: 1cm;
     margin-bottom: 1cm;
