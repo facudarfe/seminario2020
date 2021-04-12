@@ -125,6 +125,18 @@
                                         Solicitar mesa examinadora
                                     </a>
                                 @endcan
+                                @can('subirCodigoFuente', $presentacion)
+                                    <a href="#" class="dropdown-item" id="botonSubirCodigo" data-id="{{$presentacion->id}}">
+                                        <i class="fas fa-code fa-lg fa-fw text-gray-400"></i>
+                                        Subir codigo fuente
+                                    </a>
+                                @endcan
+                                @if($presentacion->ruta_codigo)
+                                    <a href={{route('presentaciones.descargarCodigoFuente', $presentacion)}} class="dropdown-item" id="botonSubirCodigo">
+                                        <i class="fas fa-file-code fa-lg fa-fw text-gray-400"></i>
+                                        Descargar codigo fuente
+                                    </a>
+                                @endif
                             </div>
                         </div>
                     </td>
@@ -387,6 +399,36 @@
             </div>
         </div>
     </div>
+
+    <!--Modal para subir codigo fuente-->
+    <div class="modal fade" id="modalCodigoFuente" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Subir codigo fuente</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <form action="" method="POST" enctype="multipart/form-data" id="formCodigoFuente">
+                    @csrf
+                    @method('PATCH')
+                    <div class="modal-body">
+                        <div class="form-row justify-content-center">
+                            <div class="col-11 form-group">
+                                <label for="codigoFuente">Sube el código fuente comprimido <i>(.rar, .zip, .tar, .tar.gz)</i>:</label>
+                                <input type="file" class="form-control" id="codigoFuente" name="codigoFuente">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-success" id="subir">Subir</button>
+                    </div>
+                </form> 
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('otros-scripts')
@@ -408,9 +450,6 @@
     <script src="{{asset('js/bootstrap-multiselect.js')}}"></script>
 
     @include('includes.scripts_validaciones')
-    
-    <!--Script adicional para jQuery validation para validar las extensiones de los archivos-->
-    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.15.0/additional-methods.js"></script>
 
     <!--Script moment para manejo de tiempo en el datetimepicker-->
     <script src="{{asset('js/moment-with-locales.js')}}"></script>

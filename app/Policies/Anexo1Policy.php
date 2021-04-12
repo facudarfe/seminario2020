@@ -83,4 +83,8 @@ class Anexo1Policy
         return $user->getRoleNames()->first() == 'Estudiante' && $user->presentaciones->contains($presentacion) 
                 && $presentacion->estado->nombre == 'Regular';
     }
+
+    public function subirCodigoFuente(User $user, Anexo1 $presentacion){
+        return $user->presentaciones->contains($presentacion) && $presentacion->estado->nombre == 'Aprobado';
+    }
 }

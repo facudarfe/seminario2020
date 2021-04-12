@@ -236,3 +236,29 @@ $('#evaluarExamen').click(function(){
         });
     }); 
 });
+
+// Subir codigo fuente
+$('#botonSubirCodigo').click(function(){
+    var id = $(this).data('id');
+
+    $('#modalCodigoFuente').modal('show');
+    $('#modalCodigoFuente').ready(function(){
+        //Seteamos el atributo 'action' del form a la ruta con el id de la presentacion
+        $(this).find('form').attr('action', '/presentaciones/'+id+'/subirCodigoFuente');
+
+        // Validacion
+        $('#formCodigoFuente').validate({
+            rules: {
+                codigoFuente: {
+                    required: true,
+                    extension: "rar|zip|tar|tar.gz",
+                }
+            },
+            messages: {
+                codigoFuente: {
+                    extension: 'Debes subir un archivo con extension .rar, .zip, .tar o .tar.gz'
+                }
+            }
+        });
+    }); 
+});
