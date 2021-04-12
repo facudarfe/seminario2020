@@ -15,6 +15,10 @@
 
 </head>
 
+
+<header class="header">
+    @include('includes.bars.home_topbar')
+</header>
 <body class="bg-gradient-primary">
 
     <div class="container">
@@ -44,6 +48,7 @@
     </div>
 
     @include('includes.scripts')
+    @yield('otros-scripts')
 
 </body>
 

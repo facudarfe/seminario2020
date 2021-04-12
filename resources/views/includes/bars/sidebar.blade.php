@@ -80,6 +80,14 @@
         </a>
     </li>
 
+    <!-- Nav Item - Seminarios anteriores -->
+    <li class="nav-item">
+        <a class="nav-link" href="{{route('seminarios')}}">
+            <i class="fas fa-fw fa-clipboard-check"></i>
+            <span>Seminarios aprobados</span>
+        </a>
+    </li>
+
     <!-- Divider -->
     <hr class="sidebar-divider">
 

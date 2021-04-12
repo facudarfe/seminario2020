@@ -42,3 +42,7 @@
         <a class="small" href="{{route('password.request')}}">Olvidé mi contraseña</a>
     </div>  
 @endsection
+
+@section('otros-scripts')
+    <script src="{{asset('js/seguridad/login.js')}}"></script>
+@endsection

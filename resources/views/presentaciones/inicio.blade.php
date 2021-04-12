@@ -195,7 +195,7 @@
                                                         Descargar Anexo 2
                                                     </a>
                                                 @endcan
-                                                @if ($anexo2->ruta_informe && auth()->user()->can('ver', $anexo2))
+                                                @if ($anexo2->ruta_informe)
                                                     <a href="{{route('anexos2.descargarInforme', $anexo2)}}" class="dropdown-item">
                                                         <i class="fas fa-file-download fa-lg fa-fw text-gray-400"></i>
                                                         Descargar informe final

@@ -46,6 +46,11 @@ Route::group(['middleware' => 'guest'], function () {
     Route::post('/reset-password', [ForgotPasswordController::class, 'update'])->name('password.update');
 });
 
+// Rutas muestra de seminarios aprobados
+Route::get('/seminarios', [HomeController::class, 'seminarios'])->name('seminarios');
+Route::get('/seminarios/{anexo2}/descargarInforme', [PDFController::class, 'descargarInformeFinal'])->name('seminarios.informe');
+Route::get('/seminarios/{presentacion}/descargarCodigoFuente', [PDFController::class, 'descargarCodigoFuente'])->name('seminarios.informe');
+
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/', [HomeController::class, 'index'])->name('inicio');
 
@@ -113,13 +118,12 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/{presentacion}/descargarInforme', [StorageController::class, 'descargarInforme'])->name('presentaciones.descargarInforme');
         Route::patch('/{presentacion}/subirCodigoFuente', [StorageController::class, 'subirCodigoFuente'])->name('presentaciones.subirCodigoFuente')
             ->middleware('can:subirCodigoFuente,presentacion');
-        Route::get('/{presentacion}/descargarCodigoFuente', [StorageController::class, 'descargarCodigoFuente'])->name('presentaciones.descargarCodigoFuente');
 
         //Rutas para aceptar o rechazar la participacion de otro estudiante en la presentacion
         Route::patch('/{user}/{presentacion}/aceptarORechazar', [PresentacionesController::class, 'aceptarORechazar'])
             ->name('presentaciones.aceptarORechazar')->middleware('can:aceptarORechazar,presentacion');
 
-        //Rutas para Anexo 2
+        //Rutas para proponer mesa examinadora
         Route::post('/{presentacion}/proponerFecha',[PresentacionesController::class, 'proponerFecha'])->name('presentaciones.proponerFecha')
             ->middleware('can:proponerFecha,presentacion');
     });
@@ -168,12 +172,13 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/{anexo2}/ver', [Anexo2Controller::class, 'show'])->name('anexo2.ver')->middleware('can:ver,anexo2');
         Route::patch('/{anexo2}/evaluarExamen', [Anexo2Controller::class, 'evaluarExamen'])->name('anexo2.evaluarExamen')
             ->middleware('permission:anexos2.evaluar');
-
-        //Rutas almacenamiento
-        Route::get('/{anexo2}/descargarInforme', [StorageController::class, 'descargarInformeFinal'])->name('anexos2.descargarInforme')
-            ->middleware('can:ver,anexo2');
     });
 });
+
+//Rutas para obtener informe final y codigo fuente de proyecto (tambien se utiliza para usuarios no registrados que quieran ver)
+Route::get('/anexos2/{anexo2}/descargarInforme', [StorageController::class, 'descargarInformeFinal'])->name('anexos2.descargarInforme');
+Route::get('/presentaciones/{presentacion}/descargarCodigoFuente', [StorageController::class, 'descargarCodigoFuente'])
+    ->name('presentaciones.descargarCodigoFuente');
 
 //Rutas para validaciones AJAX
 Route::post('verificarPassword', [ValidacionesController::class, 'verificarPassword']);
