@@ -8,10 +8,13 @@ use App\Mail\RegistroMail;
 use App\Models\Docente;
 use App\Models\User;
 use App\Rules\ChequearPassword;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use PhpParser\Node\Stmt\TryCatch;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
@@ -48,23 +51,30 @@ class UserController extends Controller
     {
         $rol = Role::find($request->get('rol'));
         if($request->user()->can('manipularRol', $rol)){
-            $user = User::create(['name' => $request->name, 
-            'lu' => $request->lu, 
-            'dni' => $request->dni, 
-            'email' => $request->email,
-            'password' => Hash::make($request->dni),
-            'direccion' => $request->direccion,
-            'telefono' => $request->telefono]);
+            try{
+                DB::transaction(function () use($request, $rol){
+                    $user = User::create(['name' => $request->name, 
+                    'lu' => $request->lu, 
+                    'dni' => $request->dni, 
+                    'email' => $request->email,
+                    'password' => Hash::make($request->dni),
+                    'direccion' => $request->direccion,
+                    'telefono' => $request->telefono]);
 
-            $user->assignRole($rol->name);
+                    $user->assignRole($rol->name);
 
-            $this->cargarDocente($user); //Cargar a usuario docente en la tabla de docentes
+                    $this->cargarDocente($user); //Cargar a usuario docente en la tabla de docentes
 
-            //Envio de mail
-            $mail = new RegistroMail($user->name, $rol->name);
-            Mail::to($user->email)->send($mail);
-            
-            return redirect(route('usuarios.inicio'))->with('exito', 'El usuario ha sido creado con éxito.');
+                    //Envio de mail
+                    $mail = new RegistroMail($user->name, $rol->name);
+                    Mail::to($user->email)->send($mail);
+                });
+
+                return redirect(route('usuarios.inicio'))->with('exito', 'El usuario ha sido creado con éxito.');
+            }
+            catch(Exception $e){
+                return redirect(route('usuarios.inicio'))->withErrors('Ha ocurrido un error: ' . $e->getMessage());
+            }   
         }
         else{
             abort(403);
@@ -110,27 +120,34 @@ class UserController extends Controller
         /*Se va a controlar los permisos desde aca y no desde el middleware para poder reutilizar la ruta cuando se edita desde el
         panel administrativo y desde el 'Editar Perfil'*/
         if($request->user()->can('gestionar', $user) || $user->id == $request->user()->id){
-            $dniViejo = $user->dni; //Esto para mantener la redundancia en la tabla de docentes
+            try{
+                DB::transaction(function () use($request, $user){
+                    $dniViejo = $user->dni; //Esto para mantener la redundancia en la tabla de docentes
 
-            $user->dni = $request->dni;
-            $user->name = $request->name;
-            $user->lu = $request->lu;
-            $user->email = $request->email;
-            if($user->hasRole('Administrador')){
-                if(!empty($request->password))
-                    $user->password = Hash::make($request->password);
-            }
+                    $user->dni = $request->dni;
+                    $user->name = $request->name;
+                    $user->lu = $request->lu;
+                    $user->email = $request->email;
+                    if($user->hasRole('Administrador')){
+                        if(!empty($request->password))
+                            $user->password = Hash::make($request->password);
+                    }
+                    
+                    $user->direccion = $request->direccion;
+                    $user->telefono = $request->telefono;
             
-            $user->direccion = $request->direccion;
-            $user->telefono = $request->telefono;
-    
-            $rol = Role::find($request->get('rol')) ?? $user->roles->first(); //Si el campo rol no esta definido se le asigna el rol que ya tiene
-            $user->syncRoles($rol->name);
-            $user->save();
+                    $rol = Role::find($request->get('rol')) ?? $user->roles->first(); //Si el campo rol no esta definido se le asigna el rol que ya tiene
+                    $user->syncRoles($rol->name);
+                    $user->save();
 
-            $this->editarDocente($user, $dniViejo);
-    
-            return redirect()->back()->with('exito', 'El usuario se ha modificado exitosamente'); 
+                    $this->editarDocente($user, $dniViejo);
+                });
+
+                return redirect()->back()->with('exito', 'El usuario se ha modificado exitosamente');
+            }
+            catch(Exception $e){
+                return redirect()->back()->withErrors('Ha ocurrido un error: ' . $e->getMessage());
+            }
         }
         else{
             abort(403, 'No tiene permiso de editar este usuario');

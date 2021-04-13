@@ -8,6 +8,7 @@ use App\Models\Modalidad;
 use App\Models\PropuestaTema;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Throwable;
 
 class TemasController extends Controller
@@ -92,15 +93,22 @@ class TemasController extends Controller
     }
 
     public function request(PropuestaTema $tema){
-        $tema->alumno_id = auth()->user()->id;
+        try{
+            DB::transaction(function () use($tema){
+                $tema->alumno_id = auth()->user()->id;
 
-        $estado = Estado::where('nombre', 'Solicitado')->first();
-        $tema->estado()->associate($estado);
+                $estado = Estado::where('nombre', 'Solicitado')->first();
+                $tema->estado()->associate($estado);
+        
+                $tema->save();
+            });
 
-        $tema->save();
-
-        return redirect()->route('temas.inicio')
-                ->with('exito', 'Ha solicitado el tema exitosamente. No te olvides de realizar la presentación correspondiente.');
+            return redirect()->route('temas.inicio')
+                        ->with('exito', 'Ha solicitado el tema exitosamente. No te olvides de realizar la presentación correspondiente.');  
+        }
+        catch(Exception $e){
+            return redirect()->route('temas.inicio')->withErrors('Ha ocurrido un error: ' . $e->getMessage());  
+        }
     }
 
     public function free(PropuestaTema $tema){

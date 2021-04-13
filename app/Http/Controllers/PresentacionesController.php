@@ -16,6 +16,7 @@ use App\Models\PropuestaTema;
 use App\Models\User;
 use App\Models\Version_Anexo1;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -75,59 +76,66 @@ class PresentacionesController extends Controller
             'descripcion' => ['required']
         ]);
 
-        $encabezado = new Anexo1();
-        $version = new Version_Anexo1();
-        
-        //Codigo para el encabezado
-        $encabezado->titulo = $request->titulo;
-        
-        //Asociar el director y codirector
-        $director = User::find($request->get('director'));
-        $encabezado->director()->associate($director);
-        $codirector = User::find($request->get('codirector'));
-        $encabezado->codirector()->associate($codirector);
+        try{
+            DB::transaction(function () use($request){
+                $encabezado = new Anexo1();
+                $version = new Version_Anexo1();
+                
+                //Codigo para el encabezado
+                $encabezado->titulo = $request->titulo;
+                
+                //Asociar el director y codirector
+                $director = User::find($request->get('director'));
+                $encabezado->director()->associate($director);
+                $codirector = User::find($request->get('codirector'));
+                $encabezado->codirector()->associate($codirector);
 
-        //Modalidad
-        $modalidad = Modalidad::find($request->get('modalidad'));
-        $encabezado->modalidad()->associate($modalidad);
+                //Modalidad
+                $modalidad = Modalidad::find($request->get('modalidad'));
+                $encabezado->modalidad()->associate($modalidad);
 
-        //Estado
-        $estado = Estado::where('nombre', 'Pendiente')->get()->first();
-        $encabezado->estado()->associate($estado);
+                //Estado
+                $estado = Estado::where('nombre', 'Pendiente')->get()->first();
+                $encabezado->estado()->associate($estado);
 
-        $encabezado->save();
+                $encabezado->save();
 
-        //Asociar al alumno que creo la presentacion y si los hubiera a los compañeros
-        $encabezado->alumnos()->attach(auth()->id());
-        if($modalidad->nombre == 'Seminario' && isset($request->checkGrupal) && isset($request->grupo)){
-            $encabezado->alumnos()->attach($request->get('grupo'), ['aceptado' => false]);
+                //Asociar al alumno que creo la presentacion y si los hubiera a los compañeros
+                $encabezado->alumnos()->attach(auth()->id());
+                if($modalidad->nombre == 'Seminario' && isset($request->checkGrupal) && isset($request->grupo)){
+                    $encabezado->alumnos()->attach($request->get('grupo'), ['aceptado' => false]);
+                }
+
+                //Codigo para la version
+                $version->anexo()->associate($encabezado);
+                $version->resumen = $request->resumen;
+                $version->tecnologias = $request->tecnologias;
+                $version->descripcion = $request->descripcion;
+                $version->estado()->associate($estado); //Se le asocia el mismo estado que el encabezado
+
+                $version->save();
+
+                //Si la presentacion proviene de una propuesta de tema o pasantia se le cambia el estado
+                $tema = $request->user()->propuestaTema()->whereHas('estado', function($q){
+                    $q->where('nombre', 'Solicitado');
+                })->first();
+                if($tema){
+                    $estado = Estado::where('nombre', 'Asignado')->first();
+                    $tema->estado()->associate($estado);
+                    $tema->save();
+                }
+
+                //Envio de mail al estudiante o estudiantes
+                foreach($encabezado->alumnos as $alumno){
+                    Mail::to($alumno->email)->send(new NuevaPresentacionMail($encabezado->titulo));
+                }
+            });
+
+            return redirect(route('presentaciones.inicio'))->with('exito', 'Se ha creado la presentacion con exito.');
         }
-
-        //Codigo para la version
-        $version->anexo()->associate($encabezado);
-        $version->resumen = $request->resumen;
-        $version->tecnologias = $request->tecnologias;
-        $version->descripcion = $request->descripcion;
-        $version->estado()->associate($estado); //Se le asocia el mismo estado que el encabezado
-
-        $version->save();
-
-        //Si la presentacion proviene de una propuesta de tema o pasantia se le cambia el estado
-        $tema = $request->user()->propuestaTema()->whereHas('estado', function($q){
-            $q->where('nombre', 'Solicitado');
-        })->first();
-        if($tema){
-            $estado = Estado::where('nombre', 'Asignado')->first();
-            $tema->estado()->associate($estado);
-            $tema->save();
+        catch(Exception $e){
+            return redirect(route('presentaciones.inicio'))->with('Ha ocurrido un error: ' . $e->getMessage());
         }
-
-        //Envio de mail al estudiante o estudiantes
-        foreach($encabezado->alumnos as $alumno){
-            Mail::to($alumno->email)->send(new NuevaPresentacionMail($encabezado->titulo));
-        }
-
-        return redirect(route('presentaciones.inicio'))->with('exito', 'Se ha creado la presentacion con exito.');
     }
 
     public function show(Anexo1 $presentacion){
@@ -137,18 +145,25 @@ class PresentacionesController extends Controller
     }
 
     public function asignarEvaluador(Request $request, Anexo1 $presentacion){
-        $user = User::find($request->get('docente'));
-        $presentacion->evaluador()->associate($user);
+        try{
+            DB::transaction(function () use($request, $presentacion){
+                $user = User::find($request->get('docente'));
+            $presentacion->evaluador()->associate($user);
 
-        $estado = Estado::where('nombre', 'Asignado')->first();
-        $presentacion->estado()->associate($estado);
+            $estado = Estado::where('nombre', 'Asignado')->first();
+            $presentacion->estado()->associate($estado);
 
-        $presentacion->save();
+            $presentacion->save();
 
-        //Enviar mail al evaluador
-        Mail::to($user->email)->send(new AsignarDocenteMail($presentacion));
+            //Enviar mail al evaluador
+            Mail::to($user->email)->send(new AsignarDocenteMail($presentacion));
+            });
 
-        return redirect(route('presentaciones.inicio'));
+            return redirect(route('presentaciones.inicio'))->with('exito', 'Se asignó el evaluador con éxito.');
+        }
+        catch(Exception $e){
+            return redirect(route('presentaciones.inicio'))->withErrors('Ha ocurrido un error: ' . $e->getMessage());
+        }
     }
 
     public function corregirVersion(Request $request){
@@ -157,21 +172,28 @@ class PresentacionesController extends Controller
 
         //Control de que se este por corregir una version Pendiente y que sea el docente correcto asignado
         if($version->estado->nombre == "Pendiente" && $version->anexo->docente_id == auth()->user()->id){
-            $version->observaciones = $request->observaciones;
-            $version->fecha_correccion = Carbon::now('America/Argentina/Salta')->format('Y-m-d');
-            $estado = Estado::find($request->get('estado'));
-            $version->estado()->associate($estado);
-            
-            $presentacion = $version->anexo;
-            $presentacion->estado()->associate($estado);
+            try{
+                DB::transaction(function () use($request, $version){
+                    $version->observaciones = $request->observaciones;
+                    $version->fecha_correccion = Carbon::now('America/Argentina/Salta')->format('Y-m-d');
+                    $estado = Estado::find($request->get('estado'));
+                    $version->estado()->associate($estado);
+                    
+                    $presentacion = $version->anexo;
+                    $presentacion->estado()->associate($estado);
+        
+                    $version->save();
+                    $presentacion->save();
+        
+                    //Enviar mail notificando la corrección
+                    Mail::to($version->anexo->alumno->email)->send(new CorreccionMail($version));
+                });
 
-            $version->save();
-            $presentacion->save();
-
-            //Enviar mail notificando la corrección
-            Mail::to($version->anexo->alumno->email)->send(new CorreccionMail($version));
-
-            return redirect(route('presentaciones.inicio'))->with('exito', 'Se ha realizado la correción exitosamente.');
+                return redirect(route('presentaciones.inicio'))->with('exito', 'Se ha realizado la correción exitosamente.');
+            }
+            catch(Exception $e){
+                return redirect(route('presentaciones.inicio'))->withErrors('Ha ocurrido un error: ' . $e->getMessage());
+            }
         }
         else{
             abort(403);
@@ -190,33 +212,47 @@ class PresentacionesController extends Controller
             'descripcion' => ['required']
         ]);
 
-        $version = new Version_Anexo1();
+        try{
+            DB::transaction(function () use($request, $presentacion){
+                $version = new Version_Anexo1();
 
-        $version->anexo()->associate($presentacion);
-        $version->resumen = $request->resumen;
-        $version->tecnologias = $request->tecnologias;
-        $version->descripcion = $request->descripcion;
+                $version->anexo()->associate($presentacion);
+                $version->resumen = $request->resumen;
+                $version->tecnologias = $request->tecnologias;
+                $version->descripcion = $request->descripcion;
+                
+                $estado = Estado::where('nombre', 'Resubido')->first();
+                $estado2 = Estado::where('nombre', 'Pendiente')->first();
+                $presentacion->estado()->associate($estado);
+                $version->estado()->associate($estado2);
         
-        $estado = Estado::where('nombre', 'Resubido')->first();
-        $estado2 = Estado::where('nombre', 'Pendiente')->first();
-        $presentacion->estado()->associate($estado);
-        $version->estado()->associate($estado2);
+                $presentacion->save();
+                $version->save();
+            });
 
-        $presentacion->save();
-        $version->save();
-
-        return redirect(route('presentaciones.inicio'))->with('exito', 'Se ha subido una nueva versión de la presentación.');
+            return redirect(route('presentaciones.inicio'))->with('exito', 'Se ha subido una nueva versión de la presentación.');
+        }
+        catch(Exception $e){
+            return redirect(route('presentaciones.inicio'))->withErrors('Ha ocurrido un error: ' . $e->getMessage());
+        }
     }
 
     public function regularizarPresentacion(Request $request, Anexo1 $presentacion){
         //Control de que se este por regularizar una presentacion en estado Aceptado
         if($presentacion->estado->nombre == "Aceptado"){
-            $estado = Estado::where('nombre', 'Regular')->first();
-            $presentacion->estado()->associate($estado);
+            try{
+                DB::transaction(function () use($presentacion){
+                    $estado = Estado::where('nombre', 'Regular')->first();
+                    $presentacion->estado()->associate($estado);
+        
+                    $presentacion->save();
+                });
 
-            $presentacion->save();
-
-            return redirect(route('presentaciones.inicio'))->with('exito', "Se ha regularizado el trabajo: $presentacion->titulo");
+                return redirect(route('presentaciones.inicio'))->with('exito', "Se ha regularizado el trabajo: $presentacion->titulo");
+            }
+            catch(Exception $e){
+                return redirect(route('presentaciones.inicio'))->withErrors('Ha ocurrido un error: ' . $e->getMessage());
+            }
         }else{
             abort(403, 'No tienes permisos para regularizar esta presentación.');
         }
@@ -248,29 +284,37 @@ class PresentacionesController extends Controller
             'fecha_propuesta' => ['required', 'date_format:d/m/Y H:i'],
             'informe_final' => ['required', 'file', 'mimes:pdf']
         ]);
-        $anexo2 = new Anexo2();
 
-        $fecha = str_replace('/', '-', $request->input('fecha_propuesta'));
-        $fecha = date('Y-m-d H:i', strtotime($fecha));
-        $anexo2->fecha_propuesta = $fecha;
-        $anexo2->presentacion()->associate($presentacion);
+        try{
+            DB::transaction(function () use($request, $presentacion){
+                $anexo2 = new Anexo2();
 
-        $ruta = $request->file('informe_final')->store('public/informesFinales');
+                $fecha = str_replace('/', '-', $request->input('fecha_propuesta'));
+                $fecha = date('Y-m-d H:i', strtotime($fecha));
+                $anexo2->fecha_propuesta = $fecha;
+                $anexo2->presentacion()->associate($presentacion);
+        
+                $ruta = $request->file('informe_final')->store('public/informesFinales');
+        
+                //Guardamos la ruta del archivo en el campo ruta_informe
+                $anexo2->ruta_informe = $ruta;
+        
+                $estado = Estado::where('nombre', 'Fecha propuesta')->first();
+                $anexo2->estado()->associate($estado);
+                $anexo2->save();
+        
+                $presentacion->estado()->associate($estado);
+                $presentacion->save();
+        
+                Mail::to($presentacion->alumnos)->send(new SolicitudMesaEstudianteMail($anexo2));
+                Mail::to(User::role('Docente responsable')->get())->send(new SolicitudMesaDocenteMail($anexo2));
+            });
 
-        //Guardamos la ruta del archivo en el campo ruta_informe
-        $anexo2->ruta_informe = $ruta;
-
-        $estado = Estado::where('nombre', 'Fecha propuesta')->first();
-        $anexo2->estado()->associate($estado);
-        $anexo2->save();
-
-        $presentacion->estado()->associate($estado);
-        $presentacion->save();
-
-        Mail::to($presentacion->alumnos)->send(new SolicitudMesaEstudianteMail($anexo2));
-        Mail::to(User::role('Docente responsable')->get())->send(new SolicitudMesaDocenteMail($anexo2));
-
-        return redirect()->route('presentaciones.inicio')
+            return redirect()->route('presentaciones.inicio')
                 ->with('exito', 'Has solicitado la mesa examinadora con éxito. En la seccion "Solicitudes mesa examinadora" verás tu solicitud.');
+        }
+        catch(Exception $e){
+            return redirect()->route('presentaciones.inicio')->withErrors('Ha ocurrido un error: ' . $e->getMessage());
+        }
     }
 }

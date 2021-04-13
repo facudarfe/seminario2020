@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Estado;
 use App\Models\PropuestaPasantia;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class PasantiasController extends Controller
@@ -35,24 +37,31 @@ class PasantiasController extends Controller
             'duracion' => ['required', 'numeric', 'between:1,12'],
             'fecha_fin' => ['required', 'date', 'after:' . date('Y-m-d')],
         ]);
+        
+        try{
+            DB::transaction(function () use($request){
+                $pasantia = new PropuestaPasantia();
 
-        $pasantia = new PropuestaPasantia();
+                $pasantia->titulo = $request->get('titulo');
+                $pasantia->lugar = $request->get('lugar');
+                $pasantia->descripcion = $request->get('descripcion');
+                $pasantia->tutores = $request->get('tutores');
+                $pasantia->duracion = $request->get('duracion');
+                $pasantia->fecha_fin = $request->get('fecha_fin');
+        
+                $pasantia->docente()->associate(auth()->user());
+        
+                $estado = Estado::where('nombre', 'Disponible')->first();
+                $pasantia->estado()->associate($estado);
+        
+                $pasantia->save();   
+            });
 
-        $pasantia->titulo = $request->get('titulo');
-        $pasantia->lugar = $request->get('lugar');
-        $pasantia->descripcion = $request->get('descripcion');
-        $pasantia->tutores = $request->get('tutores');
-        $pasantia->duracion = $request->get('duracion');
-        $pasantia->fecha_fin = $request->get('fecha_fin');
-
-        $pasantia->docente()->associate(auth()->user());
-
-        $estado = Estado::where('nombre', 'Disponible')->first();
-        $pasantia->estado()->associate($estado);
-
-        $pasantia->save();
-
-        return redirect()->route('pasantias.inicio')->with('exito', 'La propuesta de pasantia se ha creado con éxito');
+            return redirect()->route('pasantias.inicio')->with('exito', 'La propuesta de pasantia se ha creado con éxito');  
+        }
+        catch(Exception $e){
+            return redirect()->route('pasantias.inicio')->withErrors('Ha ocurrido un error: ' . $e->getMessage());  
+        }
     }
 
     public function show(PropuestaPasantia $pasantia){
