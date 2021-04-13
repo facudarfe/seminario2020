@@ -8,31 +8,16 @@
         <div class="card shadow mb-4">
             <div class="card-header py-3">
                 <h6 class="d-inline m-0 font-weight-bold text-primary">Detalle presentación</h6>
-                <div class="d-inline float-right dropdown no-arrow">
-                    <h5 class="d-none d-sm-inline mr-3"><span class="badge badge-{{$presentacion->estado->color_clase}}">{{$presentacion->estado->nombre}}</span></h5>
-                    <a class="dropdown-toggle" type="button" data-toggle="dropdown"><i class="fas fa-ellipsis-v"></i></a>
-                    <div class="dropdown-menu dropdown-menu-right shadow">
-                        @if (auth()->user()->can('presentaciones.asignar.evaluador') && !$presentacion->docente_id)
-                            <button class="dropdown-item" data-toggle="modal" data-target="#modalDocente">
-                                Asignar docente evaluador
-                            </button>
-                        @endif
-                        @if (auth()->user()->can('presentaciones.regularizar') && $presentacion->estado->nombre == "Aceptado")
-                        <button class="dropdown-item" data-toggle="modal" data-target="#modalRegularizar">
-                            Regularizar trabajo
-                        </button>
-                        @endif
-                    </div>
-                </div>
+                <h5 class="d-none d-sm-inline float-right mr-3"><span class="badge badge-{{$presentacion->estado->color_clase}}">{{$presentacion->estado->nombre}}</span></h5>
             </div>
             <div class="card-body">
                 @can ('aceptarORechazar', $presentacion)
                     <div class="row mb-2 mb-sm-0">
                         <div class="col-12 text-center">
-                            <button type="button" id="aceptarParticipacion" class="btn btn-sm btn-success">
+                            <button type="button" id="aceptarParticipacion" class="btn btn-sm btn-success rounded">
                                 <i class="fas fa-check mr-1"></i>Aceptar
                             </button>
-                            <button type="button" id="rechazarParticipacion" class="btn btn-sm btn-danger">
+                            <button type="button" id="rechazarParticipacion" class="btn btn-sm btn-danger rounded">
                                 <i class="fas fa-times mr-1"></i>Rechazar
                             </button>
                         </div>
@@ -58,6 +43,24 @@
                     <div class="col-12 col-sm-6 col-md-4 col-lg-3"><h5>Modalidad: </h5></div>
                     <div class="col-12 col-sm-6 col-md-8 col-lg-9">{{$presentacion->modalidad->nombre}}</div>
                 </div>
+                @if (auth()->user()->can('presentaciones.asignar.evaluador') && !$presentacion->docente_id)
+                <div class="row mb-2 mb-sm-0">
+                    <div class="col-12 text-right">
+                        <button type="button" class="btn btn-sm btn-info rounded" data-toggle="modal" data-target="#modalDocente">
+                            Asignar docente evaluador
+                        </button>
+                    </div>
+                </div>
+                @endif
+                @if (auth()->user()->can('presentaciones.regularizar') && $presentacion->estado->nombre == "Aceptado")
+                <div class="row mb-2 mb-sm-0">
+                    <div class="col-12 text-right">
+                        <button type="button" class="btn btn-sm btn-success rounded" data-toggle="modal" data-target="#modalRegularizar">
+                            Regularizar trabajo
+                        </button>
+                    </div>
+                </div>
+                @endif
                 @if ($presentacion->docente_id)
                     <div class="row">
                         <div class="col-12 col-sm-6 col-md-4 col-lg-3"><h5>Docente evaluador: </h5></div>
