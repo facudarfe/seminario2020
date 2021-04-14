@@ -49,7 +49,12 @@
                 @can('propuestas.pasantias.crear')
                     <div class="row mb-2 mb-md-0">
                         <div class="col-12">
-                            <h5>Solicitudes: </h5>
+                            <div class="mb-2">
+                                <h5 class="d-inline">Solicitudes: </h5>
+                                <a href={{route('pasantias.generarPDF', $pasantia)}} target="_blank" class="d-inline float-right" style="color:rgb(236, 75, 75);">
+                                    <i class="fas fa-file-pdf mr-1" style="color: rgb(236, 75, 75);"></i>PDF postulantes
+                                </a>
+                            </div>
                             <table class="table table-sm shadow">
                                 <thead>
                                     <th>Nombre</th>

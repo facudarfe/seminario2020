@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Anexo1;
 use App\Models\Anexo2;
+use App\Models\PropuestaPasantia;
 use App\Models\Version_Anexo1;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -34,5 +35,12 @@ class PDFController extends Controller
         $pdf->loadView('PDF.anexo2', compact('presentacion', 'anexo2'));
     
         return $pdf->stream('Anexo2 - TUP.pdf');
+    }
+
+    public function generarPDFPasantia(PropuestaPasantia $pasantia){
+        $pdf = app('dompdf.wrapper');
+        $pdf->loadView('PDF.postulantes_pasantia', compact('pasantia'));
+    
+        return $pdf->stream("Pasantia - $pasantia->lugar.pdf");
     }
 }

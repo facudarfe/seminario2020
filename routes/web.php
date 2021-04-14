@@ -162,6 +162,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::delete('/{pasantia}/eliminar', [PasantiasController::class, 'destroy'])->name('pasantias.eliminar')->middleware('can:manipular,pasantia');
         Route::patch('/{pasantia}/habilitar', [PasantiasController::class, 'enable'])->name('pasantias.habilitar')->middleware('can:manipular,pasantia');
         Route::patch('/{pasantia}/deshabilitar', [PasantiasController::class, 'disable'])->name('pasantias.deshabilitar')->middleware('can:manipular,pasantia');
+        Route::get('/{pasantia}/PDF', [PDFController::class, 'generarPDFPasantia'])->name('pasantias.generarPDF')->middleware('permission:propuestas.pasantias.generarPDF');
     });
 
     //Rutas Anexos 2
