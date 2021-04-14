@@ -19,13 +19,11 @@ class CreateVersionesAnexos1Table extends Migration
             $table->text('resumen');
             $table->text('tecnologias');
             $table->text('descripcion');
-            $table->foreignId('docente_id')->nullable();
             $table->timestamp('fecha_correccion')->nullable();
             $table->text('observaciones')->nullable();
             $table->foreignId('estado_id');
 
             $table->foreign('anexo_id')->references('id')->on('anexos1');
-            $table->foreign('docente_id')->references('id')->on('users');
             $table->foreign('estado_id')->references('id')->on('estados');
             $table->timestamps();
         });

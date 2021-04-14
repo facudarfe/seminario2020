@@ -19,12 +19,14 @@ class CreateAnexos1Table extends Migration
             $table->foreignId('alumno_id');
             $table->foreignId('director_id');
             $table->foreignId('codirector_id');
+            $table->foreignId('docente_id')->nullable();
             $table->foreignId('modalidad_id');
             $table->foreignId('estado_id');
 
             $table->foreign('alumno_id')->references('id')->on('users');
             $table->foreign('director_id')->references('id')->on('users');
             $table->foreign('codirector_id')->references('id')->on('users');
+            $table->foreign('docente_id')->references('id')->on('users');
             $table->foreign('modalidad_id')->references('id')->on('modalidades');
             $table->foreign('estado_id')->references('id')->on('estados');
             $table->timestamps();

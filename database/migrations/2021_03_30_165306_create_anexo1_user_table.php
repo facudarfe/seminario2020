@@ -21,7 +21,7 @@ class CreateAnexo1UserTable extends Migration
             $table->foreign('anexo1_id')->references('id')->on('anexos1');
             $table->foreign('alumno_id')->references('id')->on('users');
 
-            $table->primary(['anexo1_id', 'user_id']);
+            $table->primary(['anexo1_id', 'alumno_id']);
         });
     }
 
