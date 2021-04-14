@@ -11,18 +11,18 @@
 @section('contenido-antes-tabla')
     @include('includes.mensaje_exito')
     @include('includes.mensajes_error')
-{{--     @role('Estudiante')
+    @role('Estudiante')
         <div class="row">
             <div class="col-12">
                 <div class="alert alert-info alert-dismissable fade show">
                     <i class="fas fa-info-circle mr-1"></i>
-                    Para solicitar un tema debes ingresar al detalle del tema que te interesa y hacer click en el botón 
-                    <b>"Solicitar tema"</b>.
+                    Para solicitar una pasantía debes ingresar al detalle del tema que te interesa y hacer click en el botón 
+                    <b>"Solicitar pasantía"</b>.
                     <a href="#" class="close" data-dismiss="alert">&times;</a>
                 </div>
             </div>
         </div>
-    @endrole --}}
+    @endrole
     @can ('propuestas.pasantias.crear')
         <div class="row justify-content-start mb-3">
             <div class="col-12">
