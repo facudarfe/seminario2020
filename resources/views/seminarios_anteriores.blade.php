@@ -109,7 +109,7 @@
 <footer class="text-light p-2">
     <div class="container">
         <div class="copyright text-center">
-            <small>{{\Tremby\LaravelGitVersion\GitVersionHelper::getNameAndVersion()}} - Desarrollado por Facundo Darfe</small>
+            <small>{{$version}} - Desarrollado por Facundo Darfe</small>
         </div>
     </div>
 </footer>

@@ -50,7 +50,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>{{\Tremby\LaravelGitVersion\GitVersionHelper::getNameAndVersion()}} - Desarrollado por Facundo Darfe</span>
+                        <span>{{$version}} - Desarrollado por Facundo Darfe</span>
                     </div>
                 </div>
             </footer>
