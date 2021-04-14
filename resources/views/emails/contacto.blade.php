@@ -1,7 +1,7 @@
 @extends('layouts.emails.inicio')
 
 @section('contenido')
-    <p>Ha recibido una nueva consulta a través del Formulario web de contacto:</p>
+    <p>Ha recibido un nuevo mensaje a través del Formulario web de contacto:</p>
     <p>
         <b>Usuario: </b> {{$request->user()->name}} <br>
         <b>Rol: </b> {{$request->user()->getRoleNames()->first()}} <br>
