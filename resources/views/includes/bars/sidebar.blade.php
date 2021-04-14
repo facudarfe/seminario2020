@@ -64,6 +64,21 @@
         </a>
     </li>
 
+    <!-- Nav Item - Seminarios anteriores -->
+    <li class="nav-item">
+        <a class="nav-link" href="{{route('seminarios')}}">
+            <i class="fas fa-fw fa-clipboard-check"></i>
+            <span>Seminarios aprobados</span>
+        </a>
+    </li>
+
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <div class="sidebar-heading">
+        Propuestas
+    </div>
+
     <!-- Nav Item - Propuestas temas -->
     <li class="nav-item">
         <a class="nav-link" href="{{route('temas.inicio')}}">
@@ -77,14 +92,6 @@
         <a class="nav-link" href="{{route('pasantias.inicio')}}">
             <i class="fas fa-fw fa-briefcase"></i>
             <span>Propuestas pasantias</span>
-        </a>
-    </li>
-
-    <!-- Nav Item - Seminarios anteriores -->
-    <li class="nav-item">
-        <a class="nav-link" href="{{route('seminarios')}}">
-            <i class="fas fa-fw fa-clipboard-check"></i>
-            <span>Seminarios aprobados</span>
         </a>
     </li>
 
