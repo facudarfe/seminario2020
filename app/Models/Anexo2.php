@@ -28,6 +28,7 @@ class Anexo2 extends Model
     }
 
     public function tribunal(){
-        return $this->belongsToMany(Docente::class, 'tribunales_evaluadores', 'anexo2_id', 'docente_dni')->withPivot(['titular']);
+        return $this->belongsToMany(Docente::class, 'tribunales_evaluadores', 'anexo2_id', 'docente_dni')->withPivot(['titular'])
+        ->withTrashed();
     }
 }

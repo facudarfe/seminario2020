@@ -18,11 +18,11 @@ class PropuestaTema extends Model
     }
 
     public function docente(){
-        return $this->belongsTo(User::class, 'docente_id');
+        return $this->belongsTo(User::class, 'docente_id')->withTrashed();
     }
 
     public function alumno(){
-        return $this->belongsTo(User::class, 'alumno_id');
+        return $this->belongsTo(User::class, 'alumno_id')->withTrashed();
     }
 
     public function getCreatedAtAttribute($value){

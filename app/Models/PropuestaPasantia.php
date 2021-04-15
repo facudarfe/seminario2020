@@ -14,7 +14,7 @@ class PropuestaPasantia extends Model
     protected $fillable = ['titulo', 'lugar', 'descripcion', 'tutores', 'duracion', 'fecha_fin'];
 
     public function docente(){
-        return $this->belongsTo(User::class, 'docente_id');
+        return $this->belongsTo(User::class, 'docente_id')->withTrashed();
     }
 
     public function estado(){
@@ -31,6 +31,6 @@ class PropuestaPasantia extends Model
 
     public function alumnos(){
         return $this->belongsToMany(User::class, 'propuesta_pasantia_user', 'pasantia_id', 'user_id')
-        ->withPivot(['ruta_cv']);
+        ->withPivot(['ruta_cv'])->withTrashed();
     }
 }

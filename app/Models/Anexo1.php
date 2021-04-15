@@ -29,20 +29,20 @@ class Anexo1 extends Model
 
     public function alumnos(){
         return $this->belongsToMany(User::class, 'anexo1_user', 'anexo1_id', 'alumno_id')->withPivot(['aceptado'])
-        ->where('anexo1_user.aceptado', true);
+        ->where('anexo1_user.aceptado', true)->withTrashed();
     }
 
     public function alumnosPendientes(){
         return $this->belongsToMany(User::class, 'anexo1_user', 'anexo1_id', 'alumno_id')->withPivot(['aceptado'])
-        ->where('anexo1_user.aceptado', false);
+        ->where('anexo1_user.aceptado', false)->withTrashed();
     }
 
     public function director(){
-        return $this->belongsTo(User::class, 'director_id');
+        return $this->belongsTo(User::class, 'director_id')->withTrashed();
     }
 
     public function codirector(){
-        return $this->belongsTo(User::class, 'codirector_id');
+        return $this->belongsTo(User::class, 'codirector_id')->withTrashed();
     }
 
     public function modalidad(){
@@ -50,7 +50,7 @@ class Anexo1 extends Model
     }
 
     public function evaluador(){
-        return $this->belongsTo(User::class, 'docente_id');
+        return $this->belongsTo(User::class, 'docente_id')->withTrashed();
     }
 
     public function anexos2(){
