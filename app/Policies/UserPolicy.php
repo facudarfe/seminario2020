@@ -26,6 +26,6 @@ class UserPolicy
         $rolesPermitidos = $user->rolesPermitidos();
         $rol = $userEdit->roles->first();
 
-        return empty($rolesPermitidos) ? [] : $rolesPermitidos->contains($rol);
+        return $rolesPermitidos->contains($rol);
     }
 }

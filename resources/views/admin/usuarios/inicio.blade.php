@@ -12,11 +12,13 @@
 
 @section('contenido-antes-tabla')
     @include('includes.mensaje_exito')
-    <div class="row">
-        <div class="col-12 col-md-6 col-lg-4 col-xl-2">
-            <a href="{{route('usuarios.crear')}}" class="btn btn-block btn-success mb-3">Nuevo usuario</a>
+    @can('usuarios.crear')
+        <div class="row">
+            <div class="col-12 col-md-6 col-lg-4 col-xl-2">
+                <a href="{{route('usuarios.crear')}}" class="btn btn-block btn-success mb-3">Nuevo usuario</a>
+            </div>
         </div>
-    </div>
+    @endcan
 @endsection
 
 @section('contenido-tabla')
@@ -45,16 +47,18 @@
                 <div class="dropdown no-arrow">
                     <a class="dropdown-toggle" type="button" data-toggle="dropdown"><i class="fas fa-chevron-down btn-accion"></i></a>
                     <div class="dropdown-menu shadow activeOptions">
-                        @can('manipularRol', $user->roles->first())
+                        @if(auth()->user()->can('usuarios.editar') && auth()->user()->can('manipularRol', $user->roles->first()))
                             <a href="{{route('usuarios.editar', $user)}}" class="dropdown-item">
                                 <i class="fas fa-pencil-alt fa-lg fa-fw mr-2 text-gray-400"></i>
                                 Editar
                             </a>
+                        @endif
+                        @if(auth()->user()->can('usuarios.eliminar') && auth()->user()->can('manipularRol', $user->roles->first()))
                             <button id="botonElimina" data-user_id="{{$user->id}}" class="dropdown-item">
                                 <i class="fas fa-trash-alt fa-lg fa-fw mr-2 text-gray-400"></i>
                                 Eliminar
                             </button>
-                        @endcan
+                        @endif
                     </div>
                 </div>
             </td>
