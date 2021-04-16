@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Estado;
+use App\Models\Modalidad;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -89,6 +91,31 @@ class DatabaseSeeder extends Seeder
             'anexos2.ver',
             'propuestas.pasantias.solicitar',
             'propuestas.temas.solicitar'
+        ]);
+
+        // Cargar modalidades
+        Modalidad::insert([
+            ['nombre' => 'Pasantia'],
+            ['nombre' => 'Seminario'],
+            ['nombre' => 'Mixto'],
+        ]);
+
+        // Cargar estados
+        Estado::insert([
+            ['nombre' => 'Pendiente', 'color_clase' => 'primary'],
+            ['nombre' => 'Asignado', 'color_clase' => 'secondary'],
+            ['nombre' => 'Resubir', 'color_clase' => 'warning'],
+            ['nombre' => 'Rechazado', 'color_clase' => 'danger'],
+            ['nombre' => 'Aceptado', 'color_clase' => 'success'],
+            ['nombre' => 'Regular', 'color_clase' => 'info'],
+            ['nombre' => 'Resubido', 'color_clase' => 'primary'],
+            ['nombre' => 'Disponible', 'color_clase' => 'success'],
+            ['nombre' => 'Solicitado', 'color_clase' => 'info'],
+            ['nombre' => 'Cerrado', 'color_clase' => 'danger'],
+            ['nombre' => 'Fecha propuesta', 'color_clase' => 'primary'],
+            ['nombre' => 'Aprobado', 'color_clase' => 'success'],
+            ['nombre' => 'Fecha y tribunal definidos', 'color_clase' => 'info'],
+            ['nombre' => 'Desaprobado', 'color_clase' => 'danger'],
         ]);
     }
 }
