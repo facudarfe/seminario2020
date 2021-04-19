@@ -51,7 +51,7 @@ class PresentacionesController extends Controller
     }
 
     public function create(){
-        $docentes = User::role(['Docente responsable', 'Docente colaborador'])->get();
+        $docentes = Docente::all();
         $modalidades = Modalidad::all();
         $tema = new PropuestaTema();
 
