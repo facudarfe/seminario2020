@@ -1,8 +1,8 @@
 //Codigo para el DataTable
-var rol = $('#dataTable').data('role');
+var rol = $('#presentaciones').data('role');
             
 if(rol != 'Estudiante'){
-    $('#dataTable').DataTable({
+    $('.presentacion').DataTable({
         "columnDefs": [
             {"targets": 0, "orderable": false},
             {"targets": 7, "searchable": false, "orderable": false}

@@ -1,4 +1,4 @@
-@extends('layouts.tabla')
+@extends('layouts.aplicacion')
 
 @section('otros-estilos')
     <link href="{{asset('sbadmin/vendor/datatables/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
@@ -26,7 +26,7 @@
 
 @section('titulo-tabla', 'Proyectos')
 
-@section('contenido-antes-tabla')
+@section('contenido')
     @include('includes.mensaje_exito')
     @include('includes.mensajes_error')
     @foreach (auth()->user()->presentacionesPendientes as $pendiente)
@@ -63,90 +63,169 @@
             </div>
         @endif  
     @endif
-@endsection
 
-@section('contenido-tabla')
-    <table class="table" id="dataTable" width="100%" cellspacing="0" data-role="{{auth()->user()->getRoleNames()->first()}}">
-        <thead>
-            <tr>
-                <th></th>
-                <th>Fecha</th>
-                <th>Titulo</th>
-                @unlessrole('Estudiante')
-                <th>Alumno/s</th>
-                @endrole
-                <th>Director</th>
-                <th>Modalidad</th>
-                <th>Estado</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($presentaciones as $presentacion)
-                <tr>
-                    <th><a href="{{route('presentaciones.ver', $presentacion)}}"><i class="fas fa-eye"></i></a></th>
-                    <td>{{$presentacion->created_at}}</td>
-                    <td>{{$presentacion->titulo}}</td>
-                    @unlessrole('Estudiante')
-                    <td>
-                        @for ($i = 0; $i < count($presentacion->alumnos); $i++)
-                            @if ($i != count($presentacion->alumnos)-1)
-                                {{($presentacion->alumnos[$i])->name . '- '}}
-                            @else
-                                {{($presentacion->alumnos[$i])->name}}
-                            @endif
-                        @endfor
-                    </td>
-                    @endrole
-                    <td>{{$presentacion->director->name}}</td>
-                    <td>{{$presentacion->modalidad->nombre}}</td>
-                    <td>
-                        <span class="badge badge-{{$presentacion->estado->color_clase}}">{{$presentacion->estado->nombre}}</span>
-                    </td>
-                    <td class="text-center">
-                        <div class="dropdown no-arrow">
-                            <a class="dropdown-toggle" type="button" data-toggle="dropdown"><i class="fas fa-chevron-down"></i></a>
-                            <div class="dropdown-menu shadow activeOptions">
-                                @can('subirInforme', $presentacion)
-                                    <button class="dropdown-item" data-presentacion="{{$presentacion->id}}" id="botonInforme">
-                                        <i class="fas fa-file-pdf fa-lg fa-fw text-gray-400"></i>
-                                        Subir informe de avance
-                                    </button>
-                                @endcan
-                                @if ($presentacion->ruta_informe)
-                                    <a href="{{route('presentaciones.descargarInforme', $presentacion)}}" class="dropdown-item">
-                                        <i class="fas fa-file-download fa-lg fa-fw text-gray-400"></i>
-                                        Descargar informe de avance
-                                    </a>
-                                @endif
-                                @can('proponerFecha', $presentacion)
-                                    <a href="#" class="dropdown-item" id="botonPropuestaFecha" data-id="{{$presentacion->id}}">
-                                        <i class="fas fa-calendar-alt fa-lg fa-fw text-gray-400"></i>
-                                        Solicitar mesa examinadora
-                                    </a>
-                                @endcan
-                                @can('subirCodigoFuente', $presentacion)
-                                    <a href="#" class="dropdown-item" id="botonSubirCodigo" data-id="{{$presentacion->id}}">
-                                        <i class="fas fa-code fa-lg fa-fw text-gray-400"></i>
-                                        Subir codigo fuente
-                                    </a>
-                                @endcan
-                                @if($presentacion->ruta_codigo)
-                                    <a href={{route('presentaciones.descargarCodigoFuente', $presentacion)}} class="dropdown-item" id="botonSubirCodigo">
-                                        <i class="fas fa-file-code fa-lg fa-fw text-gray-400"></i>
-                                        Descargar codigo fuente
-                                    </a>
-                                @endif
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-@endsection
+    @if ($presentacionesAsignadas && count($presentacionesAsignadas) > 0)
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Proyectos asignados a {{auth()->user()->name}}</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table presentacion" width="100%" cellspacing="0" data-role="{{auth()->user()->getRoleNames()->first()}}">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Fecha</th>
+                                <th>Titulo</th>
+                                @unlessrole('Estudiante')
+                                <th>Alumno/s</th>
+                                @endrole
+                                <th>Director</th>
+                                <th>Modalidad</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($presentacionesAsignadas as $presentacion)
+                                <tr>
+                                    <th><a href="{{route('presentaciones.ver', $presentacion)}}"><i class="fas fa-eye"></i></a></th>
+                                    <td>{{$presentacion->created_at}}</td>
+                                    <td>{{$presentacion->titulo}}</td>
+                                    @unlessrole('Estudiante')
+                                    <td>
+                                        @for ($i = 0; $i < count($presentacion->alumnos); $i++)
+                                            @if ($i != count($presentacion->alumnos)-1)
+                                                {{($presentacion->alumnos[$i])->name . '- '}}
+                                            @else
+                                                {{($presentacion->alumnos[$i])->name}}
+                                            @endif
+                                        @endfor
+                                    </td>
+                                    @endrole
+                                    <td>{{$presentacion->director->name}}</td>
+                                    <td>{{$presentacion->modalidad->nombre}}</td>
+                                    <td>
+                                        <span class="badge badge-{{$presentacion->estado->color_clase}}">{{$presentacion->estado->nombre}}</span>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="dropdown no-arrow">
+                                            <a class="dropdown-toggle" type="button" data-toggle="dropdown"><i class="fas fa-chevron-down"></i></a>
+                                            <div class="dropdown-menu shadow activeOptions">
+                                                @if ($presentacion->ruta_informe)
+                                                    <a href="{{route('presentaciones.descargarInforme', $presentacion)}}" class="dropdown-item">
+                                                        <i class="fas fa-file-download fa-lg fa-fw text-gray-400"></i>
+                                                        Descargar informe de avance
+                                                    </a>
+                                                @endif
+                                                @if($presentacion->ruta_codigo)
+                                                    <a href={{route('presentaciones.descargarCodigoFuente', $presentacion)}} class="dropdown-item" id="botonSubirCodigo">
+                                                        <i class="fas fa-file-code fa-lg fa-fw text-gray-400"></i>
+                                                        Descargar codigo fuente
+                                                    </a>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    @endif
 
-@section('contenido-despues-tabla')
+    @if ($presentaciones)
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Proyectos presentados</h6>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table presentacion" id="presentaciones" width="100%" cellspacing="0" data-role="{{auth()->user()->getRoleNames()->first()}}">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Fecha</th>
+                                <th>Titulo</th>
+                                @unlessrole('Estudiante')
+                                <th>Alumno/s</th>
+                                @endrole
+                                <th>Director</th>
+                                <th>Modalidad</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($presentaciones as $presentacion)
+                                <tr>
+                                    <th><a href="{{route('presentaciones.ver', $presentacion)}}"><i class="fas fa-eye"></i></a></th>
+                                    <td>{{$presentacion->created_at}}</td>
+                                    <td>{{$presentacion->titulo}}</td>
+                                    @unlessrole('Estudiante')
+                                    <td>
+                                        @for ($i = 0; $i < count($presentacion->alumnos); $i++)
+                                            @if ($i != count($presentacion->alumnos)-1)
+                                                {{($presentacion->alumnos[$i])->name . '- '}}
+                                            @else
+                                                {{($presentacion->alumnos[$i])->name}}
+                                            @endif
+                                        @endfor
+                                    </td>
+                                    @endrole
+                                    <td>{{$presentacion->director->name}}</td>
+                                    <td>{{$presentacion->modalidad->nombre}}</td>
+                                    <td>
+                                        <span class="badge badge-{{$presentacion->estado->color_clase}}">{{$presentacion->estado->nombre}}</span>
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="dropdown no-arrow">
+                                            <a class="dropdown-toggle" type="button" data-toggle="dropdown"><i class="fas fa-chevron-down"></i></a>
+                                            <div class="dropdown-menu shadow activeOptions">
+                                                @can('subirInforme', $presentacion)
+                                                    <button class="dropdown-item" data-presentacion="{{$presentacion->id}}" id="botonInforme">
+                                                        <i class="fas fa-file-pdf fa-lg fa-fw text-gray-400"></i>
+                                                        Subir informe de avance
+                                                    </button>
+                                                @endcan
+                                                @if ($presentacion->ruta_informe)
+                                                    <a href="{{route('presentaciones.descargarInforme', $presentacion)}}" class="dropdown-item">
+                                                        <i class="fas fa-file-download fa-lg fa-fw text-gray-400"></i>
+                                                        Descargar informe de avance
+                                                    </a>
+                                                @endif
+                                                @can('proponerFecha', $presentacion)
+                                                    <a href="#" class="dropdown-item" id="botonPropuestaFecha" data-id="{{$presentacion->id}}">
+                                                        <i class="fas fa-calendar-alt fa-lg fa-fw text-gray-400"></i>
+                                                        Solicitar mesa examinadora
+                                                    </a>
+                                                @endcan
+                                                @can('subirCodigoFuente', $presentacion)
+                                                    <a href="#" class="dropdown-item" id="botonSubirCodigo" data-id="{{$presentacion->id}}">
+                                                        <i class="fas fa-code fa-lg fa-fw text-gray-400"></i>
+                                                        Subir codigo fuente
+                                                    </a>
+                                                @endcan
+                                                @if($presentacion->ruta_codigo)
+                                                    <a href={{route('presentaciones.descargarCodigoFuente', $presentacion)}} class="dropdown-item" id="botonSubirCodigo">
+                                                        <i class="fas fa-file-code fa-lg fa-fw text-gray-400"></i>
+                                                        Descargar codigo fuente
+                                                    </a>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    @endif
+
     @if(auth()->user()->can('anexos2.ver') && $anexos2->count() > 0)
         <div class="card shadow mb-4">
             <div class="card-header py-3">

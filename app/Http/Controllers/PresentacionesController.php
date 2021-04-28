@@ -24,20 +24,22 @@ use Illuminate\Support\Facades\Mail;
 class PresentacionesController extends Controller
 {
     public function index(){
+        $presentaciones = null;
+        $presentacionesAsignadas = null;
+        $anexos2 = null;
+
         //Se muestra la tabla con las presentaciones dependiendo del rol
         if(auth()->user()->hasRole('Estudiante')){
             $presentaciones = auth()->user()->presentaciones()->orderByDesc('updated_at')->get();
             $anexos2 = Anexo2::orderByDesc('updated_at')->whereIn('anexo1_id', auth()->user()
             ->presentaciones()->pluck('id')->toArray())->get();
         }
-        elseif(auth()->user()->hasRole('Docente colaborador')){            
-            //Para los docentes colaboradores solo se mostraran las presentaciones que le fueron asignadas para corregir
-            $presentaciones = Anexo1::where('docente_id', auth()->user()->id)->orderByDesc('updated_at')->get();
-            $anexos2 = null;
-        }
         else{
-            $presentaciones = Anexo1::orderByDesc('updated_at')->get();
-            $anexos2 = Anexo2::orderByDesc('updated_at')->get();
+            if(auth()->user()->hasRole(['Administrador', 'Docente responsable'])){            
+                $presentaciones = Anexo1::orderByDesc('updated_at')->get();
+                $anexos2 = Anexo2::orderByDesc('updated_at')->get();
+            }
+            $presentacionesAsignadas = Anexo1::where('docente_id', auth()->user()->id)->orderByDesc('updated_at')->get();
         }
 
         $solicitado = auth()->user()->propuestaTema()->whereHas('estado', function($q){
@@ -47,7 +49,7 @@ class PresentacionesController extends Controller
         $docentes = Docente::all();
         $estadosEvaluacion = Estado::where('nombre', 'Aprobado')->orWhere('nombre', 'Desaprobado')->get();
 
-        return view('presentaciones.inicio', compact('presentaciones', 'solicitado', 'anexos2', 'docentes', 'estadosEvaluacion'));
+        return view('presentaciones.inicio', compact('presentaciones', 'presentacionesAsignadas', 'solicitado', 'anexos2', 'docentes', 'estadosEvaluacion'));
     }
 
     public function create(){
