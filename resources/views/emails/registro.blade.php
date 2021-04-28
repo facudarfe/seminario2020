@@ -1,7 +1,7 @@
 @extends('layouts.emails.inicio')
 
 @section('contenido')
-    <p>Hola {{$nombreUsuario}}, se le ha dado de alta en el sistema de Seminarios TUP: <a href="">https://www.seminarios.test:8080</a></p>
+    <p>Hola {{$nombreUsuario}}, se le ha dado de alta en el sistema de Seminarios TUP: <a href="">{{route('inicio')}}</a></p>
     <p>Para ingresar al sitio debe utilizar su <b>DNI</b> como usuario y contraseña. Una vez que haya logrado ingresar no olvide
         modificar la contraseña por su seguridad.
     </p>
