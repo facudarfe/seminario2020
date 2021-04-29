@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Cronjobs\VerificarRegularidad;
 use App\Models\Estado;
 use App\Models\PropuestaPasantia;
 use Carbon\Carbon;
@@ -42,6 +43,9 @@ class Kernel extends ConsoleKernel
                 }
             }
         })->timezone('America/Argentina/Salta')->dailyAt('23:59');
+
+        // Cambiar estado a 'No regular' de las presentaciones que no fueron regularizadas luego de 6 meses
+        $schedule->call(new VerificarRegularidad)->timezone('America/Argentina/Salta')->dailyAt('00:00');
     }
 
     /**

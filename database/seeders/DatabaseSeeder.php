@@ -116,6 +116,7 @@ class DatabaseSeeder extends Seeder
             ['nombre' => 'Aprobado', 'color_clase' => 'success'],
             ['nombre' => 'Fecha y tribunal definidos', 'color_clase' => 'info'],
             ['nombre' => 'Desaprobado', 'color_clase' => 'danger'],
+            ['nombre' => 'No regular', 'color_clase' => 'warning'],
         ]);
     }
 }
