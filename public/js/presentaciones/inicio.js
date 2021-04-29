@@ -262,3 +262,14 @@ $('#botonSubirCodigo').click(function(){
         });
     }); 
 });
+
+// Solicitud continuidad
+$('#botonSolicitarContinuidad').click(function(){
+    var id = $(this).data('id');
+
+    $('#modalContinuidadSeminario').modal('show');
+    $('#modalContinuidadSeminario').ready(function(){
+        //Seteamos el atributo 'action' del form a la ruta con el id de la presentacion
+        $(this).find('form').attr('action', '/presentaciones/'+id+'/solicitarContinuidad');
+    }); 
+});

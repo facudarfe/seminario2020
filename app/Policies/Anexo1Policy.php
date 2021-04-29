@@ -87,4 +87,8 @@ class Anexo1Policy
     public function subirCodigoFuente(User $user, Anexo1 $presentacion){
         return $user->presentaciones->contains($presentacion) && $presentacion->estado->nombre == 'Aprobado';
     }
+
+    public function solicitarContinuidad(User $user, Anexo1 $presentacion){
+        return $user->presentaciones->contains($presentacion) && $presentacion->estado->nombre == 'No regular';
+    }
 }

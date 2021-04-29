@@ -196,6 +196,12 @@
                                                         Descargar informe de avance
                                                     </a>
                                                 @endif
+                                                @can('solicitarContinuidad', $presentacion)
+                                                    <a href="#" class="dropdown-item" id="botonSolicitarContinuidad" data-id="{{$presentacion->id}}">
+                                                        <i class="fas fa-undo-alt fa-lg fa-fw text-gray-400"></i>
+                                                        Continuar seminario
+                                                    </a>
+                                                @endcan
                                                 @can('proponerFecha', $presentacion)
                                                     <a href="#" class="dropdown-item" id="botonPropuestaFecha" data-id="{{$presentacion->id}}">
                                                         <i class="fas fa-calendar-alt fa-lg fa-fw text-gray-400"></i>
@@ -505,6 +511,29 @@
                         <button type="submit" class="btn btn-success" id="subir">Subir</button>
                     </div>
                 </form> 
+            </div>
+        </div>
+    </div>
+
+    <!--Modal para confirmar continuidad de seminario-->
+    <div class="modal fade" id="modalContinuidadSeminario" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Contuinidad Seminario</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">¿Esta seguro que desea continuar con este seminario?</div>
+                <div class="modal-footer">
+                    <form action="" method="POST" id="formSolicitarContinuidad">
+                        @csrf
+                        @method('PATCH')
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-success">Aceptar</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

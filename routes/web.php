@@ -107,6 +107,8 @@ Route::group(['middleware' => 'auth'], function () {
             ->middleware('can:resubirVersion,presentacion');
         Route::post('/{presentacion}/regularizar', [PresentacionesController::class, 'regularizarPresentacion'])->name('presentaciones.regularizar')
             ->middleware('permission:presentaciones.regularizar');
+        Route::patch('/{presentacion}/solicitarContinuidad', [PresentacionesController::class, 'solicitarContinuidad'])->name('presentaciones.solicitarContinuidad')
+        ->middleware('can:solicitarContinuidad,presentacion');
     
         //Rutas PDF presentaciones
         Route::get('/{presentacion}/{version}/PDF', [PDFController::class, 'generarAnexo1'])->name('pdf.anexo1')

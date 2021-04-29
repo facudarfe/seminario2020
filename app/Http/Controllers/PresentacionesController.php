@@ -319,4 +319,12 @@ class PresentacionesController extends Controller
             return redirect()->route('presentaciones.inicio')->withErrors('Ha ocurrido un error: ' . $e->getMessage());
         }
     }
+
+    public function solicitarContinuidad(Anexo1 $presentacion){
+        $estado = Estado::where('nombre', 'Aceptado')->first();
+        $presentacion->estado()->associate($estado);
+        $presentacion->save();
+
+        return redirect()->route('presentaciones.inicio');
+    }
 }
