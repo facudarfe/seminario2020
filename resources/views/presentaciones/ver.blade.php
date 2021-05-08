@@ -52,6 +52,12 @@
                     </div>
                 </div>
                 @endif
+                @if ($presentacion->docente_id)
+                    <div class="row">
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-3"><h5>Docente evaluador: </h5></div>
+                        <div class="col-12 col-sm-6 col-md-8 col-lg-9">{{$presentacion->evaluador->name}}</div>
+                    </div>
+                @endif
                 @if (auth()->user()->can('presentaciones.regularizar') && $presentacion->estado->nombre == "Aceptado")
                 <div class="row mb-2 mb-sm-0">
                     <div class="col-12 text-right">
@@ -60,12 +66,6 @@
                         </button>
                     </div>
                 </div>
-                @endif
-                @if ($presentacion->docente_id)
-                    <div class="row">
-                        <div class="col-12 col-sm-6 col-md-4 col-lg-3"><h5>Docente evaluador: </h5></div>
-                        <div class="col-12 col-sm-6 col-md-8 col-lg-9">{{$presentacion->evaluador->name}}</div>
-                    </div>
                 @endif
                 <hr>
                 @php
