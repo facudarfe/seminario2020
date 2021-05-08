@@ -24,6 +24,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //
-        view()->share('version', exec('git describe --always --tags'));
+        view()->share('versionSistema', exec('git describe --always --tags'));
     }
 }
