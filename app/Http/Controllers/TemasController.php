@@ -126,6 +126,15 @@ class TemasController extends Controller
         $docentes = User::role(['Docente responsable', 'Docente colaborador'])->get();
         $modalidades = Modalidad::all();
 
-        return view('presentaciones.crear', compact('docentes', 'modalidades', 'tema'));
+        //Seleccionar los estudiantes que se pueden elegir para hacer trabajo juntos
+        $c1 = User::role('Estudiante')->where('id', '!=', auth()->id())->doesntHave('presentaciones')->get();
+        $c2 = User::role('Estudiante')->where('id', '!=', auth()->id())->whereHas('presentaciones', function($q){
+            $q->whereHas('estado', function($q2){
+                $q2->where('nombre', 'Rechazado');
+            });
+        })->get();
+        $grupo = $c1->concat($c2);
+
+        return view('presentaciones.crear', compact('docentes', 'modalidades', 'tema', 'grupo'));
     }
 }
