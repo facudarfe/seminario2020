@@ -38,11 +38,11 @@ class Anexo1 extends Model
     }
 
     public function director(){
-        return $this->belongsTo(User::class, 'director_id')->withTrashed();
+        return $this->belongsTo(Docente::class, 'director_dni')->withTrashed();
     }
 
     public function codirector(){
-        return $this->belongsTo(User::class, 'codirector_id')->withTrashed();
+        return $this->belongsTo(Docente::class, 'codirector_dni')->withTrashed();
     }
 
     public function modalidad(){

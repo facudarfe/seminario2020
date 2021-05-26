@@ -29,7 +29,7 @@
                         <label for="director">*Director: </label>
                         <select name="director" id="director" class="custom-select">
                             @foreach ($docentes as $docente)
-                                <option value="{{$docente->id}}">{{$docente->name}}</option>
+                                <option value="{{$docente->dni}}">{{$docente->name}}</option>
                             @endforeach
                         </select>
                     </div>
@@ -37,7 +37,7 @@
                         <label for="codirector">*Co-director: </label>
                         <select name="codirector" id="codirector" class="custom-select">
                             @foreach ($docentes as $docente)
-                                <option value="{{$docente->id}}">{{$docente->name}}</option>
+                                <option value="{{$docente->dni}}">{{$docente->name}}</option>
                             @endforeach
                         </select>
                     </div>
