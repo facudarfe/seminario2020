@@ -188,7 +188,7 @@ class PresentacionesController extends Controller
                     $presentacion->save();
         
                     //Enviar mail notificando la corrección
-                    //Mail::to($version->anexo->alumno->email)->send(new CorreccionMail($version));
+                    Mail::to($version->anexo->alumnos)->send(new CorreccionMail($version));
                 });
 
                 return redirect(route('presentaciones.inicio'))->with('exito', 'Se ha realizado la correción exitosamente.');
