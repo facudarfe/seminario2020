@@ -35,10 +35,12 @@
                     <div class="col-12 col-sm-6 col-md-4 col-lg-3"><h5>Director: </h5></div>
                     <div class="col-12 col-sm-6 col-md-8 col-lg-9">{{$presentacion->director->name}}</div>
                 </div>
-                <div class="row mb-2 mb-sm-0">
-                    <div class="col-12 col-sm-6 col-md-4 col-lg-3"><h5>Codirector: </h5></div>
-                    <div class="col-12 col-sm-6 col-md-8 col-lg-9">{{$presentacion->codirector->name}}</div>
-                </div>
+                @if ($presentacion->codirector)
+                    <div class="row mb-2 mb-sm-0">
+                        <div class="col-12 col-sm-6 col-md-4 col-lg-3"><h5>Codirector: </h5></div>
+                        <div class="col-12 col-sm-6 col-md-8 col-lg-9">{{$presentacion->codirector->name}}</div>
+                    </div>
+                @endif
                 <div class="row mb-2 mb-sm-0">
                     <div class="col-12 col-sm-6 col-md-4 col-lg-3"><h5>Modalidad: </h5></div>
                     <div class="col-12 col-sm-6 col-md-8 col-lg-9">{{$presentacion->modalidad->nombre}}</div>
