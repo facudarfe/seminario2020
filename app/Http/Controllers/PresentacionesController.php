@@ -75,7 +75,8 @@ class PresentacionesController extends Controller
             'titulo' => ['required'],
             'resumen' => ['required'],
             'tecnologias' => ['required'],
-            'descripcion' => ['required']
+            'descripcion' => ['required'],
+            'codirector' => ['different:director']
         ]);
 
         try{
@@ -89,8 +90,10 @@ class PresentacionesController extends Controller
                 //Asociar el director y codirector
                 $director = Docente::find($request->get('director'));
                 $encabezado->director()->associate($director);
-                $codirector = Docente::find($request->get('codirector'));
-                $encabezado->codirector()->associate($codirector);
+                if($request->get('codirector') != 0){
+                    $codirector = Docente::find($request->get('codirector'));
+                    $encabezado->codirector()->associate($codirector);
+                }
 
                 //Modalidad
                 $modalidad = Modalidad::find($request->get('modalidad'));

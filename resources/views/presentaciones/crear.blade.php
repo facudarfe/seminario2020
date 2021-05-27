@@ -34,8 +34,9 @@
                         </select>
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="codirector">*Co-director: </label>
+                        <label for="codirector">Co-director: </label>
                         <select name="codirector" id="codirector" class="custom-select">
+                            <option value="0">---Ninguno---</option>
                             @foreach ($docentes as $docente)
                                 <option value="{{$docente->dni}}">{{$docente->name}}</option>
                             @endforeach
