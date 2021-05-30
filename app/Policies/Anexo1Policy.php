@@ -89,6 +89,11 @@ class Anexo1Policy
     }
 
     public function solicitarContinuidad(User $user, Anexo1 $presentacion){
-        return $user->presentaciones->contains($presentacion) && $presentacion->estado->nombre == 'No regular';
+        // Si el estudiante ya presento otro tema entonces no puede solicitar continuidad
+        $presentaciones = $user->presentaciones()->whereDoesntHave('estado', function($q){
+            $q->whereIn('nombre', ['Rechazado', 'No regular']);
+        })->get();
+
+        return $user->presentaciones->contains($presentacion) && count($presentaciones) == 0 && $presentacion->estado->nombre == 'No regular';
     }
 }
