@@ -14,7 +14,7 @@ class SolicitudMesaDocenteMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $subject = 'Solicitud de mesa examinadoara - Seminarios TUP';
+    public $subject = 'Solicitud de mesa examinadora - Seminarios TUP';
     public $anexo2;
 
     /**
