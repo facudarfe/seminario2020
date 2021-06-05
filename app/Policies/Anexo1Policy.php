@@ -21,11 +21,11 @@ class Anexo1Policy
     }
 
     public function crear(User $user){
-        $presentacionesNoRechazadas = $user->presentaciones()->whereDoesntHave('estado', function($q){
-            $q->where('nombre', 'Rechazado');
+        $presentaciones = $user->presentaciones()->whereDoesntHave('estado', function($q){
+            $q->whereIn('nombre', ['Rechazado', 'No regular']);
         })->get();
 
-        return count($presentacionesNoRechazadas)==0 && $user->getRoleNames()->first() == 'Estudiante';
+        return count($presentaciones)==0 && $user->getRoleNames()->first() == 'Estudiante';
     }
 
     public function resubirVersion(User $user, Anexo1 $anexo){
