@@ -44,12 +44,14 @@
                             Director: {{$presentacion->director->name}}
                         </p>
                     </td>
-                    <td class="text-right separacion-firma">
-                        <p>______________________</p>
-                        <p>
-                            Codirector: {{$presentacion->codirector->name}}
-                        </p>
-                    </td>
+                    @if ($presentacion->codirector)
+                        <td class="text-right separacion-firma">
+                            <p>______________________</p>
+                            <p>
+                                Codirector: {{$presentacion->codirector->name}}
+                            </p>
+                        </td>
+                    @endif  
                 </tr>
             </table>
 
@@ -67,7 +69,7 @@
                 </tr>
                 <tr>
                     <td><b>Co-director</b></td>
-                    <td colspan="2">{{$presentacion->codirector->name}}</td>
+                    <td colspan="2">{{$presentacion->codirector ? $presentacion->codirector->name : '-'}}</td>
                 </tr>
                 <tr class="text-center">
                     <td colspan="3"><b>Alumno/s</b></td>
@@ -113,10 +115,12 @@
                         <td>Alumno: {{$alumno->name}}</td>
                     @endforeach
                     <td>Director: {{$presentacion->director->name}}</td>
-                    <td>Codirector: {{$presentacion->codirector->name}}</td>
+                    @if ($presentacion->codirector)
+                        <td>Codirector: {{$presentacion->codirector->name}}</td>
+                    @endif
                 </tr>
                 <tr class="text-center">
-                    <td colspan="3"><small><i>Los firmantes declaran conocer y aceptar el reglamento de la Cátedra de Seminario Técnico Profesional</i></small></td>
+                    <td colspan="4"><small><i>Los firmantes declaran conocer y aceptar el reglamento de la Cátedra de Seminario Técnico Profesional</i></small></td>
                 </tr>
             </table>
 

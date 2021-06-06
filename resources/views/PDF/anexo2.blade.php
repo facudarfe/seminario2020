@@ -55,7 +55,7 @@
             </tr>
             <tr>
                 <td><b>Codirector(es)</b></td>
-                <td>{{$presentacion->codirector->name}}</td>
+                <td>{{$presentacion->codirector ? $presentacion->codirector->name : '-'}}</td>
             </tr>
             <tr>
                 <td><b>Titulo del trabajo</b></td>
@@ -67,7 +67,7 @@
             </tr>
         </table>
         <p>Se adjuntan a la presente 4 (cuatro) ejemplares del Trabajo Final, debidamente firmados 
-            por alumno(s), director(es) y co.director(es).</p>
+            por alumno(s), director(es) y co-director(es).</p>
 
         <hr class="firma" style="margin-top: 2.5cm;">
         <p class="text-center">Firma del (de los) alumno(s)</p>
