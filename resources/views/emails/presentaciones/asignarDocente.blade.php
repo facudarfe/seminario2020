@@ -14,7 +14,9 @@
         <br>
         <b>Titulo: </b> {{$presentacion->titulo}}<br>
         <b>Director: </b> {{$presentacion->director->name}}<br>
-        <b>Codirector: </b> {{$presentacion->codirector->name}}<br>
+        @if ($presentacion->codirector)
+            <b>Codirector: </b> {{$presentacion->codirector->name}}<br>
+        @endif
         <b>Modalidad: </b> {{$presentacion->modalidad->nombre}}
     </p>
     <p>Ingresa al sistema para ver el detalle de la presentación y realizar la corrección.</p>
