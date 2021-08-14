@@ -17,7 +17,7 @@ $(document).ready(function(){
                 minlength: 7,
                 number: true,
                 remote: {
-                    url: '/verificar/dni',
+                    url: config.routes.verificarDni,
                     type: 'POST',
                     data: validationData()
                 }
@@ -26,7 +26,7 @@ $(document).ready(function(){
                 required: false,
                 number: true,
                 remote: {
-                    url: '/verificar/lu',
+                    url: config.routes.verificarLu,
                     type: 'POST',
                     data: validationData()
                 }
@@ -43,7 +43,7 @@ $(document).ready(function(){
                 required: true,
                 email: true,
                 remote: {
-                    url: '/verificar/email',
+                    url: config.routes.verificarEmail,
                     type: 'POST',
                     data: validationData()
                 }

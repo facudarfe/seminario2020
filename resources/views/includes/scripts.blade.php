@@ -13,3 +13,15 @@
 
 <!--Scripts propios-->
 <script src="{{asset('js/scripts.js')}}"></script>
+
+<!--Variable con configuraciones varias para ser usadas en los archivos js-->
+<script>
+    var config = {
+            routes: {
+                verificarDni: "{{route('verificarCampo', 'dni')}}",
+                verificarLu: "{{route('verificarCampo', 'lu')}}",
+                verificarEmail: "{{route('verificarCampo', 'email')}}",
+                verificarPassword: "{{route('verificarPassword')}}"
+            }
+        }
+</script>

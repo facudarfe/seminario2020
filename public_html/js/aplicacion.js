@@ -11,7 +11,7 @@ $(document).ready(function(){
             oldpassword: {
                 required: true,
                 remote: {
-                    url: '/verificarPassword',
+                    url: config.routes.verificarPassword,
                     type: 'POST'
                 }
             },

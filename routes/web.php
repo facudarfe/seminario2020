@@ -184,6 +184,6 @@ Route::get('/presentaciones/{presentacion}/descargarCodigoFuente', [StorageContr
     ->name('presentaciones.descargarCodigoFuente');
 
 //Rutas para validaciones AJAX
-Route::post('verificarPassword', [ValidacionesController::class, 'verificarPassword']);
-Route::post('verificar/{campo}', [ValidacionesController::class, 'verificarCampo']);
+Route::post('verificarPassword', [ValidacionesController::class, 'verificarPassword'])->name('verificarPassword');
+Route::post('verificar/{campo}', [ValidacionesController::class, 'verificarCampo'])->name('verificarCampo');
 
