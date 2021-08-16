@@ -128,9 +128,11 @@ class UserController extends Controller
                     $user->name = $request->name;
                     $user->lu = $request->lu;
                     $user->email = $request->email;
-                    if($user->hasRole('Administrador')){
-                        if(!empty($request->password))
+                    if($request->user()->hasRole('Administrador')){
+                        if(!empty($request->password)){
                             $user->password = Hash::make($request->password);
+                            $user->cambio_contrasena = false;
+                        }
                     }
                     
                     $user->direccion = $request->direccion;
@@ -186,6 +188,7 @@ class UserController extends Controller
         $user = User::find(auth()->user()->id);
 
         $user->password = Hash::make($request->newpassword);
+        $user->cambio_contrasena = true;
         $user->save();
 
         return redirect()->back()->with('exito', 'La contraseña se actualizó con éxito.');

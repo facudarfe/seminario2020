@@ -64,6 +64,19 @@
         @endif  
     @endif
 
+    <!--Si no se cambió la contraseña por defecto se muestra advertencia-->
+    @if (!auth()->user()->cambio_contrasena)
+        <div class="row">
+            <div class="col-12">
+                <div class="alert alert-warning alert-dismissable fade show">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Por cuestiones de seguridad se recomienda cambiar la contraseña que se te asignó por defecto desde la opción <b>Perfil - Cambiar contraseña</b>.
+                    <a href="#" class="close" data-dismiss="alert">&times;</a>
+                </div>
+            </div>
+        </div>
+    @endif  
+
     @if ($presentacionesAsignadas && count($presentacionesAsignadas) > 0)
         <div class="card shadow mb-4">
             <div class="card-header py-3">
