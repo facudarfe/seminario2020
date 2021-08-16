@@ -27,6 +27,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //
-        view()->share('versionSistema', 'v2.2');
+        view()->share('descSistema', 'v2.3 - Desarrollado por Facundo Darfe');
     }
 }

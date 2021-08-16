@@ -54,7 +54,7 @@
 <footer class="text-light p-2">
     <div class="container">
         <div class="copyright text-center">
-            <small>{{$versionSistema}} - Desarrollado por Facundo Darfe</small>
+            <small>{{$descSistema}}</small>
         </div>
     </div>
 </footer>

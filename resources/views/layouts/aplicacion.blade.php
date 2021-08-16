@@ -50,7 +50,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>{{$versionSistema}} - Desarrollado por Facundo Darfe</span>
+                        <span>{{$descSistema}}</span>
                     </div>
                 </div>
             </footer>
