@@ -9,7 +9,7 @@
 <script src="{{asset('sbadmin/vendor/jquery-easing/jquery.easing.min.js')}}"></script>
 
 <!-- Custom scripts for all pages-->
-<script src="{{asset('sbadmin/js/sb-admin-2.min.js')}}"></script>
+<script src="{{asset('sbadmin/js/sb-admin-2.js')}}"></script>
 
 <!--Scripts propios-->
 <script src="{{asset('js/scripts.js')}}"></script>
