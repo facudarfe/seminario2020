@@ -23,6 +23,6 @@ class RolePolicy
     public function manipularRol(User $user, Role $rol){
         $roles = auth()->user()->rolesPermitidos();
 
-        return $roles->contains($rol);
+        return count($roles) > 0 ? $roles->contains($rol) : false;
     }
 }
