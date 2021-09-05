@@ -16,7 +16,7 @@ $(document).ready(function(){
 
         $('#deleteModal').modal('show');
         $('#deleteModal').ready(function(){
-            $(this).find('form').attr('action', '/docentes/' + dni + '/eliminar')
+            $(this).find('form').attr('action', 'docentes/' + dni + '/eliminar')
         });
     });
 });

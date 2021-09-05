@@ -18,7 +18,7 @@ $(document).ready(function(){
         var id = $(this).data('id');
         $('#liberarModal').modal('show');
         $('#liberareModal').ready(function(){
-            $('#darBaja').attr('href', '/pasantias/'+id+'/liberar');
+            $('#darBaja').attr('href', 'pasantias/'+id+'/liberar');
         });
     });
 
@@ -28,7 +28,7 @@ $(document).ready(function(){
         $('#deleteModal').modal('show');
         $('#deleteModal').ready(function(){
             let form = $(this).find('form');
-            form.attr('action', '/pasantias/' + id + '/eliminar');
+            form.attr('action', 'pasantias/' + id + '/eliminar');
         });
     });
 

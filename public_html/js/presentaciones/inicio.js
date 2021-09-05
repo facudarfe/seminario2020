@@ -91,7 +91,7 @@ $('#botonInforme').click(function(){
     $('#modalInforme').modal('show');
     $('#modalInforme').ready(function(){
         //Seteamos el atributo 'action' del form a la ruta con el id de la presentacion
-        $(this).find('#formInforme').attr('action', '/presentaciones/'+id+'/subirInforme');
+        $(this).find('#formInforme').attr('action', 'presentaciones/'+id+'/subirInforme');
 
         //Validacion del lado del cliente
         $('#formInforme').validate({
@@ -187,7 +187,7 @@ $('#botonPropuestaFecha').click(function(){
     $('#modalFinal').modal('show');
     $('#modalFinal').ready(function(){
         //Seteamos el atributo 'action' del form a la ruta con el id de la presentacion
-        $(this).find('#formFecha').attr('action', '/presentaciones/'+id+'/proponerFecha');
+        $(this).find('#formFecha').attr('action', 'presentaciones/'+id+'/proponerFecha');
 
         // Se muestra el icono del spinner
         $('#modalFinal button[type=submit').click(function(){
@@ -203,7 +203,7 @@ $('#botonDefinirFecha').click(function(){
     $('#modalFinalTribunal').modal('show');
     $('#modalFinalTribunal').ready(function(){
         //Seteamos el atributo 'action' del form a la ruta con el id de la presentacion
-        $(this).find('#formFechaTribunal').attr('action', '/anexos2/'+id+'/definirFechaYTribunal');
+        $(this).find('#formFechaTribunal').attr('action', 'anexos2/'+id+'/definirFechaYTribunal');
 
         // Se muestra el icono del spinner
         $('#modalFinalTribunal button[type=submit').click(function(){
@@ -219,7 +219,7 @@ $('#evaluarExamen').click(function(){
     $('#modalEvaluar').modal('show');
     $('#modalEvaluar').ready(function(){
         //Seteamos el atributo 'action' del form a la ruta con el id de la presentacion
-        $(this).find('form').attr('action', '/anexos2/'+id+'/evaluarExamen');
+        $(this).find('form').attr('action', 'anexos2/'+id+'/evaluarExamen');
 
         // Se muestra el icono del spinner
         $('#modalEvaluar button[type=submit').click(function(){
@@ -244,7 +244,7 @@ $('#botonSubirCodigo').click(function(){
     $('#modalCodigoFuente').modal('show');
     $('#modalCodigoFuente').ready(function(){
         //Seteamos el atributo 'action' del form a la ruta con el id de la presentacion
-        $(this).find('form').attr('action', '/presentaciones/'+id+'/subirCodigoFuente');
+        $(this).find('form').attr('action', 'presentaciones/'+id+'/subirCodigoFuente');
 
         // Validacion
         $('#formCodigoFuente').validate({
@@ -270,6 +270,6 @@ $('#botonSolicitarContinuidad').click(function(){
     $('#modalContinuidadSeminario').modal('show');
     $('#modalContinuidadSeminario').ready(function(){
         //Seteamos el atributo 'action' del form a la ruta con el id de la presentacion
-        $(this).find('form').attr('action', '/presentaciones/'+id+'/solicitarContinuidad');
+        $(this).find('form').attr('action', 'presentaciones/'+id+'/solicitarContinuidad');
     }); 
 });

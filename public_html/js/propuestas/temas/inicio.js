@@ -19,7 +19,7 @@ $(document).ready(function(){
         $('#deleteModal').modal('show');
         $('#deleteModal').ready(function(){
             let form = $(this).find('form');
-            form.attr('action', '/temas/' + id + '/eliminar');
+            form.attr('action', 'temas/' + id + '/eliminar');
         });
     });
 });
