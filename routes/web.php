@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Anexo2Controller;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\AyudaController;
 use App\Http\Controllers\ContactoController;
 use App\Http\Controllers\DocenteController;
 use App\Http\Controllers\HomeController;
@@ -176,6 +177,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::patch('/{anexo2}/evaluarExamen', [Anexo2Controller::class, 'evaluarExamen'])->name('anexo2.evaluarExamen')
             ->middleware('permission:anexos2.evaluar');
     });
+
+    // Manual de usuarios
+    Route::get('/ayuda', [AyudaController::class, 'index'])->name('ayuda');
 });
 
 //Rutas para obtener informe final y codigo fuente de proyecto (tambien se utiliza para usuarios no registrados que quieran ver)

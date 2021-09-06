@@ -98,6 +98,14 @@
     <!-- Divider -->
     <hr class="sidebar-divider">
 
+    <!-- Nav Item - Manual de usuario -->
+    <li class="nav-item">
+        <a class="nav-link" href="{{route('ayuda')}}">
+            <i class="fas fa-fw fa-question"></i>
+            <span>Manual de usuario</span>
+        </a>
+    </li>
+
     <!-- Nav Item - Contacto -->
     <li class="nav-item">
         <a class="nav-link" href="{{route('contacto.inicio')}}">
