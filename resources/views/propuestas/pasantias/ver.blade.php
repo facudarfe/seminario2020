@@ -67,7 +67,7 @@
                                             <td>{{$alumno->name}}</td>
                                             <td>{{$alumno->email}}</td>
                                             <td>
-                                                <a href="{{Illuminate\Support\Facades\Storage::url($alumno->pivot->ruta_cv)}}" target="_blank">
+                                                <a href="{{asset(Illuminate\Support\Facades\Storage::url($alumno->pivot->ruta_cv))}}" target="_blank">
                                                     <i class="fas fa-file-pdf mr-1"></i>Descargar CV
                                                 </a>
                                             </td>
