@@ -26,6 +26,7 @@
     <thead>
         <tr>
             <th>DNI</th>
+            <th>LU</th>
             <th>Nombre</th>
             <th>Email</th>
             <th>Rol</th>
@@ -38,6 +39,7 @@
         @foreach ($users as $user)
         <tr>
             <td>{{$user->dni}}</td>
+            <td>{{$user->lu}}</td>
             <td>{{$user->name}}</td>
             <td>{{$user->email}}</td>
             <td>{{$user->getRoleNames()->first()}}</td>
