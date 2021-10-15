@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Docente;
 use Illuminate\Validation\Rule;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class DocenteController extends Controller
 {
@@ -41,10 +42,17 @@ class DocenteController extends Controller
         $request->validate([
             'dni' => ['required', 'unique:docentes,dni', 'numeric', 'min:1000000'],
             'name' => ['required', 'max:255'],
-            'email' => ['required', 'unique:docentes,email', 'email'],
+            'email' => [Rule::requiredIf($request->has('esDocente')), 'unique:docentes,email'],
         ]);
 
-        Docente::create($request->all());
+        $docente = new Docente();
+        $docente->dni = $request->dni;
+        $docente->name = $request->name;
+        $docente->email = $request->email;
+        if($request->has('esDocente'))
+            $docente->esDocente = 1;
+        $docente->save();
+
         return redirect()->route('docentes.inicio')->with('exito', 'Se ha creado el docente con éxito');
     }
 
@@ -82,9 +90,17 @@ class DocenteController extends Controller
         $request->validate([
             'dni' => ['required', Rule::unique('docentes')->ignore($docente->dni, 'dni'), 'numeric', 'min:1000000'],
             'name' => ['required', 'max:255'],
-            'email' => ['required', Rule::unique('docentes')->ignore($docente->dni, 'dni'), 'email'],
+            'email' => [Rule::requiredIf($request->has('esDocente')), Rule::unique('docentes')->ignore($docente->dni, 'dni')],
         ]);
-        $docente->update($request->all());
+
+        $docente->dni = $request->dni;
+        $docente->name = $request->name;
+        $docente->email = $request->email;
+        if($request->has('esDocente'))
+            $docente->esDocente = 1;
+        else
+            $docente->esDocente = 0;
+        $docente->save();
 
         return redirect()->route('docentes.inicio')->with('exito', 'Se ha actualizado el docente con éxito');
     }

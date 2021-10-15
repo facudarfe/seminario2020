@@ -11,7 +11,9 @@ $(document).ready(function(){
                 maxlength: 255
             },
             email: {
-                required: true,
+                required: function(){
+                    return $('#esDocente').is(':checked') ? true : false;
+                },
                 email: true,
             },
         }

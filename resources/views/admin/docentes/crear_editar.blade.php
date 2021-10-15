@@ -32,6 +32,12 @@
                         <input type="email" name="email" class="form-control" value="{{old('email', $docente->email)}}">
                     </div>
                 </div>
+                <div class="form-row">
+                    <div class="col-xl-6 form-group ml-4 custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="esDocente" name="esDocente" {{$docente->esDocente ? 'checked' : ''}}>
+                        <label class="custom-control-label" for="esDocente">Docente del DI</label>
+                    </div>
+                </div>
                 <small>*Campos obligatorios</small>
                 <div class="form-row py-3 justify-content-end">
                     <div class="col-xl-3 form-group">

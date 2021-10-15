@@ -46,7 +46,7 @@ class PresentacionesController extends Controller
                                         $q->where('nombre', '=', 'Solicitado');
                                     })->first();
         
-        $docentes = Docente::all();
+        $docentes = Docente::where('esDocente', 1)->get();
         $estadosEvaluacion = Estado::where('nombre', 'Aprobado')->orWhere('nombre', 'Desaprobado')->get();
 
         return view('presentaciones.inicio', compact('presentaciones', 'presentacionesAsignadas', 'solicitado', 'anexos2', 'docentes', 'estadosEvaluacion'));

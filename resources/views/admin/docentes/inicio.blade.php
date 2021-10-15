@@ -25,6 +25,7 @@
             <th>Documento</th>
             <th>Nombre</th>
             <th>E-mail</th>
+            <th>Es docente</th>
             <th>Acciones</th>
         </thead>
         <tbody>
@@ -33,6 +34,7 @@
                     <td>{{$docente->dni}}</td>
                     <td>{{$docente->name}}</td>
                     <td>{{$docente->email}}</td>
+                    <td>{{$docente->esDocente ? 'Si' : 'No'}}</td>
                     <td class="text-center">
                         @can ('editarOEliminar', $docente)
                             <div class="dropdown no-arrow">

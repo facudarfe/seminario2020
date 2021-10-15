@@ -10,7 +10,7 @@ class Docente extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['dni', 'name', 'email'];
+    protected $fillable = ['dni', 'name', 'email', 'esDocente'];
     protected $primaryKey = 'dni';
     public $timestamps = false;
 
