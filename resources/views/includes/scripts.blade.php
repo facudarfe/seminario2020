@@ -11,6 +11,9 @@
 <!-- Custom scripts for all pages-->
 <script src="{{asset('sbadmin/js/sb-admin-2.js')}}"></script>
 
+<!--Select2-->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 <!--Scripts propios-->
 <script src="{{asset('js/scripts.js')}}"></script>
 

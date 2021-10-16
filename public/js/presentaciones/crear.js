@@ -14,6 +14,13 @@ $(document).ready(function(){
             $('#trabajoGrupal').attr('hidden', 'true');
     });
 
+    $('#director').select2({
+        theme: 'bootstrap4',
+    });
+
+    $('#codirector').select2({
+        theme: 'bootstrap4',
+    });
 
     $('#grupo').multiselect({
         buttonWidth: '100%',
