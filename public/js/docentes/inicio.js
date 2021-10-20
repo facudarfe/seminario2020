@@ -7,7 +7,7 @@ $(document).ready(function(){
             "url": "//cdn.datatables.net/plug-ins/1.10.15/i18n/Spanish.json"
         },
         columnDefs: [
-            {"targets": 3, "searchable": false, "orderable": false}
+            {"targets": 4, "searchable": false, "orderable": false}
         ],
     });
 
