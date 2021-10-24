@@ -4,10 +4,14 @@
     <p>
         Hola 
         @foreach ($version->anexo->alumnos as $key => $alumno)
-            @if ($key === count($version->anexo->alumnos)-1)
-                {{'y ' . $alumno->name}}
+            @if (count($version->anexo->alumnos) == 1)
+                {{$alumno->name}}
             @else
-                {{$alumno->name . ', '}}
+                @if ($key === count($version->anexo->alumnos)-1)
+                    {{'y ' . $alumno->name}}
+                @else
+                    {{$alumno->name . ', '}}
+                @endif
             @endif
         @endforeach
         , se ha realizado la corrección de tu ultima presentación.</p>
