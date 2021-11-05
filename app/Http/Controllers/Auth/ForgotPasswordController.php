@@ -58,7 +58,8 @@ class ForgotPasswordController extends Controller
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function ($user, $password) use ($request) {
                 $user->forceFill([
-                    'password' => Hash::make($password)
+                    'password' => Hash::make($password),
+                    'cambio_contrasena' => true
                 ])->save();
     
                 $user->setRememberToken(Str::random(60));
