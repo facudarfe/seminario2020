@@ -27,7 +27,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //
-        view()->share('descSistema', exec('git describe --tags --abbrev=0') . ' - Desarrollado por Facundo Darfe');
+        view()->share('descSistema', 'Desarrollado por Facundo Darfe');
         //view()->share('descSistema', 'v2.3 - Desarrollado por Facundo Darfe');
     }
 }
