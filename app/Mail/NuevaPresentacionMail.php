@@ -18,9 +18,13 @@ class NuevaPresentacionMail extends Mailable
      *
      * @return void
      */
-    public function __construct($titulo)
-    {
+    public function __construct($titulo, $rol, $name = '')
+    {  
+        global $subject;
+
         $this->titulo = $titulo;
+        $this->rol = $rol;
+        $this->name = $name;
     }
 
     /**
@@ -30,6 +34,6 @@ class NuevaPresentacionMail extends Mailable
      */
     public function build()
     {
-        return $this->view('emails.presentaciones.nueva', ['titulo' => $this->titulo]);
+        return $this->view('emails.presentaciones.nueva', ['titulo' => $this->titulo, 'alumno' => $this->name, 'rol' => $this->rol]);
     }
 }

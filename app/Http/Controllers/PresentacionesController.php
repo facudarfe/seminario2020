@@ -18,7 +18,9 @@ use App\Models\Version_Anexo1;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Log\Logger;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class PresentacionesController extends Controller
@@ -132,13 +134,19 @@ class PresentacionesController extends Controller
 
                 //Envio de mail al estudiante o estudiantes
                 foreach($encabezado->alumnos as $alumno){
-                    Mail::to($alumno->email)->send(new NuevaPresentacionMail($encabezado->titulo));
+                    Mail::to($alumno->email)->send(new NuevaPresentacionMail($encabezado->titulo, 'Estudiante'));
                 }
+
+                //Enviar mails a los docentes responsables
+                $docentesResponsables = User::role('Docente responsable')->get();
+                foreach($docentesResponsables as $docente)
+                    Mail::to($docente->email)->send(new NuevaPresentacionMail($encabezado->titulo, 'Docente responsable', $request->user()->name));
             });
 
             return redirect(route('presentaciones.inicio'))->with('exito', 'Se ha creado la presentacion con exito.');
         }
         catch(Exception $e){
+            Log::debug($e->getMessage());
             return redirect(route('presentaciones.inicio'))->with('Ha ocurrido un error: ' . $e->getMessage());
         }
     }
